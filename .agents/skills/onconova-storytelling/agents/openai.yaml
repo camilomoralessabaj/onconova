@@ -1,0 +1,4 @@
+interface:
+  display_name: "Relato de OncoNova"
+  short_description: "Relato académico y evidencia trazable de OncoNova"
+  default_prompt: "Usa $onconova-storytelling para revisar el relato y las fuentes de esta sección del sitio."

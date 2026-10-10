@@ -1,0 +1,223 @@
+{
+  "schemaVersion": 1,
+  "project": "OncoNova",
+  "course": "CD1201",
+  "activity": "7.3",
+  "team": "E7",
+  "updated": "2026-10-10",
+  "scope": "Una derivación prioritaria hacia el apoyo postratamiento que cada usuaria necesite.",
+  "institution": null,
+  "prototype": {
+    "status": "conceptual-unvalidated",
+    "created": "2026-10-10",
+    "description": "Maqueta del servicio creada con IA para esta versión. No activa derivaciones ni reúne datos personales."
+  },
+  "interviews": {
+    "count": 5,
+    "women": 4,
+    "professional": 1,
+    "status": "real-confirmed-by-team",
+    "representative": false,
+    "prototypeValidation": false
+  },
+  "sources": [
+    {
+      "id": "S01",
+      "title": "Presentación Hito 1",
+      "type": "project-document",
+      "date": "2026-09-21",
+      "url": "https://drive.google.com/file/d/1AXsKHQ20ZQTNx2R1pEn9Z2Ljqeu3cjLq/view",
+      "note": "Exploración del problema y cinco entrevistas. Foco entonces psicológico."
+    },
+    {
+      "id": "S02",
+      "title": "Actividad 5.1 · Generación de ideas",
+      "type": "project-document",
+      "date": "2026-09-23",
+      "url": "https://drive.google.com/file/d/1TenVpQvcuZwvSz9iWMfh55gxpma7QOOY/view",
+      "note": "Ideas y puntuaciones iniciales; no resultados medidos."
+    },
+    {
+      "id": "S03",
+      "title": "Torneo de oportunidades",
+      "type": "project-document",
+      "date": "2026-09-23",
+      "url": "https://drive.google.com/file/d/1XWFZghClAbiqdlTBuki-er9h49AWZWfI/view",
+      "note": "Recorrido voluntario y roles por probar."
+    },
+    {
+      "id": "S04",
+      "title": "RIA · Actividad 6.1",
+      "type": "validation-plan",
+      "url": "https://docs.google.com/spreadsheets/d/1s8qYCPpb1LY5ZjGtS_yyoC_rE9EYejjg/edit",
+      "note": "Umbrales preliminares del 80 %. Resultados sin completar."
+    },
+    {
+      "id": "S05",
+      "title": "Actividad 6.2 · Plan de experimento",
+      "type": "validation-plan",
+      "date": "2026-10-06",
+      "url": "https://drive.google.com/file/d/1X-QvVD2cgPCfPf-KWQS4a2Lv-oVmvevY/view",
+      "note": "Prueba de conducta en papel propuesta; no realizada."
+    },
+    {
+      "id": "S06",
+      "title": "Póster Hito 3 · Etapa anterior",
+      "type": "historical-simulation",
+      "date": "2026-07-03",
+      "asset": "assets/poster-hito-3.png",
+      "note": "Propuesta anterior y simulación; no valida el servicio actual."
+    },
+    {
+      "id": "S07",
+      "title": "Cinco entrevistas de exploración",
+      "type": "primary-needs-evidence",
+      "note": "Conversaciones reales según el equipo. Síntesis anónima; perfiles diversos, muestra no representativa."
+    },
+    {
+      "id": "S08",
+      "title": "Alcance confirmado por el equipo",
+      "type": "team-decision",
+      "date": "2026-10-10",
+      "note": "Una derivación prioritaria. Sin solución previamente construida o probada, sin institución piloto. Excluir fundaciones."
+    },
+    {
+      "id": "S09",
+      "title": "Maqueta conceptual de esta versión",
+      "type": "new-design",
+      "date": "2026-10-10",
+      "asset": "prototipo/index.html",
+      "note": "Elaborada con IA para representar el servicio. Sin validación con usuarias."
+    }
+  ],
+  "chapters": [
+    {
+      "id": "desafio",
+      "title": "Desafío",
+      "sources": [
+        "S01",
+        "S07",
+        "S08"
+      ],
+      "kind": "needs-evidence"
+    },
+    {
+      "id": "propuesta",
+      "title": "Propuesta",
+      "sources": [
+        "S03",
+        "S08",
+        "S09"
+      ],
+      "kind": "proposal"
+    },
+    {
+      "id": "prototipo",
+      "title": "Prototipo",
+      "sources": [
+        "S05",
+        "S06",
+        "S08",
+        "S09"
+      ],
+      "kind": "conceptual-unvalidated"
+    },
+    {
+      "id": "validacion",
+      "title": "Validación",
+      "sources": [
+        "S01",
+        "S04",
+        "S05",
+        "S07",
+        "S08"
+      ],
+      "kind": "needs-evidence"
+    },
+    {
+      "id": "resultados",
+      "title": "Resultados",
+      "sources": [
+        "S01",
+        "S04",
+        "S07",
+        "S08"
+      ],
+      "kind": "qualitative-findings"
+    },
+    {
+      "id": "aprendizajes",
+      "title": "Aprendizajes",
+      "sources": [
+        "S01",
+        "S02",
+        "S03",
+        "S07"
+      ],
+      "kind": "design-learning"
+    },
+    {
+      "id": "proximos-pasos",
+      "title": "Próximos pasos",
+      "sources": [
+        "S04",
+        "S05",
+        "S08",
+        "S09"
+      ],
+      "kind": "planned"
+    }
+  ],
+  "metrics": [
+    {
+      "id": "reconocimiento",
+      "label": "Reconocimiento de necesidades y decisión de apoyo",
+      "definition": "Expresar una necesidad o su ausencia y elegir de acuerdo con la preferencia declarada, sin ayuda del evaluador.",
+      "scope": "Apoyo psicológico en el RIA original; adaptación al alcance vigente por revisar.",
+      "status": "proposed",
+      "threshold": 80,
+      "unit": "%",
+      "observed": null,
+      "source": "S04"
+    },
+    {
+      "id": "avance",
+      "label": "Avance acompañado en el proceso de acceso",
+      "definition": "Completar el recorrido simulado, identificar la gestión del servicio y el siguiente contacto, sin ayuda adicional del evaluador.",
+      "scope": "Apoyo psicológico en el RIA original; adaptación al alcance vigente por revisar.",
+      "status": "proposed",
+      "threshold": 80,
+      "unit": "%",
+      "observed": null,
+      "source": "S04"
+    },
+    {
+      "id": "compatibilidad",
+      "label": "Compatibilidad del acceso con la usuaria",
+      "definition": "Elegir una alternativa compatible con las restricciones del escenario o solicitar coordinación cuando ninguna sea viable.",
+      "scope": "Apoyo psicológico en el RIA original; adaptación al alcance vigente por revisar.",
+      "status": "proposed",
+      "threshold": 80,
+      "unit": "%",
+      "observed": null,
+      "source": "S04"
+    }
+  ],
+  "choices": [
+    {
+      "id": "apoyo",
+      "label": "Quiero explorar un apoyo",
+      "explanation": "La propuesta es conversar con un responsable institucional, acordar el apoyo prioritario y definir quién activará la derivación. El apoyo y el canal deben confirmarse con la institución."
+    },
+    {
+      "id": "pensarlo",
+      "label": "Prefiero pensarlo",
+      "explanation": "La propuesta es respetar tu tiempo y acordar si deseas un contacto posterior. Postergar no activa una derivación automáticamente."
+    },
+    {
+      "id": "ahora-no",
+      "label": "Por ahora no lo necesito",
+      "explanation": "La propuesta es respetar esta decisión, ofrecer información si la deseas y cerrar sin una derivación. No todas las mujeres necesitan el mismo apoyo."
+    }
+  ]
+}

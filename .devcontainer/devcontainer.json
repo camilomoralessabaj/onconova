@@ -1,0 +1,14 @@
+{
+  "name": "OncoNova",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:1-22-bookworm",
+  "forwardPorts": [4173],
+  "portsAttributes": {
+    "4173": { "label": "OncoNova", "onAutoForward": "openPreview" }
+  },
+  "postCreateCommand": "node scripts/check.mjs && node scripts/build.mjs",
+  "customizations": {
+    "vscode": {
+      "settings": { "editor.tabSize": 2, "files.eol": "\n" }
+    }
+  }
+}

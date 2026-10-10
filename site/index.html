@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="es-CL">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="description" content="La historia de OncoNova: una propuesta para acompañar el acceso a apoyos después del tratamiento por cáncer de mama. Proyecto académico CD1201, Universidad de Chile.">
+  <meta property="og:title" content="OncoNova · Contigo en el siguiente paso">
+  <meta property="og:description" content="Conoce el desafío, la propuesta, la maqueta y los aprendizajes de OncoNova. Un proyecto académico en desarrollo.">
+  <meta property="og:type" content="website">
+  <title>OncoNova · Contigo en el siguiente paso</title>
+  <link rel="icon" href="assets/mark.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/styles.css">
+  <script src="assets/app.js" type="module"></script>
+</head>
+<body>
+  <a class="skip-link" href="#contenido">Saltar al contenido</a>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="#inicio" aria-label="OncoNova, inicio"><img src="assets/mark.svg" alt="" width="34" height="34"><span translate="no">OncoNova</span></a>
+      <span class="header-context">Un proyecto que acompaña</span>
+      <div class="header-actions">
+        <button class="text-size" type="button" aria-pressed="false" hidden><span aria-hidden="true">A<span class="big-a">A</span></span><span class="text-size-label">Texto más grande</span></button>
+        <a class="header-link" href="#propuesta">Conoce la propuesta <span aria-hidden="true">↗</span></a>
+      </div>
+    </div>
+  </header>
+  <nav class="chapter-nav" aria-label="Recorrido del proyecto">
+    <div class="chapter-inner">
+      <a href="#desafio"><span>1</span> Desafío</a>
+      <a href="#propuesta"><span>2</span> Propuesta</a>
+      <a href="#prototipo"><span>3</span> Prototipo</a>
+      <a href="#validacion"><span>4</span> Validación</a>
+      <a href="#resultados"><span>5</span> Resultados</a>
+      <a href="#aprendizajes"><span>6</span> Aprendizajes</a>
+      <a href="#proximos-pasos"><span>7</span> Próximos pasos</a>
+    </div>
+  </nav>
+  <main id="contenido">
+    <section class="hero section-shell" id="inicio" aria-labelledby="hero-title">
+      <p class="hero-kicker">Después del tratamiento por cáncer de mama</p>
+      <h1 id="hero-title">Contigo en<br>el siguiente paso.</h1>
+      <p class="hero-intro">Cada mujer vive esta etapa de forma distinta. OncoNova propone acompañar el acceso al apoyo que necesita, con una decisión propia y un camino más claro.</p>
+      <a class="button button-primary" href="#desafio">Conoce nuestra historia <span aria-hidden="true">↓</span></a>
+      <p class="project-status"><span class="status-dot" aria-hidden="true"></span> Proyecto académico en desarrollo</p>
+      <figure class="hero-route" aria-label="El recorrido propuesto: escuchar, elegir y acompañar el acceso">
+        <div class="route-halo" aria-hidden="true"></div>
+        <div class="route-center" aria-hidden="true"><img src="assets/mark.svg" width="76" height="76" alt=""></div>
+        <div class="route-item route-one"><span class="route-node" aria-hidden="true"></span><span>Te escuchamos</span><small>Lo que necesitas</small></div>
+        <div class="route-item route-two"><span class="route-node" aria-hidden="true"></span><span>Tú eliges</span><small>El apoyo y el momento</small></div>
+        <div class="route-item route-three"><span class="route-node" aria-hidden="true"></span><span>Acompañamos</span><small>El contacto y su seguimiento</small></div>
+        <figcaption>Así imaginamos el recorrido. Una propuesta que todavía debemos probar.</figcaption>
+      </figure>
+      <div class="hero-footer"><span>CD1201 · Actividad 7.3</span><a href="#fuentes">Una historia con evidencia <span aria-hidden="true">↗</span></a><span>Universidad de Chile</span></div>
+    </section>
+
+    <section class="chapter section-shell" id="desafio" data-chapter aria-labelledby="desafio-title">
+      <div class="chapter-heading"><p class="chapter-label"><span>01</span> Desafío</p><p class="stage-label">Exploración del problema</p></div>
+      <div class="challenge-panel">
+        <div class="challenge-copy"><h2 id="desafio-title">La vida sigue.<br>Las preguntas también.</h2><p>Una indicación de apoyo puede ser solo el comienzo. Buscar contactos, coordinar horarios y saber si una derivación avanzó puede quedar en manos de la propia usuaria.</p><p>Las entrevistas del equipo mostraron experiencias distintas y una pregunta común para el diseño: <strong>¿quién acompaña ese siguiente paso?</strong></p></div>
+        <div class="barriers" aria-label="Barreras encontradas en los registros de entrevistas">
+          <div><span aria-hidden="true">↗</span><h3>Información dispersa</h3><p>Saber que existe un apoyo no siempre indica cómo acceder a él.</p></div>
+          <div><span aria-hidden="true">◷</span><h3>La rutina también cuenta</h3><p>El trabajo, los cuidados y los horarios pueden dificultar el acceso.</p></div>
+          <div><span aria-hidden="true">⌁</span><h3>Un proceso que se interrumpe</h3><p>Los cupos y la coordinación importan tanto como la orientación.</p></div>
+        </div>
+      </div>
+      <div class="audience-strip"><h3>Nuestro foco de diseño</h3><p>Mujeres de 50 a 59 años, usuarias de FONASA/GES en la Región Metropolitana, sostenedoras del hogar, durante los primeros 12 meses después del tratamiento activo.</p></div>
+      <p class="source-line">Fuentes: <a href="#fuente-S01">Hito 1</a>, <a href="#fuente-S07">entrevistas</a> y <a href="#fuente-S08">alcance del equipo</a>. El perfil es el foco del proyecto; la muestra incluye experiencias fuera de este perfil.</p>
+    </section>
+
+    <section class="chapter section-shell" id="propuesta" data-chapter aria-labelledby="propuesta-title">
+      <div class="chapter-heading"><p class="chapter-label"><span>02</span> Propuesta</p><p class="stage-label">Servicio por diseñar y validar</p></div>
+      <div class="section-intro"><h2 id="propuesta-title">Una derivación.<br>Un recorrido acompañado.</h2><p>Proponemos un servicio dentro de una institución de salud: acordar un apoyo prioritario con la usuaria, activar el contacto y comprobar qué ocurrió.</p></div>
+      <ol class="service-flow">
+        <li><span class="step-number">1</span><h3>Escuchar y acordar</h3><p>Reconocer la necesidad y respetar la decisión de aceptar, postergar o no solicitar apoyo.</p></li>
+        <li><span class="step-number">2</span><h3>Definir el siguiente paso</h3><p>Acordar el apoyo pertinente, quién se hace cargo y cuál será el próximo contacto.</p></li>
+        <li><span class="step-number">3</span><h3>Activar la derivación</h3><p>Un responsable institucional contactaría al servicio receptor mediante canales existentes.</p></li>
+        <li><span class="step-number">4</span><h3>Confirmar el resultado</h3><p>Distinguir entre solicitud, espera y atención. Si algo se detiene, registrar la barrera y coordinar.</p></li>
+      </ol>
+      <div class="proposal-note"><span class="note-mark" aria-hidden="true">↗</span><div><h3>El apoyo depende de cada mujer.</h3><p>Puede ser emocional, de rehabilitación o de orientación social y laboral, según lo que se acuerde con profesionales. Una derivación prioritaria para el piloto no reemplaza otras indicaciones clínicas.</p></div></div>
+      <div class="boundary-row"><p><strong>Un responsable visible.</strong> Esa es la diferencia entre entregar información y acompañar una gestión.</p><p><strong>Institución piloto por definir.</strong> Aún debemos comprobar responsables, capacidad y disponibilidad. El servicio no crea cupos por sí solo.</p></div>
+      <p class="source-line">Fuentes: <a href="#fuente-S03">torneo de oportunidades</a> y <a href="#fuente-S08">decisión del equipo</a>. El diseño del servicio es una <a href="#fuente-S09">propuesta nueva de esta versión</a>.</p>
+    </section>
+
+    <section class="chapter prototype-section" id="prototipo" data-chapter aria-labelledby="prototipo-title">
+      <div class="section-shell">
+        <div class="chapter-heading"><p class="chapter-label"><span>03</span> Prototipo</p><p class="stage-label">Maqueta conceptual · Sin probar</p></div>
+        <div class="prototype-grid">
+          <div class="prototype-copy"><h2 id="prototipo-title">Un servicio también<br>se puede prototipar.</h2><p>Una conversación, una ficha del siguiente paso y un registro de seguimiento permiten representar la experiencia antes de implementar una solución.</p><p>Para esta versión creamos una primera maqueta del recorrido. Nos ayudará a probar si la decisión se respeta, el responsable se entiende y los estados del proceso son claros.</p><a class="button button-primary" href="prototipo/">Explorar la maqueta <span aria-hidden="true">↗</span></a><p class="small-note">Creada con apoyo de IA para este sitio. Aún no probada con usuarias; sin solicitudes reales.</p></div>
+          <div class="conversation-preview">
+            <div class="preview-top"><img src="assets/mark.svg" width="38" height="38" alt=""><span>Una decisión a tu ritmo</span><span class="preview-tag">Concepto</span></div>
+            <h3>¿Te gustaría explorar<br>algún apoyo?</h3><p>Tú eliges cómo continuar.</p>
+            <div class="choice-group" data-choice-group>
+              <button type="button" data-choice="apoyo" aria-pressed="false">Quiero explorar un apoyo <span aria-hidden="true">↗</span></button>
+              <button type="button" data-choice="pensarlo" aria-pressed="false">Prefiero pensarlo <span aria-hidden="true">◷</span></button>
+              <button type="button" data-choice="ahora-no" aria-pressed="false">Por ahora no lo necesito <span aria-hidden="true">✓</span></button>
+            </div>
+            <p class="choice-result" aria-live="polite" data-choice-result>Las tres decisiones son válidas. Selecciona una para ver cómo la propuesta la respetaría.</p>
+            <noscript><p>La propuesta respetaría cualquiera de las tres decisiones. Puedes explorar el recorrido completo en la maqueta.</p></noscript>
+          </div>
+        </div>
+        <details class="historical-evidence">
+          <summary>De dónde venimos: ver el póster de la etapa anterior <span aria-hidden="true">+</span></summary>
+          <div class="historical-grid"><figure><a href="assets/poster-hito-3.png" aria-label="Ver el póster histórico en tamaño completo"><img src="assets/poster-hito-3.png" alt="Póster Ruta Onconova del Hito 3, julio de 2026, con ficha inicial, ruta personalizada, derivación y seguimiento." width="1072" height="1500" loading="lazy"></a><figcaption>Material propio del equipo · Hito 3, julio de 2026.</figcaption></figure><div><h3>Una propuesta anterior,<br>un aprendizaje para hoy.</h3><p>El póster representa la etapa en que imaginábamos una ruta integral. Su mención de validación corresponde a una simulación basada en una entrevista previa.</p><p><strong>No demuestra que el servicio actual esté construido o validado.</strong> Hoy acotamos el recorrido a una derivación prioritaria y hacemos explícito quién debe acompañarla.</p></div></div>
+        </details>
+        <p class="source-line">Fuentes: <a href="#fuente-S05">plan de prototipado</a>, <a href="#fuente-S06">póster histórico</a> y <a href="#fuente-S09">maqueta de esta versión</a>.</p>
+      </div>
+    </section>
+
+    <section class="chapter section-shell" id="validacion" data-chapter aria-labelledby="validacion-title">
+      <div class="chapter-heading"><p class="chapter-label"><span>04</span> Validación</p><p class="stage-label">Necesidades exploradas</p></div>
+      <div class="section-intro"><h2 id="validacion-title">Primero escuchamos.<br>Ahora toca probar.</h2><p>Las entrevistas nos ayudaron a entender el problema. La siguiente pregunta es si el servicio propuesto mejora la experiencia; eso todavía no lo hemos evaluado.</p></div>
+      <div class="evidence-grid">
+        <div class="interview-evidence"><div class="evidence-count">5<span>entrevistas reales</span></div><p>Cuatro mujeres y una profesional de oncología. Experiencias distintas sobre apoyo, trabajo, información y coordinación.</p><p class="small-note">Muestra cualitativa de perfiles diversos, algunos fuera del foco de diseño. No representa a todas las sobrevivientes.</p><span class="evidence-chip">Exploración de necesidades</span></div>
+        <div class="validation-states"><div><span class="state-dot state-done" aria-hidden="true"></span><h3>Lo que sí existe</h3><p>Registros de entrevistas, revisión documental, reformulación del problema y una maqueta conceptual nueva.</p></div><div><span class="state-dot state-wait" aria-hidden="true"></span><h3>Lo que sigue pendiente</h3><p>Pruebas del prototipo, resultados de conducta, factibilidad operativa y una institución piloto.</p></div><div><span class="state-dot state-neutral" aria-hidden="true"></span><h3>Lo que fue un ejercicio</h3><p>Los cinco escenarios del informe final son simulaciones. No se suman como entrevistas reales.</p></div></div>
+      </div>
+      <p class="source-line">Fuentes: <a href="#fuente-S01">Hito 1</a>, <a href="#fuente-S07">registros de entrevistas</a> y <a href="#fuente-S08">confirmación del equipo</a>.</p>
+    </section>
+
+    <section class="chapter results-section" id="resultados" data-chapter aria-labelledby="resultados-title">
+      <div class="section-shell"><div class="chapter-heading"><p class="chapter-label"><span>05</span> Resultados</p><p class="stage-label">Hallazgos cualitativos</p></div>
+        <div class="section-intro"><h2 id="resultados-title">Lo que cambió<br>fue nuestro enfoque.</h2><p>La exploración orientó decisiones de diseño. Aún no tenemos resultados que demuestren la eficacia de la solución.</p></div>
+        <div class="findings-list"><article><span aria-hidden="true">↳</span><div><h3>Las necesidades no son iguales.</h3><p>Los relatos muestran diferencias en el apoyo que cada mujer desea y en su red cercana. Diseñamos una decisión voluntaria.</p></div></article><article><span aria-hidden="true">↳</span><div><h3>Informar no basta para acceder.</h3><p>La coordinación, los cupos y el tiempo disponible pueden detener el proceso. Proponemos activar y seguir el contacto.</p></div></article><article><span aria-hidden="true">↳</span><div><h3>Solicitar no es recibir atención.</h3><p>El seguimiento necesita distinguir estados y responsables. Proponemos confirmar el resultado y registrar las barreras.</p></div></article></div>
+        <div class="metrics-note"><div><p class="metric-label">Meta exploratoria del RIA</p><p class="metric-value">≥80<span>%</span></p></div><div><h3>Es un objetivo. Todavía no es un resultado.</h3><p>El RIA propone este umbral para elección voluntaria, avance acompañado y compatibilidad del acceso. Los campos de resultados están vacíos y el criterio debe revisarse para el alcance actual.</p><a href="#fuente-S04">Revisar el origen de la meta <span aria-hidden="true">↗</span></a></div></div>
+        <p class="source-line">Fuentes: <a href="#fuente-S01">Hito 1</a>, <a href="#fuente-S07">entrevistas</a> y <a href="#fuente-S04">RIA</a>. No se han medido reducción de espera, acceso efectivo ni impacto del servicio.</p>
+      </div>
+    </section>
+
+    <section class="chapter section-shell" id="aprendizajes" data-chapter aria-labelledby="aprendizajes-title">
+      <div class="chapter-heading"><p class="chapter-label"><span>06</span> Aprendizajes</p><p class="stage-label">Decisiones de diseño</p></div>
+      <div class="learning-grid"><div><h2 id="aprendizajes-title">Acompañar empieza<br>por escuchar.</h2><p>La idea inicial de una plataforma integral era demasiado amplia. El recorrido se volvió más concreto al concentrarnos en una necesidad y en la gestión de su siguiente paso.</p></div><div class="learning-list"><article><h3>Respetar también es acompañar.</h3><p>Rechazar o postergar un apoyo debe ser una opción válida, sin presión.</p></article><article><h3>La tecnología viene después.</h3><p>Primero necesitamos definir el servicio, sus responsables y su capacidad real.</p></article><article><h3>Una barrera debe quedar visible.</h3><p>Si no hay cupo o coordinación, el registro debe mostrarlo. Un estado no puede dar por resuelta una necesidad.</p></article></div></div>
+      <p class="source-line">Fuentes: <a href="#fuente-S01">Hito 1</a>, <a href="#fuente-S02">generación de ideas</a>, <a href="#fuente-S03">torneo</a> y <a href="#fuente-S07">entrevistas</a>.</p>
+    </section>
+
+    <section class="chapter next-section" id="proximos-pasos" data-chapter aria-labelledby="proximos-title">
+      <div class="section-shell"><div class="chapter-heading"><p class="chapter-label"><span>07</span> Próximos pasos</p><p class="stage-label">Trabajo por hacer</p></div>
+        <div class="section-intro"><h2 id="proximos-title">El próximo paso<br>también es nuestro.</h2><p>Hacer que esta propuesta sea viable requiere escuchar a usuarias y a quienes podrían operarla.</p></div>
+        <ol class="next-list"><li><span>1</span><div><h3>Encontrar una institución piloto.</h3><p>Definir con profesionales y agendamiento un recorrido, un responsable y capacidad para acompañarlo.</p></div></li><li><span>2</span><div><h3>Probar la maqueta sin guiar las respuestas.</h3><p>Observar si se entiende el siguiente contacto, se respeta la preferencia y se distingue espera de atención.</p></div></li><li><span>3</span><div><h3>Medir la operación y registrar resultados.</h3><p>Tiempo del responsable, solicitudes, barreras y cierre. Ajustar o descartar la propuesta si no puede sostenerse.</p></div></li><li><span>4</span><div><h3>Validar si esta historia se entiende.</h3><p>Compartir el sitio con personas externas durante tres minutos y recoger qué comprendieron y qué faltó.</p></div></li></ol>
+        <div class="next-cta"><a class="button button-primary" href="prototipo/">Recorrer el prototipo conceptual <span aria-hidden="true">↗</span></a><a class="text-link" href="#fuentes">Explorar las fuentes</a></div>
+        <p class="source-line">Fuentes: <a href="#fuente-S04">RIA</a>, <a href="#fuente-S05">plan de experimento</a> y <a href="#fuente-S08">decisiones del equipo</a>.</p>
+      </div>
+    </section>
+
+    <section class="sources-section section-shell" id="fuentes" aria-labelledby="fuentes-title">
+      <div class="sources-intro"><div><p class="chapter-label">Detrás de esta historia</p><h2 id="fuentes-title">Fuentes y transparencia.</h2></div><p>Usamos material propio del equipo. Los documentos en Drive pueden requerir acceso; aquí compartimos una síntesis sin datos de las entrevistadas.</p></div>
+      <details class="source-details"><summary>Ver los documentos y sus límites <span aria-hidden="true">+</span></summary><div class="source-list">
+        <article id="fuente-S01"><h3>Presentación Hito 1</h3><p>Exploración del problema y cinco entrevistas. Septiembre de 2026; foco entonces psicológico.</p><a href="https://drive.google.com/file/d/1AXsKHQ20ZQTNx2R1pEn9Z2Ljqeu3cjLq/view" target="_blank" rel="noopener noreferrer">Abrir documento en Drive <span class="sr-only">(nueva pestaña; puede requerir acceso)</span><span aria-hidden="true">↗</span></a></article>
+        <article id="fuente-S02"><h3>Actividad 5.1</h3><p>Ideas de solución y estimaciones iniciales, pendientes de validación.</p><a href="https://drive.google.com/file/d/1TenVpQvcuZwvSz9iWMfh55gxpma7QOOY/view" target="_blank" rel="noopener noreferrer">Abrir documento en Drive <span class="sr-only">(nueva pestaña; puede requerir acceso)</span><span aria-hidden="true">↗</span></a></article>
+        <article id="fuente-S03"><h3>Torneo de oportunidades</h3><p>Elección de un acompañamiento voluntario y su flujo propuesto.</p><a href="https://drive.google.com/file/d/1XWFZghClAbiqdlTBuki-er9h49AWZWfI/view" target="_blank" rel="noopener noreferrer">Abrir documento en Drive <span class="sr-only">(nueva pestaña; puede requerir acceso)</span><span aria-hidden="true">↗</span></a></article>
+        <article id="fuente-S04"><h3>RIA · Actividad 6.1</h3><p>Indicadores y metas. Los resultados no están completados.</p><a href="https://docs.google.com/spreadsheets/d/1s8qYCPpb1LY5ZjGtS_yyoC_rE9EYejjg/edit" target="_blank" rel="noopener noreferrer">Abrir RIA en Drive <span class="sr-only">(nueva pestaña; puede requerir acceso)</span><span aria-hidden="true">↗</span></a></article>
+        <article id="fuente-S05"><h3>Actividad 6.2</h3><p>Plan de prueba en papel del 6 de octubre de 2026. No es un resultado de validación.</p><a href="https://drive.google.com/file/d/1X-QvVD2cgPCfPf-KWQS4a2Lv-oVmvevY/view" target="_blank" rel="noopener noreferrer">Abrir plan en Drive <span class="sr-only">(nueva pestaña; puede requerir acceso)</span><span aria-hidden="true">↗</span></a></article>
+        <article id="fuente-S06"><h3>Póster del Hito 3</h3><p>Antecedente de julio de 2026. Su simulación corresponde a una propuesta anterior.</p><a href="assets/poster-hito-3.png">Ver el póster completo <span aria-hidden="true">↗</span></a></article>
+        <article id="fuente-S07"><h3>Registros de entrevistas</h3><p>Cinco conversaciones reales, según confirmación del equipo. Hallazgos cualitativos y perfiles diversos. Los originales se conservan privados.</p></article>
+        <article id="fuente-S08"><h3>Alcance del equipo</h3><p>Confirmado el 10 de octubre de 2026: una derivación prioritaria; sin solución construida o probada antes de esta versión, sin institución piloto.</p></article>
+        <article id="fuente-S09"><h3>Maqueta de esta versión</h3><p>Diseño conceptual creado con apoyo de IA para contar y explorar el servicio. Aún no validado con usuarias.</p><a href="prototipo/">Explorar la maqueta <span aria-hidden="true">↗</span></a></article>
+      </div></details>
+      <p class="transparency-note">Esta página presenta un proyecto académico y una propuesta de servicio en desarrollo. No permite pedir una atención ni confirma disponibilidad de apoyos.</p>
+    </section>
+  </main>
+  <footer class="site-footer section-shell"><div><a class="brand" href="#inicio"><img src="assets/mark.svg" alt="" width="30" height="30"><span translate="no">OncoNova</span></a><p>Un siguiente paso que no tengas que recorrer sola.</p></div><div><p>Equipo E7 · Sección 10<br>CD1201 · FCFM, Universidad de Chile</p><a href="https://github.com/camilomoralessabaj/onconova" target="_blank" rel="noopener noreferrer">Proyecto y documentación en GitHub <span class="sr-only">(nueva pestaña)</span><span aria-hidden="true">↗</span></a><p class="footer-date">Primera versión · 10 de octubre de 2026</p></div></footer>
+</body>
+</html>
