@@ -1,0 +1,4 @@
+interface:
+  display_name: "Impeccable"
+  short_description: "Dirección, crítica y refinamiento de interfaces"
+  default_prompt: "Usa $impeccable para planificar, criticar o refinar esta interfaz respetando el brief del proyecto."

@@ -26,6 +26,35 @@ El entorno restringido de Windows negó `realpath` a Node aunque permitía leer 
 
 La claridad del servicio con usuarias, su factibilidad con profesionales, los responsables, los canales, la disponibilidad y el costo operativo. Las pruebas de navegador solo comprueban el sitio y la simulación; no prueban que el servicio mejore el acceso a atención.
 
+## Skills y preparación de tareas · 10/10/2026
+
+Se preservó Frontend Design y se instalaron Impeccable, Wireframer, Color Expert, Motion Design y UI UX Pro Max con commits y huellas registrados. Los ajustes locales mantienen el stack nativo, el brief y los bocetos fuera del sitio publicado. Se creó `idea-a-tarea` para preguntas de aclaración, confirmación de ruta y prompts para otro chat, con recomendación de modelo/esfuerzo y revisión antes de PR. `docs/skills.md` documenta invocación y límites; `docs/repositorios-diseno-y-calidad.md` reúne fuentes verificadas y recomendaciones complementarias.
+
+Las nueve skills pasaron la validación de metadatos. La búsqueda local de UX devolvió reglas de foco de teclado y el motor verificado de Impeccable cargó el contexto del sitio. No se cambió la interfaz ni se instalaron dependencias de producción. Los cuatro escenarios de la skill propia se ensayaron manualmente por el mismo autor; no se ejecutó un benchmark independiente entre modelos. Pasaron los checks de skills, contenido y compilación, y se guardaron los pasos actualizados de preparación y arranque en el borrador del entorno.
+
+La guía oficial de ChatGPT solicitada devolvió HTTP 403 por la política de red. Se guardó `learn.chatgpt.com` como destino del borrador y quedó pendiente aplicar el cambio y leer esa página. Se consultó una referencia oficial distinta de OpenAI Cookbook y se registró esa diferencia, sin atribuir contenido no leído a la guía de ChatGPT.
+
+## Planificación eficiente y revisión de landing · 10/10/2026
+
+La guía exacta de ChatGPT ahora respondió HTTP 200 y se leyó completa. Se actualizó `idea-a-tarea` con sus cuatro elementos (objetivo, contexto, restricciones y terminado cuando), modelo/esfuerzo conservados en el prompt copiable y verificaciones proporcionales al riesgo. Se añadió un quinto ensayo de planificación para cambios simples; no se realizaron benchmarks independientes entre modelos.
+
+Se revisó el tema `landing-page` de GitHub: 20 descripciones de la primera página y fuentes de candidatos pertinentes. UI UX Pro Max ya estaba instalada; las colecciones DESIGN.md quedan como referencias. El motor de Scrollcraft no se añadió por sus requisitos de experiencias de scroll y el brief vigente. Se creó `revision-landing` y `docs/code_review.md`, con un smoke test local y criterios para priorizar calidad y carga.
+
+Las diez skills pasaron validación de metadatos, interfaces y enlaces. El smoke test final produjo cinco aprobados y un fallo existente a 320 px con texto ampliado; se diagnosticó y registró en `docs/hallazgos-landing.md`, sin editar `site/`. También detectó HTTP 404 y un navegador ausente con salidas de error correctas. Pasaron integridad de contenido y build. No se incorporaron dependencias de producción ni se publicó la página.
+
+## Skills de Emil Kowalski y bibliotecas opcionales · 10/10/2026
+
+Se integraron las 14 skills de `emilkowalski/skills`, commit `e8a175de22ae1e49370fc144c1f3bb9aeedf988d`, con sus referencias y el aviso MIT en cada carpeta. El conjunto local pasó de diez a 24 skills. Se añadieron bloques explícitos de integración: stack nativo, accesibilidad, movimiento reducido con estados estáticos válidos, alcance autorizado y pruebas proporcionales. Los prototipos y fixtures quedan fuera del sitio; las guías Expo, Swift y Sonner se reservan para tareas compatibles. Se preservaron las seis entradas externas anteriores del lock y se registraron los ajustes y huellas de las nuevas copias.
+
+Se revisaron también los README, manifiestos y licencias de Sonner y Vaul. No se incorporaron sus paquetes: requieren React y las interacciones actuales ya usan estados nativos con `aria-live`. La guía `ask-sonner` está incluida. El README de Vaul declara falta de mantenimiento; la evaluación con commits y requisitos está en `docs/repositorios-diseno-y-calidad.md`.
+
+Comprobaciones ejecutadas: 24 frontmatters YAML válidos, 14 enlaces locales de las nuevas skills resueltos, 14 licencias MIT preservadas y 393 archivos externos coincidentes con el lock. Pasaron `node scripts/check-skills.mjs`, `node scripts/check.mjs` y `node scripts/build.mjs`. Las huellas de todos los archivos de `site/` siguen iguales a las anteriores a esta integración. No se repitieron recorridos de interfaz porque la tarea cambió instrucciones y documentación; el desbordamiento existente registrado en la iteración anterior continúa pendiente. No se probaron toolchains móviles ni hardware físico.
+
+## Web de referencia 21st.dev · 10/10/2026
+
+Se añadió 21st.dev a las referencias de diseño y plataformas y a las instrucciones del repositorio. Se guardaron `21st.dev` y `www.21st.dev` en la lista de destinos del borrador del entorno, conservando `learn.chatgpt.com` y el preset de gestores de paquetes. El guardado devolvió `status: saved` y `requires_publish: true`; no confirma publicación ni acceso en una nueva máquina. La consulta HTTPS previa devolvió HTTP 403 del proxy y el catálogo actual sigue pendiente de consulta tras aplicar la política. No se instalaron componentes, paquetes, skills ni servicios de 21st.dev. La comprobación del diff no encontró errores de espacios.
+
+
 ## Integración de la versión de revisión de Sites
 
 Fecha: 13 de octubre de 2026. Se importó el contenido estático de **OncoNova · Versión de revisión**, proyecto `appgprj_6acad48d5b3881918dcd6105d2dbfd8e`, desde el commit de origen `8e51252cb27991b1fc4af1f6bd6aedeb963ade35`.
@@ -40,3 +69,21 @@ Verificación de esta integración:
 - Chromium, con rutas bajo `/onconova/`: landing y maqueta revisadas a 1440, 375 y 320 px. Sin desbordamiento horizontal, también con el texto ampliado; imágenes visibles cargadas y foco de teclado visible.
 - Se comprobó la elección en la landing, la apertura de fuentes por enlace y los escenarios de postergación, rechazo, espera sin cupo, atención simulada y reinicio. No se observaron errores de consola ni respuestas HTTP fallidas durante esos recorridos.
 - Inspección visual de la portada en escritorio y a 320 px. Estas comprobaciones verifican la integración web; no constituyen validación del servicio con usuarias.
+
+## Colaboración con Codex y Claude Code · 13/10/2026
+
+Se prepararon `CONTRIBUTING.md`, una plantilla de PR y `CLAUDE.md`, que importa las reglas comunes de `AGENTS.md`. Las skills mantienen su fuente en `.agents/skills/`; `scripts/sync-claude-skills.mjs` genera copias ignoradas en `.claude/skills/` sin enlaces simbólicos ni dependencias adicionales. Se actualizó `idea-a-tarea` a 1.2.0 para prompts destinados a Codex o Claude Code, modelo/esfuerzo compatibles con el cliente y contexto de rama/PR. El workflow incorpora verificación de skills y limita también las publicaciones manuales a `main`.
+
+Pasaron checks de contenido, compilación y skills (24 skills y 393 archivos externos verificados). Se comprobaron las 410 copias para Claude y sus permisos, la repetición de la sincronización y un fixture con actualización/retirada de copias propias, conservación de una skill personal y rechazo de una colisión antes de modificar archivos. El YAML del workflow se pudo leer y contiene las guardas y comprobaciones previstas. No se ejecutaron Claude Code ni GitHub Actions remoto y no se modificó `site/`.
+
+Las reglas remotas, invitaciones, code owners y merges quedan para la administración del repositorio según la guía. No se creó un PR ni se hizo push; los archivos compartidos aún requieren versionarse y distribuirse mediante Git. Se consultó documentación oficial de GitHub sobre rulesets y CODEOWNERS. Las páginas de Claude Code fueron rechazadas por la política del proxy y quedan enlazadas como referencias para consulta del equipo.
+
+## Ruleset importable de main · 13/10/2026
+
+Se creó `.github/rulesets/protect-main.json` para importar en GitHub, con estado activo y alcance exacto `refs/heads/main`. Exige PR, una aprobación, descarte de aprobaciones obsoletas, conversaciones resueltas, squash e historial lineal; bloquea borrado y force push, sin actores con bypass. Exige `build` de GitHub Actions y actualización respecto de la base. La aprobación de code owners queda desactivada hasta acordar responsables.
+
+El JSON pasó validación contra el esquema oficial de creación de rulesets del repositorio `github/rest-api-description`; se comprobó que `build` coincide con el job del workflow y que se ejecuta en PR. Se documentó cómo importar y activar el archivo en `CONTRIBUTING.md`. No se importó ni activó una regla remota desde esta conversación; esa operación queda para el usuario.
+
+## Transferencia de configuración a main actualizado · 13/10/2026
+
+Se contrastó el entorno de preparación, basado en `965a42c`, con `main` remoto en `8d3da91`. La configuración y las 24 skills estaban en archivos sin commit del primero y no en GitHub. Se preparó un parche sobre `8d3da91`, conservando todos los archivos de `site/` del rediseño y combinando los historiales de iteraciones. Pasaron checks de contenido (doce archivos públicos), build, las 24 skills y 393 huellas externas, y sincronización para Claude. La prueba de navegador de las dos páginas a 1440, 390 y 320 px produjo seis aprobados; el desbordamiento registrado en la versión anterior no se reprodujo. El parche no crea un commit ni publica una rama, PR o merge: esas acciones siguen pendientes de ejecución autorizada.
