@@ -25,3 +25,18 @@ El entorno restringido de Windows negó `realpath` a Node aunque permitía leer 
 ## Lo que falta validar en el proyecto
 
 La claridad del servicio con usuarias, su factibilidad con profesionales, los responsables, los canales, la disponibilidad y el costo operativo. Las pruebas de navegador solo comprueban el sitio y la simulación; no prueban que el servicio mejore el acceso a atención.
+
+## Integración de la versión de revisión de Sites
+
+Fecha: 13 de octubre de 2026. Se importó el contenido estático de **OncoNova · Versión de revisión**, proyecto `appgprj_6acad48d5b3881918dcd6105d2dbfd8e`, desde el commit de origen `8e51252cb27991b1fc4af1f6bd6aedeb963ade35`.
+
+Los doce archivos de `dist/` en Sites se incorporaron a `site/`, la carpeta fuente que utiliza este repositorio para GitHub Pages. El rediseño incorpora dos ilustraciones SVG, una marca revisada, una paleta rosa y ciruela, iconos SVG, etiquetas de evidencia y ajustes de lectura y adaptación de la landing y la maqueta. Se conservan el registro de fuentes, los estados conceptuales y la lógica de interacción. Los scripts, la documentación del proyecto y el historial de GitHub siguen disponibles.
+
+Verificación de esta integración:
+
+- `node scripts/check.mjs`: siete etapas, nueve fuentes y tres metas propuestas coherentes; dos páginas y doce archivos públicos con enlaces y anclas válidos.
+- `node scripts/build.mjs`: preparación correcta de `dist/`. El contenido de `site/` coincide archivo por archivo con el `dist/` recuperado de Sites.
+- `node --check` en ambos módulos JavaScript y `git diff --check`: sin errores.
+- Chromium, con rutas bajo `/onconova/`: landing y maqueta revisadas a 1440, 375 y 320 px. Sin desbordamiento horizontal, también con el texto ampliado; imágenes visibles cargadas y foco de teclado visible.
+- Se comprobó la elección en la landing, la apertura de fuentes por enlace y los escenarios de postergación, rechazo, espera sin cupo, atención simulada y reinicio. No se observaron errores de consola ni respuestas HTTP fallidas durante esos recorridos.
+- Inspección visual de la portada en escritorio y a 320 px. Estas comprobaciones verifican la integración web; no constituyen validación del servicio con usuarias.

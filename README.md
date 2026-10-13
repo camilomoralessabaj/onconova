@@ -4,6 +4,8 @@ Primera landing de storytelling para **CD1201 · Actividad 7.3 · FCFM, Universi
 
 [Sitio en GitHub Pages](https://camilomoralessabaj.github.io/onconova/) · [Maqueta del servicio](https://camilomoralessabaj.github.io/onconova/prototipo/)
 
+El 13 de octubre de 2026 se integró el rediseño de [OncoNova · Versión de revisión en Sites](https://onconova-revision.fuzzytide4.chatgpt.site): ilustraciones propias, paleta rosa y ciruela, etiquetas de evidencia y mejoras de lectura. La procedencia y las comprobaciones están en [el registro de iteraciones](docs/iteraciones.md).
+
 La propuesta es una **derivación acompañada dentro de una institución de salud**: orientación voluntaria, acuerdo de un apoyo prioritario, activación del contacto y confirmación de su resultado. La institución piloto está por definir. La maqueta fue creada para esta versión y **todavía no se ha probado con usuarias**.
 
 ## Trabajar en local
@@ -34,6 +36,7 @@ Si dispones de npm, también puedes usar `npm run dev`, `npm run check`, `npm ru
 | `site/assets/app.js` y `prototype.js` | Ampliación de texto, navegación y escenarios. |
 | `site/content/project.json` | Registro de fuentes, alcance, estados, metas y opciones. |
 | `site/assets/poster-hito-3.png` | Póster propio, presentado como antecedente histórico. |
+| `site/assets/acompanamiento.svg` y `escucha.svg` | Ilustraciones del rediseño revisado en Sites. |
 
 Al cambiar una afirmación, actualiza el texto y el registro de fuentes correspondiente. Los checks detectan incoherencias estructurales; la revisión humana sigue siendo necesaria para comprobar el respaldo de cada afirmación.
 
