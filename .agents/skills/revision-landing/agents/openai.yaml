@@ -1,0 +1,4 @@
+interface:
+  display_name: "Revisión de landing"
+  short_description: "Revisa calidad y prioriza mejoras de una landing"
+  default_prompt: "Usa $revision-landing para revisar estos cambios y comprobar lo necesario antes de preparar un PR."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "De idea a tarea"
+  short_description: "Aclara una idea y prepara un prompt con revisión"
+  default_prompt: "Usa $idea-a-tarea para aclarar mi idea, confirmar la ruta y preparar un prompt para otro chat con modelo, esfuerzo y verificaciones."

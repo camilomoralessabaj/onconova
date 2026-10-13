@@ -28,6 +28,8 @@ Si dispones de npm, también puedes usar `npm run dev`, `npm run check`, `npm ru
 
 ## Editar
 
+Para trabajar en equipo con Codex o Claude Code, sigue [CONTRIBUTING.md](CONTRIBUTING.md): una rama por tarea, PR hacia `main`, checks y aprobación de otra persona. Codex usa `AGENTS.md`; Claude Code carga `CLAUDE.md` y descubre las mismas skills después de ejecutar `node scripts/sync-claude-skills.mjs`. Las reglas de protección se activan por separado en GitHub Settings.
+
 | Archivo | Qué contiene |
 | --- | --- |
 | `site/index.html` | Relato y fuentes visibles. |
@@ -49,7 +51,9 @@ Al cambiar una afirmación, actualiza el texto y el registro de fuentes correspo
 - [Herramientas evaluadas y publicación](docs/plataformas.md).
 - [Skills, repositorios de origen y cómo invocarlas](docs/skills.md).
 
-Se incluyen `frontend-design` de Anthropic, `web-design-guidelines` de Vercel y la skill propia `onconova-storytelling` dentro de `.agents/skills/`. `AGENTS.md` orienta a Codex para preservar evidencia, alcance y accesibilidad. Las nuevas skills se descubren desde el siguiente turno de Codex.
+Se incluyen skills de diseño y revisión dentro de `.agents/skills/`, documentadas en `docs/skills.md`. La skill propia `idea-a-tarea` convierte una idea en preguntas y un prompt para otro chat con modelo, esfuerzo y aceptación; `revision-landing` organiza las comprobaciones y prioridades antes de un PR. `AGENTS.md` orienta a Codex para preservar evidencia, alcance y accesibilidad. Abre una nueva conversación en el repositorio para descubrir las skills, o indica la ruta de su `SKILL.md` si el cliente no las muestra.
+
+Hay 24 skills locales, incluyendo las 14 de [Emil Kowalski](https://github.com/emilkowalski/skills) para acabado de interfaces, animación, experiencia móvil, prototipos y pruebas con datos extremos. Cada copia conserva la licencia MIT, el commit de origen y ajustes para el brief de Onconova. Las guías de Expo, Swift y Sonner se usan únicamente en tareas de esos stacks.
 
 ## Publicar
 
