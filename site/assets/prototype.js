@@ -1,81 +1,131 @@
-const decisions = [...document.querySelectorAll('input[name="decision"]')];
-const support = document.querySelector('#support');
-const actionButtons = [...document.querySelectorAll('[data-event]')];
-const feedback = document.querySelector('.decision-feedback');
-const status = document.querySelector('.tracking-status');
-const description = document.querySelector('.tracking-description');
-let state = 'inicial';
+// Academic simulation. No requests, personal fields, URL state or persistent booking data.
+const booking = document.querySelector('[data-booking]');
+if (booking) {
+  const find = selector => booking.querySelector(selector);
+  const requestForm = find('[data-request-form]');
+  const scheduleForm = find('[data-schedule-form]');
+  const waitForm = find('[data-wait-form]');
+  const steps = { start: 0, message: 1, schedule: 2, waiting: 2, confirmed: 3, paused: 0 };
+  let current = 'start';
+  let channel = 'WhatsApp';
+  let modality = 'Videollamada';
+  let selected = null;
+  let slots = [];
+  const dateFormat = new Intl.DateTimeFormat('es-CL', { weekday: 'long', day: 'numeric', month: 'long', timeZone: 'UTC' });
+  const dayFormat = new Intl.DateTimeFormat('en-CA', { year: 'numeric', month: '2-digit', day: '2-digit', timeZone: 'America/Santiago' });
 
-const messages = {
-  inicial: ['Por activar', 'En este escenario falta que el responsable active la solicitud y confirme su recepción.'],
-  recibida: ['Solicitud recibida · Simulación', 'La recepción no confirma una hora ni una atención. El responsable debe coordinar el siguiente contacto.'],
-  'sin-cupo': ['Espera sin cupo · Simulación', 'La derivación sigue abierta. El responsable registra la falta de disponibilidad y solicita coordinación; no la cierra como una atención recibida.'],
-  atendida: ['Atención confirmada · Simulación', 'En este escenario se comprobó la atención y puede cerrarse el seguimiento por ese motivo. Esto no representa una atención real.']
-};
-const copy = {
-  acepta: 'En este escenario, la usuaria acepta orientación y puede acordar un apoyo prioritario.',
-  posterga: 'En este escenario se respeta su tiempo. Solo se acuerda un contacto posterior si ella lo desea; no se activa una derivación.',
-  rechaza: 'En este escenario no se activa una derivación. Se respeta la decisión y puede ofrecerse información si la desea.'
-};
-
-function render(updateURL = true) {
-  const decision = decisions.find(input => input.checked)?.value || 'acepta';
-  feedback.textContent = copy[decision];
-  const agreed = decision === 'acepta';
-  support.disabled = !agreed;
-  actionButtons.forEach(button => { button.disabled = !agreed && button.dataset.event !== 'reiniciar'; });
-  document.querySelectorAll('[data-support]').forEach(element => {
-    element.textContent = agreed ? support.value : 'Sin derivación activada';
-  });
-  const stages = [...document.querySelectorAll('[data-stage]')];
-  stages.forEach(item => item.classList.remove('is-done', 'is-waiting'));
-  stages[0].querySelector('p').textContent = agreed ? 'La usuaria acepta orientación.' : 'La decisión de la usuaria se respeta.';
-  stages[1].querySelector('p').textContent = 'Falta confirmar recepción.';
-  stages[2].querySelector('p').textContent = 'No hay hora confirmada.';
-  stages[3].querySelector('p').textContent = 'Todavía no se confirma una atención.';
-  if (agreed) {
-    stages[0].classList.add('is-done');
-    if (state !== 'inicial') { stages[1].classList.add('is-done'); stages[1].querySelector('p').textContent = 'Recepción representada en el ensayo.'; }
-    if (state === 'sin-cupo') { stages[2].classList.add('is-waiting'); stages[2].querySelector('p').textContent = 'Falta disponibilidad. Requiere coordinación.'; }
-    if (state === 'atendida') {
-      stages[2].classList.add('is-done'); stages[2].querySelector('p').textContent = 'Coordinación completada en el escenario.';
-      stages[3].classList.add('is-done'); stages[3].querySelector('p').textContent = 'Atención confirmada solo en la simulación.';
+  function show(screen) {
+    current = screen;
+    booking.querySelectorAll('[data-screen]').forEach(element => { element.hidden = element.dataset.screen !== screen; });
+    booking.querySelectorAll('[data-progress]').forEach(element => {
+      const step = Number(element.dataset.progress);
+      element.classList.toggle('complete', step < steps[screen]);
+      if (step === steps[screen]) element.setAttribute('aria-current', 'step');
+      else element.removeAttribute('aria-current');
+    });
+    find('[data-action="reset"]').hidden = screen === 'start';
+    const heading = find(`[data-screen="${screen}"] h3`);
+    heading.focus({ preventScroll: true });
+    heading.scrollIntoView({ block: 'start', behavior: 'instant' });
+  }
+  function updatePreferences() {
+    channel = requestForm.elements.channel.value;
+    modality = requestForm.elements.modality.value;
+    booking.querySelectorAll('[data-modality-copy]').forEach(element => {
+      element.textContent = modality === 'Videollamada' ? 'por videollamada' : 'de forma presencial';
+    });
+    find('[data-message-channel]').textContent = channel === 'Correo' ? 'Correo para usuaria@example.com' : 'Conversación de WhatsApp de ejemplo';
+    find('[data-message-subject]').textContent = channel === 'Correo' ? 'Asunto: elige tu primera hora de apoyo psicológico' : 'Tu solicitud tiene un siguiente paso';
+  }
+  function createSlots() {
+    // Use Santiago's calendar day, then operate at UTC noon to avoid local/DST shifts.
+    const parts = Object.fromEntries(dayFormat.formatToParts(new Date()).map(part => [part.type, part.value]));
+    const day = new Date(Date.UTC(Number(parts.year), Number(parts.month) - 1, Number(parts.day), 12));
+    slots = [];
+    while (slots.length < 3) {
+      day.setUTCDate(day.getUTCDate() + 1);
+      if (![0, 6].includes(day.getUTCDay())) {
+        slots.push({ date: dateFormat.format(day), time: ['10:00', '15:30', '11:00'][slots.length] });
+      }
     }
-    [status.textContent, description.textContent] = messages[state];
-  } else {
-    status.textContent = decision === 'posterga' ? 'Postergada por decisión · Simulación' : 'Sin solicitud por decisión · Simulación';
-    description.textContent = copy[decision] + ' Este cierre no equivale a haber recibido atención.';
+    find('[data-slots]').replaceChildren(...slots.map((slot, index) => {
+      const label = document.createElement('label');
+      label.className = 'slot';
+      const radio = document.createElement('input');
+      radio.type = 'radio'; radio.name = 'slot'; radio.value = String(index);
+      const date = document.createElement('span'); date.textContent = slot.date;
+      const time = document.createElement('strong'); time.textContent = `${slot.time} h`;
+      const note = document.createElement('small'); note.textContent = 'Horario de ejemplo';
+      label.append(radio, date, time, note);
+      return label;
+    }));
   }
-  if (updateURL) {
-    const url = new URL(location.href);
-    url.searchParams.set('decision', decision);
-    url.searchParams.set('apoyo', String(support.selectedIndex));
-    url.searchParams.set('estado', state);
-    history.replaceState(null, '', url);
+  function clearConfirmation() {
+    selected = null;
+    ['date', 'modality', 'channel'].forEach(key => { find(`[data-appointment-${key}]`).textContent = ''; });
+    find('[data-before-session]').textContent = '';
   }
+  function reset() {
+    requestForm.reset(); scheduleForm.reset(); waitForm.reset();
+    clearConfirmation();
+    find('[data-slot-error]').hidden = true;
+    find('[data-wait-result]').hidden = true;
+    find('[data-wait-copy]').textContent = '';
+    find('[data-booking-status]').textContent = '';
+    createSlots(); updatePreferences(); show('start');
+  }
+  requestForm.addEventListener('submit', event => {
+    event.preventDefault();
+    if (current !== 'start' || !requestForm.reportValidity()) return;
+    clearConfirmation(); scheduleForm.reset(); updatePreferences(); show('message');
+  });
+  scheduleForm.addEventListener('submit', event => {
+    event.preventDefault();
+    if (current !== 'schedule') return;
+    const input = scheduleForm.querySelector('input[name="slot"]:checked');
+    if (!input || !slots[Number(input.value)]) {
+      find('[data-slot-error]').hidden = false;
+      scheduleForm.querySelector('input[name="slot"]').focus();
+      return;
+    }
+    selected = slots[Number(input.value)];
+    find('[data-slot-error]').hidden = true;
+    find('[data-appointment-date]').textContent = `${selected.date}, ${selected.time} h (Santiago de Chile)`;
+    find('[data-appointment-modality]').textContent = modality === 'Videollamada' ? 'Videollamada de ejemplo' : 'Consulta presencial de ejemplo';
+    find('[data-appointment-channel]').textContent = `${channel} · Mensaje no enviado`;
+    find('[data-before-session]').textContent = modality === 'Videollamada' ? 'Para conversar por videollamada, busca un lugar tranquilo y revisa tu conexión. Esta demostración no habilita una sala de atención.' : 'El comprobante de una sesión presencial incluiría la dirección y las indicaciones de llegada. Aquí se muestra una consulta de ejemplo, sin un lugar real de atención.';
+    show('confirmed');
+  });
+  scheduleForm.addEventListener('change', () => { find('[data-slot-error]').hidden = true; });
+  waitForm.addEventListener('submit', event => {
+    event.preventDefault();
+    if (current !== 'waiting') return;
+    find('[data-wait-copy]').textContent = `Prefieres ${waitForm.elements['preferred-time'].value} y el contacto por ${channel}. Esta preferencia solo existe en esta página; no se envió.`;
+    find('[data-wait-result]').hidden = false;
+  });
+  waitForm.addEventListener('change', () => { find('[data-wait-result]').hidden = true; });
+  booking.addEventListener('click', event => {
+    const action = event.target.closest('[data-action]')?.dataset.action;
+    if (!action) return;
+    if (action === 'reset') reset();
+    if (action === 'edit' && current === 'message') { clearConfirmation(); show('start'); }
+    if (action === 'message' && current === 'schedule') show('message');
+    if (action === 'schedules' && ['message', 'waiting'].includes(current)) show('schedule');
+    if (action === 'reschedule' && current === 'confirmed') { clearConfirmation(); scheduleForm.reset(); show('schedule'); }
+    if (action === 'unavailable' && current === 'schedule') { clearConfirmation(); scheduleForm.reset(); find('[data-wait-result]').hidden = true; show('waiting'); }
+    if (['later', 'decline'].includes(action) && current === 'start') {
+      find('[data-pause-title]').textContent = action === 'later' ? 'Puedes darte un tiempo.' : 'Tu decisión también cuenta.';
+      find('[data-pause-copy]').textContent = action === 'later' ? 'No se ha iniciado una solicitud, ni siquiera dentro de la simulación. Puedes conocer la propuesta y volver cuando quieras.' : 'No se inicia una solicitud ni un contacto de seguimiento. Puedes volver a explorar el recorrido si cambias de opinión.';
+      show('paused');
+    }
+    if (action === 'download' && current === 'confirmed' && selected) {
+      const text = ['ONCONOVA — COMPROBANTE DE EJEMPLO', '', 'SIMULACIÓN ACADÉMICA. NO ES UNA RESERVA REAL.', '', 'Usuaria de ejemplo', 'Primera sesión de apoyo psicológico', `Fecha: ${selected.date}, ${selected.time} h (Santiago de Chile)`, 'Duración de ejemplo: 45 minutos', `Modalidad: ${modality}`, 'Profesional de ejemplo; sin identidad asignada', `Canal elegido: ${channel}. No se envió ningún mensaje.`, 'Estado: cita simulada. Atención aún no realizada.', '', 'No corresponde a una institución o profesional real, ni acredita cobertura o pago.', 'Este archivo sirve únicamente para demostrar el prototipo de OncoNova.'].join('\n');
+      const url = URL.createObjectURL(new Blob([text], { type: 'text/plain;charset=utf-8' }));
+      const link = document.createElement('a'); link.href = url; link.download = 'onconova-comprobante-simulado.txt'; document.body.append(link); link.click(); link.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+      find('[data-booking-status]').textContent = 'Comprobante de ejemplo preparado para descargar.';
+    }
+  });
+  find('[data-screen="start"]').hidden = false;
+  createSlots(); updatePreferences();
 }
-function restoreURL() {
-  const url = new URL(location.href);
-  const decision = url.searchParams.get('decision');
-  decisions.forEach(input => { input.checked = input.value === (Object.hasOwn(copy, decision) ? decision : 'acepta'); });
-  const index = Number(url.searchParams.get('apoyo') || 0);
-  support.selectedIndex = Number.isInteger(index) && index >= 0 && index < support.options.length ? index : 0;
-  const candidate = url.searchParams.get('estado');
-  state = Object.hasOwn(messages, candidate) ? candidate : 'inicial';
-  render(false);
-}
-decisions.forEach(input => input.addEventListener('change', () => { state = 'inicial'; render(); }));
-support.addEventListener('change', () => { state = 'inicial'; render(); });
-actionButtons.forEach(button => button.addEventListener('click', () => {
-  if (button.dataset.event === 'reiniciar') {
-    decisions.forEach(input => { input.checked = input.value === 'acepta'; });
-    support.selectedIndex = 0;
-    state = 'inicial';
-  } else state = button.dataset.event;
-  render();
-}));
-window.addEventListener('popstate', restoreURL);
-restoreURL();
-const printButton = document.querySelector('#print-prototype');
-printButton.hidden = false;
-printButton.addEventListener('click', () => window.print());

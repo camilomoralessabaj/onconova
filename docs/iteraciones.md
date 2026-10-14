@@ -99,3 +99,25 @@ Comprobaciones: `node scripts/check.mjs`, `node scripts/build.mjs` y `git diff -
 Límites: no se accionó el zoom nativo del navegador al 200 %; la aproximación de reflujo no lo sustituye por completo. No se probaron Safari, dispositivos físicos ni comprensión con personas externas; estas verificaciones no validan el servicio. Sin push, PR, merge ni publicación; integración pendiente de revisión humana de otra persona.
 
 Preparación de PR autorizada por el usuario: fetch de `main` confirmó `1a87894`, coincidente con la base local; no fue necesaria integración adicional. La autorización incluye push y creación de PR, con merge aún pendiente de revisión humana.
+
+## Salud mental y agendamiento simulado · 14/10/2026
+
+Rama `feat/salud-mental-agendamiento`, base local `d45b039`. El equipo comunica feedback docente y confirma una entrega que simule el uso esperado. Se aplicaron las skills locales frontend-design, onconova-storytelling, web-design-guidelines y revision-landing; se consultó la guía web vinculada por esa skill. No se modificaron las skills.
+
+Se mantiene el público postratamiento por cáncer de mama y se acota la propuesta a salud mental. S10 registra la nueva decisión y el feedback, sustituyendo el alcance multisoporte de S08. Se conservan las siete etapas, las cinco entrevistas como evidencia de necesidades y las metas sin resultados inventados. No se agregan profesionales, alianzas, tasas clínicas ni validaciones.
+
+La portada adopta el título y la introducción proporcionados por el grupo, una paleta violeta/lavanda/salvia y la ilustración original. El CTA y la ficha de portada acceden directamente a la demostración. Se retiran los enlaces públicos a actividades académicas del semestre; las referencias originales permanecen en el manifiesto. Se destacan las cinco entrevistas reales con su contexto y límites. Se sustituyen textos operativos vagos por instrucciones concretas y estados de simulación.
+
+El prototipo está integrado en la página principal y disponible en `/prototipo/`: solicitud con datos ficticios, modalidad y canal; mensaje simulado de correo o WhatsApp; horarios de ejemplo; cita simulada y comprobante descargable. Incluye postergación, rechazo, falta de horario compatible, nueva coordinación, cambio de horario y reinicio. No hay diagnóstico, información personal ingresable, envío, almacenamiento de solicitudes ni reserva real. Solo persiste la preferencia de tamaño de texto. La confirmación aclara que no se realizó una atención.
+
+Verificación: check de contenido y enlaces, sintaxis JS, build y `git diff --check`. Chromium/Playwright: seis casos aprobados (dos rutas a 1440, 390 y 320 px), cada uno con cuatro combinaciones de canal/modalidad, consentimiento, validación de horario, comprobante, reprogramación, postergación, rechazo, espera, reinicio, recarga, teclado básico, ampliación de texto y ausencia de peticiones externas o almacenamiento de reservas. Lectura sin JavaScript y enlace directo a S10 aprobados. Capturas de portada en escritorio/móvil y confirmación inspeccionadas. Se corrigió desbordamiento a 320 px. La comprobación sin JS usa selector DOM, porque el selector de texto de Playwright omite noscript.
+
+El smoke de la skill corresponde a la antigua maqueta multisoporte; se agregó `scripts/test-booking.py` para el comportamiento vigente, sin alterar la skill ni dependencias de producción. Resultados técnicos en `work/qa/report.json` (ignorado). Los tests se ejecutaron con servidor y navegador fuera del sandbox de procesos, tras fallos de sockets dentro de él. No hubo modificación de la política de red.
+
+Límites: Chromium local, sin Safari ni dispositivos físicos; el reflujo no sustituye una comprobación de zoom nativo; no se evaluó comprensión con usuarias. No se pudo realizar una comparación visual directa de Roveia/rizartrosis, por lo que no se afirma fidelidad visual a esas referencias. Sin push, PR, merge ni publicación. La revisión humana previa al merge sigue pendiente según las reglas del repositorio.
+
+Revisión de contraste de los pares principales: texto ≥5,59:1 y botones principales 9,15:1. Se oscurecieron los bordes de opciones para superar 3:1. La exportación autónoma queda como archivo de trabajo: el navegador administrado bloquea URLs file:// y no se afirmó su verificación. La carpeta de entregables indicada por la conversación no existe en este ejecutor y no pudo crearse; el resultado principal queda en el repositorio y en dist/.
+
+### Preparación del PR autorizada
+
+El usuario autorizó subir la rama y abrir un PR hacia `main`. Se consultó el remoto y `main` sigue en la base `d45b039`; no hay cambios adicionales que integrar. Se incorporan capturas de portada en escritorio y móvil en `docs/revision-2026-10-14/` para facilitar la revisión visual. La autorización no incluye merge; la publicación en GitHub Pages sigue el flujo de revisión del equipo.

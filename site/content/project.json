@@ -4,13 +4,14 @@
   "course": "CD1201",
   "activity": "7.3",
   "team": "E7",
-  "updated": "2026-10-10",
-  "scope": "Una derivación prioritaria hacia el apoyo postratamiento que cada usuaria necesite.",
+  "updated": "2026-10-14",
+  "scope": "Acceso acompañado a una primera sesión de apoyo psicológico después del tratamiento por cáncer de mama; demostración académica sin atención real.",
   "institution": null,
   "prototype": {
     "status": "conceptual-unvalidated",
     "created": "2026-10-10",
-    "description": "Maqueta del servicio creada con IA para esta versión. No activa derivaciones ni reúne datos personales."
+    "description": "Prototipo navegable con solicitud, mensaje de ejemplo por correo o WhatsApp, horario y confirmación simulada. No envía ni guarda datos personales ni activa servicios.",
+    "updated": "2026-10-14"
   },
   "interviews": {
     "count": 5,
@@ -79,7 +80,7 @@
       "title": "Alcance confirmado por el equipo",
       "type": "team-decision",
       "date": "2026-10-10",
-      "note": "Una derivación prioritaria. Sin solución previamente construida o probada, sin institución piloto. Excluir fundaciones."
+      "note": "Decisión histórica de derivación a distintos apoyos. Alcance sustituido por S10; siguen pendientes institución y pruebas con usuarias."
     },
     {
       "id": "S09",
@@ -87,7 +88,14 @@
       "type": "new-design",
       "date": "2026-10-10",
       "asset": "prototipo/index.html",
-      "note": "Elaborada con IA para representar el servicio. Sin validación con usuarias."
+      "note": "Diseño con IA, ampliado el 14/10 con agendamiento simulado. No validado con usuarias."
+    },
+    {
+      "id": "S10",
+      "title": "Feedback docente y alcance confirmado por el equipo",
+      "type": "team-decision",
+      "date": "2026-10-14",
+      "note": "El equipo comunica feedback recibido el 13/10: acotar a salud mental, mejorar conexión visual y completar el recorrido hasta la primera hora. Entrega como simulación académica. No acredita validación ni atención real. Cambios adicionales del grupo: título e introducción cercanos, retirar enlaces públicos a actividades, destacar prototipo, renovar paleta y usar evidencia real sin inventar datos."
     }
   ],
   "chapters": [
@@ -97,7 +105,8 @@
       "sources": [
         "S01",
         "S07",
-        "S08"
+        "S08",
+        "S10"
       ],
       "kind": "needs-evidence"
     },
@@ -107,7 +116,8 @@
       "sources": [
         "S03",
         "S08",
-        "S09"
+        "S09",
+        "S10"
       ],
       "kind": "proposal"
     },
@@ -118,7 +128,8 @@
         "S05",
         "S06",
         "S08",
-        "S09"
+        "S09",
+        "S10"
       ],
       "kind": "conceptual-unvalidated"
     },
@@ -130,7 +141,8 @@
         "S04",
         "S05",
         "S07",
-        "S08"
+        "S08",
+        "S10"
       ],
       "kind": "needs-evidence"
     },
@@ -141,7 +153,8 @@
         "S01",
         "S04",
         "S07",
-        "S08"
+        "S08",
+        "S10"
       ],
       "kind": "qualitative-findings"
     },
@@ -152,7 +165,8 @@
         "S01",
         "S02",
         "S03",
-        "S07"
+        "S07",
+        "S10"
       ],
       "kind": "design-learning"
     },
@@ -163,7 +177,8 @@
         "S04",
         "S05",
         "S08",
-        "S09"
+        "S09",
+        "S10"
       ],
       "kind": "planned"
     }
@@ -173,7 +188,7 @@
       "id": "reconocimiento",
       "label": "Reconocimiento de necesidades y decisión de apoyo",
       "definition": "Expresar una necesidad o su ausencia y elegir de acuerdo con la preferencia declarada, sin ayuda del evaluador.",
-      "scope": "Apoyo psicológico en el RIA original; adaptación al alcance vigente por revisar.",
+      "scope": "Apoyo psicológico en el RIA original. Instrumento y pertinencia de los umbrales por revisar para el agendamiento simulado actual.",
       "status": "proposed",
       "threshold": 80,
       "unit": "%",
@@ -184,7 +199,7 @@
       "id": "avance",
       "label": "Avance acompañado en el proceso de acceso",
       "definition": "Completar el recorrido simulado, identificar la gestión del servicio y el siguiente contacto, sin ayuda adicional del evaluador.",
-      "scope": "Apoyo psicológico en el RIA original; adaptación al alcance vigente por revisar.",
+      "scope": "Apoyo psicológico en el RIA original. Instrumento y pertinencia de los umbrales por revisar para el agendamiento simulado actual.",
       "status": "proposed",
       "threshold": 80,
       "unit": "%",
@@ -195,7 +210,7 @@
       "id": "compatibilidad",
       "label": "Compatibilidad del acceso con la usuaria",
       "definition": "Elegir una alternativa compatible con las restricciones del escenario o solicitar coordinación cuando ninguna sea viable.",
-      "scope": "Apoyo psicológico en el RIA original; adaptación al alcance vigente por revisar.",
+      "scope": "Apoyo psicológico en el RIA original. Instrumento y pertinencia de los umbrales por revisar para el agendamiento simulado actual.",
       "status": "proposed",
       "threshold": 80,
       "unit": "%",
@@ -206,8 +221,8 @@
   "choices": [
     {
       "id": "apoyo",
-      "label": "Quiero explorar un apoyo",
-      "explanation": "La propuesta es conversar con un responsable institucional, acordar el apoyo prioritario y definir quién activará la derivación. El apoyo y el canal deben confirmarse con la institución."
+      "label": "Quiero explorar apoyo psicológico",
+      "explanation": "Simular una solicitud, recibir un mensaje de ejemplo y elegir una primera hora psicológica. Sin atención real."
     },
     {
       "id": "pensarlo",
