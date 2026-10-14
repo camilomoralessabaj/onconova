@@ -1,39 +1,31 @@
-# Kit de prototipo y validación
+# Prototipo y guion de demostración
 
-La primera maqueta navegable está en `site/prototipo/index.html`. Fue creada para esta versión; aún no ha sido probada con usuarias. Usa opciones hipotéticas y no recibe datos personales ni activa servicios reales. Puede recorrerse y también imprimirse.
+Versión 14/10/2026. La landing contiene el prototipo completo; `/prototipo/` permite presentarlo por separado. Son la misma experiencia. Usar datos ficticios; la página no solicita información personal.
 
-## Un servicio sí puede hacerse tangible
+## Recorrido principal para la profesora
 
-La solución es un servicio, pero sus puntos de contacto pueden representarse con papel: conversación de entrada, ficha del siguiente paso, confirmación de recepción y registro de seguimiento. Dos integrantes interpretan los roles de usuaria y responsable; una tercera persona observa. Ese ensayo permite detectar problemas del flujo antes de involucrar pacientes o usar sistemas reales.
+1. Desde la portada, pulsar **Explorar mi primera hora**.
+2. Elegir WhatsApp o correo y videollamada o presencial. Marcar que se entiende la simulación.
+3. Pulsar **Simular mi solicitud**. Ver la recepción y el mensaje que coordinación enviaría. Aún no hay reserva.
+4. Pulsar **Ver horarios de ejemplo**. Elegir un horario ficticio y confirmar.
+5. Mostrar la cita simulada y descargar el comprobante. Explicar que una cita no es atención realizada y que el mensaje no se envió.
+6. Cambiar horario o reiniciar para presentar otra alternativa.
 
-## Ficha del siguiente paso (plantilla para ensayo)
+## Escenarios alternativos
 
-| Campo | Completar solo con un escenario hipotético |
-| --- | --- |
-| Apoyo prioritario | Qué apoyo se acordó; no un diagnóstico. |
-| Responsable institucional | Rol por definir con la institución. |
-| Canal de contacto | Canal real por confirmar; no inventar teléfonos. |
-| Próximo contacto | Quién contactará a quién y cuándo, una vez acordado. |
-| Estado | Solicitud, recepción, coordinación/agendamiento, atención confirmada o barrera. |
-| Preferencia | Acepta, posterga o rechaza. |
+- **Ninguno me acomoda:** registrar preferencia de mañana/tarde; mostrar coordinación pendiente, contacto por el canal elegido y ausencia de hora confirmada. Al cambiar preferencia se pide registrarla de nuevo.
+- **Prefiero pensarlo / Ahora no lo necesito:** cerrar sin iniciar solicitud y poder volver al comienzo.
+- **Error de selección:** intentar confirmar sin horario; indicar la corrección y llevar foco al primer horario.
+- **Privacidad:** recargar reinicia el escenario. Solo la preferencia de tamaño de texto puede persistir; no hay mensajes, backend, analítica ni registro de datos de salud.
 
-## Registro de prueba
+## Validación pendiente
 
-| Código anónimo | Tarea | La completó sin ayuda | Dudas/errores | Tiempo | Preferencia respetada | Estado comprendido |
-| --- | --- | --- | --- | --- | --- | --- |
-| Por completar | Por completar | Por medir | Por observar | Por medir | Por observar | Por observar |
+Observar con usuarias si pueden completar el recorrido sin ayuda, explicar quién debería contactar y distinguir solicitud, espera, cita y atención. La prueba debe registrar dificultades y errores reales. No completar resultados por estimación.
 
-No completar esta tabla con resultados estimados. Evitar historias clínicas; guardar cualquier registro real solo en un lugar institucional autorizado, con consentimiento y las condiciones que defina la institución.
+Las cinco entrevistas existentes exploran necesidades y no validan este prototipo. Las metas del RIA (80 %) siguen siendo propuestas; revisar instrumento y pertinencia antes de experimentar. Responsables, institución, costos, cobertura, capacidad de agenda y plazos deben definirse antes de un piloto real.
 
-## Pruebas propuestas
+## Verificación técnica
 
-1. **Comprensión:** entregar la ficha sin explicar el flujo. Pedir que la participante explique el apoyo, quién se hará cargo y cuál es el siguiente contacto, con sus palabras.
-2. **Preferencia:** pedir que seleccione aceptar, postergar o rechazar. Comprobar que el diseño respeta su decisión, sin interpretar rechazo como fracaso.
-3. **Seguimiento:** mostrar un caso con solicitud recibida y sin cupo confirmado. Observar si distingue espera de atención y si reconoce quién debe coordinar.
-4. **Operación:** contrastar el blueprint con quien deriva y quien agenda. Registrar acciones, dependencias, tiempos y datos mínimos requeridos.
+`node scripts/check.mjs`, `node scripts/build.mjs` y `git diff --check`. Para el nuevo flujo: `python3 scripts/test-booking.py --base-url http://127.0.0.1:4173 --output work/qa`. Requiere Playwright y Chromium ya instalados; no son dependencias de producción.
 
-El 80 % del RIA es una meta exploratoria previa; no un resultado ni un umbral clínico. Revisar su pertinencia para el alcance ampliado. Medir tareas completadas sin ayuda, errores de estado, claridad del responsable y tiempo del operador. Reportar numerador, denominador, condiciones y diferencias respecto del perfil objetivo.
-
-## Revisión externa de la landing, Actividad 7.3
-
-Permitir explorar durante un máximo de tres minutos sin explicaciones. Después preguntar: ¿qué problema aborda?, ¿cómo propone resolverlo?, ¿qué evidencia existe?, ¿qué todavía está pendiente? Registrar respuestas y cambios del sitio. Esta evaluación comprueba comunicación; no eficacia del servicio.
+El smoke anterior de la skill revision-landing comprueba la maqueta multisoporte retirada. Esta versión usa un test específico del nuevo recorrido, conservando las skills sin modificaciones.

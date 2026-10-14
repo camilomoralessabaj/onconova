@@ -1,12 +1,14 @@
 # OncoNova
 
-Primera landing de storytelling para **CD1201 · Actividad 7.3 · FCFM, Universidad de Chile**. Recorre Desafío → Propuesta → Prototipo → Validación → Resultados → Aprendizajes → Próximos pasos.
+Sitio y prototipo académico de acceso a apoyo psicológico para **CD1201 · Actividad 7.3 · FCFM, Universidad de Chile**. Recorre Desafío → Propuesta → Prototipo → Validación → Resultados → Aprendizajes → Próximos pasos.
 
 [Sitio en GitHub Pages](https://camilomoralessabaj.github.io/onconova/) · [Maqueta del servicio](https://camilomoralessabaj.github.io/onconova/prototipo/)
 
 El 13 de octubre de 2026 se integró el rediseño de [OncoNova · Versión de revisión en Sites](https://onconova-revision.fuzzytide4.chatgpt.site): ilustraciones propias, paleta rosa y ciruela, etiquetas de evidencia y mejoras de lectura. La procedencia y las comprobaciones están en [el registro de iteraciones](docs/iteraciones.md).
 
-La propuesta es una **derivación acompañada dentro de una institución de salud**: orientación voluntaria, acuerdo de un apoyo prioritario, activación del contacto y confirmación de su resultado. La institución piloto está por definir. La maqueta fue creada para esta versión y **todavía no se ha probado con usuarias**.
+La versión del 14/10/2026 se centra en **salud mental después del tratamiento por cáncer de mama**. La landing incluye una demostración completa: solicitud → mensaje de ejemplo por correo/WhatsApp → elección de horario → confirmación y comprobante simulados. La ruta `/prototipo/` ofrece el mismo recorrido por separado. No se envían mensajes ni se reservan horas reales; las pruebas con usuarias siguen pendientes.
+
+Se conserva el respaldo de las cinco entrevistas como exploración de necesidades. El [guion de demostración](docs/prototipo-y-validacion.md) describe el recorrido principal y las alternativas para presentar al curso.
 
 ## Trabajar en local
 
@@ -32,10 +34,10 @@ Para trabajar en equipo con Codex o Claude Code, sigue [CONTRIBUTING.md](CONTRIB
 
 | Archivo | Qué contiene |
 | --- | --- |
-| `site/index.html` | Relato y fuentes visibles. |
-| `site/prototipo/index.html` | Maqueta conceptual e instrucciones para explorarla. |
+| `site/index.html` | Página principal con simulación integrada y evidencia. |
+| `site/prototipo/index.html` | Demostración de agendamiento en una página independiente. |
 | `site/assets/styles.css` y `prototype.css` | Diseño y adaptación a distintos tamaños. |
-| `site/assets/app.js` y `prototype.js` | Ampliación de texto, navegación y escenarios. |
+| `site/assets/app.js` y `prototype.js` | Ampliación de texto, fuentes y simulación de agendamiento. |
 | `site/content/project.json` | Registro de fuentes, alcance, estados, metas y opciones. |
 | `site/assets/poster-hito-3.png` | Póster propio, presentado como antecedente histórico. |
 | `site/assets/acompanamiento.svg` y `escucha.svg` | Ilustraciones del rediseño revisado en Sites. |
