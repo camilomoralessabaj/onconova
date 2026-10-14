@@ -117,3 +117,7 @@ El smoke de la skill corresponde a la antigua maqueta multisoporte; se agregó `
 Límites: Chromium local, sin Safari ni dispositivos físicos; el reflujo no sustituye una comprobación de zoom nativo; no se evaluó comprensión con usuarias. No se pudo realizar una comparación visual directa de Roveia/rizartrosis, por lo que no se afirma fidelidad visual a esas referencias. Sin push, PR, merge ni publicación. La revisión humana previa al merge sigue pendiente según las reglas del repositorio.
 
 Revisión de contraste de los pares principales: texto ≥5,59:1 y botones principales 9,15:1. Se oscurecieron los bordes de opciones para superar 3:1. La exportación autónoma queda como archivo de trabajo: el navegador administrado bloquea URLs file:// y no se afirmó su verificación. La carpeta de entregables indicada por la conversación no existe en este ejecutor y no pudo crearse; el resultado principal queda en el repositorio y en dist/.
+
+### Preparación del PR autorizada
+
+El usuario autorizó subir la rama y abrir un PR hacia `main`. Se consultó el remoto y `main` sigue en la base `d45b039`; no hay cambios adicionales que integrar. Se incorporan capturas de portada en escritorio y móvil en `docs/revision-2026-10-14/` para facilitar la revisión visual. La autorización no incluye merge; la publicación en GitHub Pages sigue el flujo de revisión del equipo.
