@@ -1,0 +1,22 @@
+[
+  {
+    "width": 1440,
+    "status": "passed",
+    "cases": [
+      "scroll reversal during motion",
+      "focused keyboard scroll",
+      "print order and return",
+      "reduced static transforms"
+    ]
+  },
+  {
+    "width": 390,
+    "status": "passed",
+    "cases": [
+      "scroll reversal during motion",
+      "focused keyboard scroll",
+      "print order and return",
+      "reduced static transforms"
+    ]
+  }
+]
