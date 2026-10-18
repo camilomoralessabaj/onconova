@@ -1,2 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
-<style>svg{--art-primary:#B01D4B;--art-accent:#F1578B;--art-medium:#F581AC;--art-pastel:#EDD5E7;--art-surface:#FBD9F1;--art-soft:#F9ACCF;--art-light:#FFEBF2;--art-ink:#321521}</style><rect width="48" height="48" rx="16" fill="var(--art-light)"/><path d="M12 30C5 18 17 7 23 20c6-13 19-2 12 10-5 9-16 6-13-2 2-5 9-3 8 2" fill="none" stroke="var(--art-ink)" stroke-width="2.8" stroke-linecap="round"/><path d="M22 28c-2 8 7 13 14 9" fill="none" stroke="var(--art-accent)" stroke-width="2.8" stroke-linecap="round"/><circle cx="36" cy="37" r="2.5" fill="var(--art-primary)"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none">
+<!-- Lazo rosado original de OncoNova, 18/10/2026; sin marca ni aval externo. -->
+<path d="M15 18C9 5 18 2 24 2s15 3 9 16L18 44l-8-6 14-22 5-8c-3-2-7-2-10 0l4 8" fill="#F581AC" stroke="#B01D4B" stroke-width="1.5" stroke-linejoin="round"/>
+<path d="m15 18 9-8c-1 7 0 10 5 18l9 10-8 6-15-26Z" fill="#F1578B" stroke="#B01D4B" stroke-width="1.5" stroke-linejoin="round"/>
+</svg>

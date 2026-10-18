@@ -88,7 +88,11 @@ with sync_playwright() as p:
             page.wait_for_timeout(100)
             check(page.evaluate('scrollY') == scroll, 'Guide moved the scroll position')
             nav = page.locator('.reading-guide').bounding_box()
-            check(nav['y'] >= 0 and nav['y'] + nav['height'] < page.viewport_size['height'], 'Sticky guide disappeared')
+            if page.locator('.reading-guide').evaluate('el => getComputedStyle(el).position') == 'sticky':
+                check(nav['y'] >= 0 and nav['y'] + nav['height'] < page.viewport_size['height'], 'Sticky guide disappeared')
+            else:
+                check(width <= 720, 'Unexpected nonpersistent desktop guide')
+                check(page.locator('.section-index').evaluate('el => getComputedStyle(el).position') == 'sticky', 'Global location missing while local guide is in flow')
             page.screenshot(path=str(args.output / f'guide-{width}-{"reduce" if reduced else "normal"}.png'))
             # Rapid reversal must finish at the latest stop, not queue animations.
             links.nth(2).click()
@@ -122,7 +126,7 @@ with sync_playwright() as p:
             settled(page, 2)
             if width < 500:
                 check(page.locator('.reading-guide').evaluate('el => getComputedStyle(el).position') == 'static', 'Large type guide obscures content')
-                check(page.locator('.iteration-table tbody tr').first.evaluate('el => Math.abs(el.getBoundingClientRect().width - el.querySelector("th").getBoundingClientRect().width) < 2'), 'Mobile action text is restricted to a table column')
+                check(page.locator('.iteration-table tbody tr').first.evaluate('el => { const style=getComputedStyle(el); return Math.abs(el.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight) - el.querySelector("th").getBoundingClientRect().width) < 2; }'), 'Mobile action text is restricted to a table column')
             page.screenshot(path=str(args.output / f'large-{width}-{"reduce" if reduced else "normal"}.png'))
             page.set_viewport_size({'width':720 if width == 1440 else 1000,'height':900})
             page.wait_for_timeout(100)

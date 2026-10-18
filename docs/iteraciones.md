@@ -239,3 +239,44 @@ El fetch encontró `main` en `78c479b`, con relato S11, nueva paleta burdeo/rosa
 La sección presenta tres bloques consecutivos en una sola columna. Un cuadro compartido marca el enlace del bloque leído y cambia de posición con transform en 250 ms; columna lateral en escritorio, barra superior en móvil y enlaces verticales sin sticky con texto ampliado en móvil. Los enlaces son anclas nativas, los destinos aceptan foco visible y toda la información permanece en el flujo normal. Con teclado o movimiento reducido, la señal se actualiza sin animación; el cuadro no altera el scroll. Se corrigieron la anchura de los encabezados del plan móvil y el margen que evita tapar enlaces al volver con Shift+Tab; se acotó un selector del test de progreso para distinguir la guía del agendamiento.
 
 Se conservan todos los párrafos y su orden frente a main, salvo una etiqueta de navegación. No cambian fuentes, evidencia, responsables ni semanas propuestas. Pasaron check/build/sintaxis/diff, los once casos de la guía (seis combinaciones, dos recorridos de foco y tres alternativas), seis casos de entradas únicas, seis casos del agendamiento con 78 PDFs y trece casos de transiciones del prototipo. Capturas, criterios, hallazgos corregidos y límites en [revisión integrada de movimiento](revision-2026-10-18/movimiento.md). Chromium local y móvil emulado; sin certificación de dispositivos físicos, Safari, zoom nativo o validación del servicio con usuarias.
+
+## Correcciones editoriales y ubicación global · 18/10/2026
+
+Rama local `feat/revision-contenidos-navegacion`, desde `main` en `76c818f`.
+Checkout limpio y fetch sin avances posteriores a esa base. Se implementan R1–R7
+con paleta burdeo/rosada: marco de hallazgo literal, dos escenas conceptuales
+locales, Historia abreviada (43→26 y 48→42 palabras), introducción de Propuesta más
+ancha sin cambiar texto/tipo/interlineado, tres tarjetas, lazo rosado propio y
+contorno/separaciones burdeo de la tabla. Población, fuentes, responsabilidades,
+semanas propuestas y límites de evidencia se conservan; no cambian project.json
+ni evidencia.md. Ambas cabeceras y favicon consumen el mismo mark.svg.
+
+El usuario comparó «Índice de capítulos» con «Ubicación con selector» y eligió
+explícitamente el primero. Se integraron diez anclas nativas, estado por
+aria-current/borde/subrayado, offsets compartidos y persistencia adaptada a móvil,
+poca altura y ampliación. La guía local se conserva y pasa a flujo cuando hace
+falta espacio. Sin JS no se inventa sección actual. Scroll usa límites cacheados;
+no mueve foco, anuncia cada cambio ni escribe historial. Se retira la entrada de
+las tarjetas para mantener texto quieto, conservando guía 250 ms, prototipo 150 ms
+y curva común. Sin dependencias, hooks, cambios de skills o servicios reales.
+
+Pasaron check/build/sintaxis/diff, ocho escenarios del índice (incluido zoom
+nativo 200%), once de guía, trece de transición y seis de agendamiento con 78 PDFs,
+64 combinaciones de estrés y montaje local `/onconova/` de ambas páginas.
+El smoke exacto de la skill se ejecutó: falla 0/6 por selectores históricos
+`data-choice`/`#support`, ausentes antes del cambio. Se conserva ese resultado;
+un adaptador QA de controles vigentes pasó 6/6 sin editar la skill.
+
+Segunda revisión sobre el diff y dos assessments aislados de diseño/técnica,
+con detector usado una vez e inspección real de escritorio/móvil. Se corrigió la
+señal de desplazamiento del índice y el reflujo extremo. Sin regresiones
+introducidas pendientes en el alcance comprobado. Dos detalles tipográficos
+previos quedan como mejoras opcionales, documentados sin inflarlos a fallas AA.
+Matriz, antes/después, recursos, decisiones, resultados y capturas en
+[revisión editorial y navegación](revision-contenidos-navegacion.md).
+
+Límites: URL pública bloqueada por proxy 403; Chromium 154 y móvil emulado, sin
+Safari, hardware físico ni lector de pantalla escuchado. Comprensión en tres
+minutos y efectividad del servicio siguen sin validación con usuarias. No se hizo
+push, PR, merge ni publicación; se dejó descripción de PR preparada. La
+integración futura necesita revisión de otra persona según CONTRIBUTING.md.
