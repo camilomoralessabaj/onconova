@@ -1,0 +1,113 @@
+{
+  "status": "passed",
+  "results": [
+    {
+      "viewport": [
+        1440,
+        900
+      ],
+      "status": "passed",
+      "cases": [
+        "bidirectional",
+        "deep-link",
+        "aliases",
+        "back-forward",
+        "keyboard",
+        "no-focus-steal",
+        "large-text",
+        "orientation"
+      ],
+      "errors": []
+    },
+    {
+      "viewport": [
+        390,
+        800
+      ],
+      "status": "passed",
+      "cases": [
+        "bidirectional",
+        "deep-link",
+        "aliases",
+        "back-forward",
+        "keyboard",
+        "no-focus-steal",
+        "large-text",
+        "orientation"
+      ],
+      "errors": []
+    },
+    {
+      "viewport": [
+        320,
+        800
+      ],
+      "status": "passed",
+      "cases": [
+        "bidirectional",
+        "deep-link",
+        "aliases",
+        "back-forward",
+        "keyboard",
+        "no-focus-steal",
+        "large-text",
+        "orientation"
+      ],
+      "errors": []
+    },
+    {
+      "viewport": [
+        844,
+        390
+      ],
+      "status": "passed",
+      "cases": [
+        "bidirectional",
+        "deep-link",
+        "aliases",
+        "back-forward",
+        "keyboard",
+        "no-focus-steal",
+        "large-text",
+        "orientation"
+      ],
+      "errors": []
+    },
+    {
+      "viewport": [
+        320,
+        256
+      ],
+      "status": "passed",
+      "cases": [
+        "bidirectional",
+        "deep-link",
+        "aliases",
+        "back-forward",
+        "keyboard",
+        "no-focus-steal",
+        "large-text",
+        "orientation"
+      ],
+      "errors": []
+    },
+    {
+      "case": "no-js",
+      "status": "passed"
+    },
+    {
+      "case": "no-continuous-layout-and-reduced-motion",
+      "status": "passed"
+    },
+    {
+      "case": "native-zoom-200",
+      "status": "passed",
+      "metrics": {
+        "inner": 720,
+        "outer": 1440,
+        "dpr": 2,
+        "scale": 1
+      }
+    }
+  ]
+}

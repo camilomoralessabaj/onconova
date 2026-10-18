@@ -1,0 +1,32 @@
+[
+  {
+    "texto": "burdeo",
+    "fondo": "tarjeta",
+    "contraste": 5.9,
+    "AA": true
+  },
+  {
+    "texto": "burdeo",
+    "fondo": "fondo posterior",
+    "contraste": 5.22,
+    "AA": true
+  },
+  {
+    "texto": "tinta",
+    "fondo": "tarjeta",
+    "contraste": 14.56,
+    "AA": true
+  },
+  {
+    "texto": "secundario",
+    "fondo": "tarjeta",
+    "contraste": 7.22,
+    "AA": true
+  },
+  {
+    "texto": "secundario",
+    "fondo": "sección",
+    "contraste": 5.99,
+    "AA": true
+  }
+]
