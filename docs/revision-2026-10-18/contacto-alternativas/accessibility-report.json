@@ -1,0 +1,38 @@
+[
+  {
+    "route": "/",
+    "width": 1440,
+    "case": "keyboard, focus clearance, 200% root text",
+    "status": "passed"
+  },
+  {
+    "route": "/",
+    "width": 390,
+    "case": "keyboard, focus clearance, 200% root text",
+    "status": "passed"
+  },
+  {
+    "route": "/",
+    "width": 320,
+    "case": "keyboard, focus clearance, 200% root text",
+    "status": "passed"
+  },
+  {
+    "route": "/prototipo/",
+    "width": 1440,
+    "case": "keyboard, focus clearance, 200% root text",
+    "status": "passed"
+  },
+  {
+    "route": "/prototipo/",
+    "width": 390,
+    "case": "keyboard, focus clearance, 200% root text",
+    "status": "passed"
+  },
+  {
+    "route": "/prototipo/",
+    "width": 320,
+    "case": "keyboard, focus clearance, 200% root text",
+    "status": "passed"
+  }
+]

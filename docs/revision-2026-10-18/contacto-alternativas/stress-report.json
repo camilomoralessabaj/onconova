@@ -1,0 +1,506 @@
+[
+  {
+    "route": "/",
+    "width": 1440,
+    "large": false,
+    "fixture": "Demo data",
+    "status": "passed"
+  },
+  {
+    "route": "/",
+    "width": 1440,
+    "large": false,
+    "fixture": "Worst case",
+    "status": "passed"
+  },
+  {
+    "route": "/",
+    "width": 1440,
+    "large": false,
+    "fixture": "Empty",
+    "status": "passed"
+  },
+  {
+    "route": "/",
+    "width": 1440,
+    "large": false,
+    "fixture": "Short",
+    "status": "passed"
+  },
+  {
+    "route": "/",
+    "width": 1440,
+    "large": false,
+    "fixture": "Literal text",
+    "status": "passed"
+  },
+  {
+    "route": "/",
+    "width": 1440,
+    "large": false,
+    "fixture": "Unicode",
+    "status": "passed"
+  },
+  {
+    "route": "/",
+    "width": 1440,
+    "large": true,
+    "fixture": "Demo data",
+    "status": "passed"
+  },
+  {
+    "route": "/",
+    "width": 1440,
+    "large": true,
+    "fixture": "Worst case",
+    "status": "passed"
+  },
+  {
+    "route": "/",
+    "width": 1440,
+    "large": true,
+    "fixture": "Empty",
+    "status": "passed"
+  },
+  {
+    "route": "/",
+    "width": 1440,
+    "large": true,
+    "fixture": "Short",
+    "status": "passed"
+  },
+  {
+    "route": "/",
+    "width": 1440,
+    "large": true,
+    "fixture": "Literal text",
+    "status": "passed"
+  },
+  {
+    "route": "/",
+    "width": 1440,
+    "large": true,
+    "fixture": "Unicode",
+    "status": "passed"
+  },
+  {
+    "route": "/",
+    "width": 390,
+    "large": false,
+    "fixture": "Demo data",
+    "status": "passed"
+  },
+  {
+    "route": "/",
+    "width": 390,
+    "large": false,
+    "fixture": "Worst case",
+    "status": "passed"
+  },
+  {
+    "route": "/",
+    "width": 390,
+    "large": false,
+    "fixture": "Empty",
+    "status": "passed"
+  },
+  {
+    "route": "/",
+    "width": 390,
+    "large": false,
+    "fixture": "Short",
+    "status": "passed"
+  },
+  {
+    "route": "/",
+    "width": 390,
+    "large": false,
+    "fixture": "Literal text",
+    "status": "passed"
+  },
+  {
+    "route": "/",
+    "width": 390,
+    "large": false,
+    "fixture": "Unicode",
+    "status": "passed"
+  },
+  {
+    "route": "/",
+    "width": 390,
+    "large": true,
+    "fixture": "Demo data",
+    "status": "passed"
+  },
+  {
+    "route": "/",
+    "width": 390,
+    "large": true,
+    "fixture": "Worst case",
+    "status": "passed"
+  },
+  {
+    "route": "/",
+    "width": 390,
+    "large": true,
+    "fixture": "Empty",
+    "status": "passed"
+  },
+  {
+    "route": "/",
+    "width": 390,
+    "large": true,
+    "fixture": "Short",
+    "status": "passed"
+  },
+  {
+    "route": "/",
+    "width": 390,
+    "large": true,
+    "fixture": "Literal text",
+    "status": "passed"
+  },
+  {
+    "route": "/",
+    "width": 390,
+    "large": true,
+    "fixture": "Unicode",
+    "status": "passed"
+  },
+  {
+    "route": "/",
+    "width": 320,
+    "large": false,
+    "fixture": "Demo data",
+    "status": "passed"
+  },
+  {
+    "route": "/",
+    "width": 320,
+    "large": false,
+    "fixture": "Worst case",
+    "status": "passed"
+  },
+  {
+    "route": "/",
+    "width": 320,
+    "large": false,
+    "fixture": "Empty",
+    "status": "passed"
+  },
+  {
+    "route": "/",
+    "width": 320,
+    "large": false,
+    "fixture": "Short",
+    "status": "passed"
+  },
+  {
+    "route": "/",
+    "width": 320,
+    "large": false,
+    "fixture": "Literal text",
+    "status": "passed"
+  },
+  {
+    "route": "/",
+    "width": 320,
+    "large": false,
+    "fixture": "Unicode",
+    "status": "passed"
+  },
+  {
+    "route": "/",
+    "width": 320,
+    "large": true,
+    "fixture": "Demo data",
+    "status": "passed"
+  },
+  {
+    "route": "/",
+    "width": 320,
+    "large": true,
+    "fixture": "Worst case",
+    "status": "passed"
+  },
+  {
+    "route": "/",
+    "width": 320,
+    "large": true,
+    "fixture": "Empty",
+    "status": "passed"
+  },
+  {
+    "route": "/",
+    "width": 320,
+    "large": true,
+    "fixture": "Short",
+    "status": "passed"
+  },
+  {
+    "route": "/",
+    "width": 320,
+    "large": true,
+    "fixture": "Literal text",
+    "status": "passed"
+  },
+  {
+    "route": "/",
+    "width": 320,
+    "large": true,
+    "fixture": "Unicode",
+    "status": "passed"
+  },
+  {
+    "route": "/prototipo/",
+    "width": 1440,
+    "large": false,
+    "fixture": "Demo data",
+    "status": "passed"
+  },
+  {
+    "route": "/prototipo/",
+    "width": 1440,
+    "large": false,
+    "fixture": "Worst case",
+    "status": "passed"
+  },
+  {
+    "route": "/prototipo/",
+    "width": 1440,
+    "large": false,
+    "fixture": "Empty",
+    "status": "passed"
+  },
+  {
+    "route": "/prototipo/",
+    "width": 1440,
+    "large": false,
+    "fixture": "Short",
+    "status": "passed"
+  },
+  {
+    "route": "/prototipo/",
+    "width": 1440,
+    "large": false,
+    "fixture": "Literal text",
+    "status": "passed"
+  },
+  {
+    "route": "/prototipo/",
+    "width": 1440,
+    "large": false,
+    "fixture": "Unicode",
+    "status": "passed"
+  },
+  {
+    "route": "/prototipo/",
+    "width": 1440,
+    "large": true,
+    "fixture": "Demo data",
+    "status": "passed"
+  },
+  {
+    "route": "/prototipo/",
+    "width": 1440,
+    "large": true,
+    "fixture": "Worst case",
+    "status": "passed"
+  },
+  {
+    "route": "/prototipo/",
+    "width": 1440,
+    "large": true,
+    "fixture": "Empty",
+    "status": "passed"
+  },
+  {
+    "route": "/prototipo/",
+    "width": 1440,
+    "large": true,
+    "fixture": "Short",
+    "status": "passed"
+  },
+  {
+    "route": "/prototipo/",
+    "width": 1440,
+    "large": true,
+    "fixture": "Literal text",
+    "status": "passed"
+  },
+  {
+    "route": "/prototipo/",
+    "width": 1440,
+    "large": true,
+    "fixture": "Unicode",
+    "status": "passed"
+  },
+  {
+    "route": "/prototipo/",
+    "width": 390,
+    "large": false,
+    "fixture": "Demo data",
+    "status": "passed"
+  },
+  {
+    "route": "/prototipo/",
+    "width": 390,
+    "large": false,
+    "fixture": "Worst case",
+    "status": "passed"
+  },
+  {
+    "route": "/prototipo/",
+    "width": 390,
+    "large": false,
+    "fixture": "Empty",
+    "status": "passed"
+  },
+  {
+    "route": "/prototipo/",
+    "width": 390,
+    "large": false,
+    "fixture": "Short",
+    "status": "passed"
+  },
+  {
+    "route": "/prototipo/",
+    "width": 390,
+    "large": false,
+    "fixture": "Literal text",
+    "status": "passed"
+  },
+  {
+    "route": "/prototipo/",
+    "width": 390,
+    "large": false,
+    "fixture": "Unicode",
+    "status": "passed"
+  },
+  {
+    "route": "/prototipo/",
+    "width": 390,
+    "large": true,
+    "fixture": "Demo data",
+    "status": "passed"
+  },
+  {
+    "route": "/prototipo/",
+    "width": 390,
+    "large": true,
+    "fixture": "Worst case",
+    "status": "passed"
+  },
+  {
+    "route": "/prototipo/",
+    "width": 390,
+    "large": true,
+    "fixture": "Empty",
+    "status": "passed"
+  },
+  {
+    "route": "/prototipo/",
+    "width": 390,
+    "large": true,
+    "fixture": "Short",
+    "status": "passed"
+  },
+  {
+    "route": "/prototipo/",
+    "width": 390,
+    "large": true,
+    "fixture": "Literal text",
+    "status": "passed"
+  },
+  {
+    "route": "/prototipo/",
+    "width": 390,
+    "large": true,
+    "fixture": "Unicode",
+    "status": "passed"
+  },
+  {
+    "route": "/prototipo/",
+    "width": 320,
+    "large": false,
+    "fixture": "Demo data",
+    "status": "passed"
+  },
+  {
+    "route": "/prototipo/",
+    "width": 320,
+    "large": false,
+    "fixture": "Worst case",
+    "status": "passed"
+  },
+  {
+    "route": "/prototipo/",
+    "width": 320,
+    "large": false,
+    "fixture": "Empty",
+    "status": "passed"
+  },
+  {
+    "route": "/prototipo/",
+    "width": 320,
+    "large": false,
+    "fixture": "Short",
+    "status": "passed"
+  },
+  {
+    "route": "/prototipo/",
+    "width": 320,
+    "large": false,
+    "fixture": "Literal text",
+    "status": "passed"
+  },
+  {
+    "route": "/prototipo/",
+    "width": 320,
+    "large": false,
+    "fixture": "Unicode",
+    "status": "passed"
+  },
+  {
+    "route": "/prototipo/",
+    "width": 320,
+    "large": true,
+    "fixture": "Demo data",
+    "status": "passed"
+  },
+  {
+    "route": "/prototipo/",
+    "width": 320,
+    "large": true,
+    "fixture": "Worst case",
+    "status": "passed"
+  },
+  {
+    "route": "/prototipo/",
+    "width": 320,
+    "large": true,
+    "fixture": "Empty",
+    "status": "passed"
+  },
+  {
+    "route": "/prototipo/",
+    "width": 320,
+    "large": true,
+    "fixture": "Short",
+    "status": "passed"
+  },
+  {
+    "route": "/prototipo/",
+    "width": 320,
+    "large": true,
+    "fixture": "Literal text",
+    "status": "passed"
+  },
+  {
+    "route": "/prototipo/",
+    "width": 320,
+    "large": true,
+    "fixture": "Unicode",
+    "status": "passed"
+  }
+]

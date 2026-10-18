@@ -1,0 +1,518 @@
+[
+  {
+    "route": "/",
+    "width": 1440,
+    "controls": [
+      {
+        "name": "preferred-name",
+        "height": 52
+      },
+      {
+        "name": "channel",
+        "height": 76.1875
+      },
+      {
+        "name": "channel",
+        "height": 76.1875
+      },
+      {
+        "name": "contact-phone",
+        "height": 52
+      },
+      {
+        "name": "modality",
+        "height": 76.1875
+      },
+      {
+        "name": "modality",
+        "height": 76.1875
+      },
+      {
+        "name": "demo-consent",
+        "height": 44
+      },
+      {
+        "name": "Simular mi solicitud",
+        "height": 56.390625
+      }
+    ],
+    "ratios": {
+      "body": 14.56,
+      "help": 7.22,
+      "error_and_control": 5.9
+    },
+    "motion": {
+      "timing": {
+        "delay": 0,
+        "direction": "normal",
+        "duration": 150,
+        "easing": "cubic-bezier(0.23, 1, 0.32, 1)",
+        "endDelay": 0,
+        "fill": "backwards",
+        "iterationStart": 0,
+        "iterations": 1
+      },
+      "frames": [
+        {
+          "offset": 0,
+          "easing": "linear",
+          "composite": "auto",
+          "opacity": "0",
+          "computedOffset": 0
+        },
+        {
+          "offset": 1,
+          "easing": "linear",
+          "composite": "auto",
+          "opacity": "1",
+          "computedOffset": 1
+        }
+      ],
+      "samples": [
+        {
+          "time": 0,
+          "opacity": "0"
+        },
+        {
+          "time": 75,
+          "opacity": "0.965983"
+        },
+        {
+          "time": 150,
+          "opacity": "1"
+        }
+      ]
+    },
+    "status": "passed"
+  },
+  {
+    "route": "/",
+    "width": 390,
+    "controls": [
+      {
+        "name": "preferred-name",
+        "height": 52
+      },
+      {
+        "name": "channel",
+        "height": 69.71875
+      },
+      {
+        "name": "channel",
+        "height": 69.71875
+      },
+      {
+        "name": "contact-phone",
+        "height": 52
+      },
+      {
+        "name": "modality",
+        "height": 69.71875
+      },
+      {
+        "name": "modality",
+        "height": 69.71875
+      },
+      {
+        "name": "demo-consent",
+        "height": 84.390625
+      },
+      {
+        "name": "Simular mi solicitud",
+        "height": 56.390625
+      }
+    ],
+    "ratios": {
+      "body": 14.56,
+      "help": 7.22,
+      "error_and_control": 5.9
+    },
+    "motion": {
+      "timing": {
+        "delay": 0,
+        "direction": "normal",
+        "duration": 150,
+        "easing": "cubic-bezier(0.23, 1, 0.32, 1)",
+        "endDelay": 0,
+        "fill": "backwards",
+        "iterationStart": 0,
+        "iterations": 1
+      },
+      "frames": [
+        {
+          "offset": 0,
+          "easing": "linear",
+          "composite": "auto",
+          "opacity": "0",
+          "computedOffset": 0
+        },
+        {
+          "offset": 1,
+          "easing": "linear",
+          "composite": "auto",
+          "opacity": "1",
+          "computedOffset": 1
+        }
+      ],
+      "samples": [
+        {
+          "time": 0,
+          "opacity": "0"
+        },
+        {
+          "time": 75,
+          "opacity": "0.965983"
+        },
+        {
+          "time": 150,
+          "opacity": "1"
+        }
+      ]
+    },
+    "status": "passed"
+  },
+  {
+    "route": "/",
+    "width": 320,
+    "controls": [
+      {
+        "name": "preferred-name",
+        "height": 52
+      },
+      {
+        "name": "channel",
+        "height": 88.4375
+      },
+      {
+        "name": "channel",
+        "height": 69.71875
+      },
+      {
+        "name": "contact-phone",
+        "height": 52
+      },
+      {
+        "name": "modality",
+        "height": 69.71875
+      },
+      {
+        "name": "modality",
+        "height": 69.71875
+      },
+      {
+        "name": "demo-consent",
+        "height": 84.390625
+      },
+      {
+        "name": "Simular mi solicitud",
+        "height": 78.78125
+      }
+    ],
+    "ratios": {
+      "body": 14.56,
+      "help": 7.22,
+      "error_and_control": 5.9
+    },
+    "motion": {
+      "timing": {
+        "delay": 0,
+        "direction": "normal",
+        "duration": 150,
+        "easing": "cubic-bezier(0.23, 1, 0.32, 1)",
+        "endDelay": 0,
+        "fill": "backwards",
+        "iterationStart": 0,
+        "iterations": 1
+      },
+      "frames": [
+        {
+          "offset": 0,
+          "easing": "linear",
+          "composite": "auto",
+          "opacity": "0",
+          "computedOffset": 0
+        },
+        {
+          "offset": 1,
+          "easing": "linear",
+          "composite": "auto",
+          "opacity": "1",
+          "computedOffset": 1
+        }
+      ],
+      "samples": [
+        {
+          "time": 0,
+          "opacity": "0"
+        },
+        {
+          "time": 75,
+          "opacity": "0.965983"
+        },
+        {
+          "time": 150,
+          "opacity": "1"
+        }
+      ]
+    },
+    "status": "passed"
+  },
+  {
+    "route": "/prototipo/",
+    "width": 1440,
+    "controls": [
+      {
+        "name": "preferred-name",
+        "height": 52
+      },
+      {
+        "name": "channel",
+        "height": 76.1875
+      },
+      {
+        "name": "channel",
+        "height": 76.1875
+      },
+      {
+        "name": "contact-phone",
+        "height": 52
+      },
+      {
+        "name": "modality",
+        "height": 76.1875
+      },
+      {
+        "name": "modality",
+        "height": 76.1875
+      },
+      {
+        "name": "demo-consent",
+        "height": 44
+      },
+      {
+        "name": "Simular mi solicitud",
+        "height": 56.390625
+      }
+    ],
+    "ratios": {
+      "body": 14.56,
+      "help": 7.22,
+      "error_and_control": 5.9
+    },
+    "motion": {
+      "timing": {
+        "delay": 0,
+        "direction": "normal",
+        "duration": 150,
+        "easing": "cubic-bezier(0.23, 1, 0.32, 1)",
+        "endDelay": 0,
+        "fill": "backwards",
+        "iterationStart": 0,
+        "iterations": 1
+      },
+      "frames": [
+        {
+          "offset": 0,
+          "easing": "linear",
+          "composite": "auto",
+          "opacity": "0",
+          "computedOffset": 0
+        },
+        {
+          "offset": 1,
+          "easing": "linear",
+          "composite": "auto",
+          "opacity": "1",
+          "computedOffset": 1
+        }
+      ],
+      "samples": [
+        {
+          "time": 0,
+          "opacity": "0"
+        },
+        {
+          "time": 75,
+          "opacity": "0.965983"
+        },
+        {
+          "time": 150,
+          "opacity": "1"
+        }
+      ]
+    },
+    "status": "passed"
+  },
+  {
+    "route": "/prototipo/",
+    "width": 390,
+    "controls": [
+      {
+        "name": "preferred-name",
+        "height": 52
+      },
+      {
+        "name": "channel",
+        "height": 69.71875
+      },
+      {
+        "name": "channel",
+        "height": 69.71875
+      },
+      {
+        "name": "contact-phone",
+        "height": 52
+      },
+      {
+        "name": "modality",
+        "height": 69.71875
+      },
+      {
+        "name": "modality",
+        "height": 69.71875
+      },
+      {
+        "name": "demo-consent",
+        "height": 84.390625
+      },
+      {
+        "name": "Simular mi solicitud",
+        "height": 56.390625
+      }
+    ],
+    "ratios": {
+      "body": 14.56,
+      "help": 7.22,
+      "error_and_control": 5.9
+    },
+    "motion": {
+      "timing": {
+        "delay": 0,
+        "direction": "normal",
+        "duration": 150,
+        "easing": "cubic-bezier(0.23, 1, 0.32, 1)",
+        "endDelay": 0,
+        "fill": "backwards",
+        "iterationStart": 0,
+        "iterations": 1
+      },
+      "frames": [
+        {
+          "offset": 0,
+          "easing": "linear",
+          "composite": "auto",
+          "opacity": "0",
+          "computedOffset": 0
+        },
+        {
+          "offset": 1,
+          "easing": "linear",
+          "composite": "auto",
+          "opacity": "1",
+          "computedOffset": 1
+        }
+      ],
+      "samples": [
+        {
+          "time": 0,
+          "opacity": "0"
+        },
+        {
+          "time": 75,
+          "opacity": "0.965983"
+        },
+        {
+          "time": 150,
+          "opacity": "1"
+        }
+      ]
+    },
+    "status": "passed"
+  },
+  {
+    "route": "/prototipo/",
+    "width": 320,
+    "controls": [
+      {
+        "name": "preferred-name",
+        "height": 52
+      },
+      {
+        "name": "channel",
+        "height": 88.4375
+      },
+      {
+        "name": "channel",
+        "height": 69.71875
+      },
+      {
+        "name": "contact-phone",
+        "height": 52
+      },
+      {
+        "name": "modality",
+        "height": 69.71875
+      },
+      {
+        "name": "modality",
+        "height": 69.71875
+      },
+      {
+        "name": "demo-consent",
+        "height": 84.390625
+      },
+      {
+        "name": "Simular mi solicitud",
+        "height": 78.78125
+      }
+    ],
+    "ratios": {
+      "body": 14.56,
+      "help": 7.22,
+      "error_and_control": 5.9
+    },
+    "motion": {
+      "timing": {
+        "delay": 0,
+        "direction": "normal",
+        "duration": 150,
+        "easing": "cubic-bezier(0.23, 1, 0.32, 1)",
+        "endDelay": 0,
+        "fill": "backwards",
+        "iterationStart": 0,
+        "iterations": 1
+      },
+      "frames": [
+        {
+          "offset": 0,
+          "easing": "linear",
+          "composite": "auto",
+          "opacity": "0",
+          "computedOffset": 0
+        },
+        {
+          "offset": 1,
+          "easing": "linear",
+          "composite": "auto",
+          "opacity": "1",
+          "computedOffset": 1
+        }
+      ],
+      "samples": [
+        {
+          "time": 0,
+          "opacity": "0"
+        },
+        {
+          "time": 75,
+          "opacity": "0.965983"
+        },
+        {
+          "time": 150,
+          "opacity": "1"
+        }
+      ]
+    },
+    "status": "passed"
+  }
+]

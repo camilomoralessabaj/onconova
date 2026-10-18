@@ -1,0 +1,82 @@
+[
+  {
+    "route": "/",
+    "width": 1440,
+    "status": "passed",
+    "pdfDownloads": 22,
+    "combinations": 4,
+    "failureCases": [
+      "blob",
+      "url",
+      "click"
+    ]
+  },
+  {
+    "route": "/",
+    "width": 390,
+    "status": "passed",
+    "pdfDownloads": 22,
+    "combinations": 4,
+    "failureCases": [
+      "blob",
+      "url",
+      "click"
+    ]
+  },
+  {
+    "route": "/",
+    "width": 320,
+    "status": "passed",
+    "pdfDownloads": 22,
+    "combinations": 4,
+    "failureCases": [
+      "blob",
+      "url",
+      "click"
+    ]
+  },
+  {
+    "route": "/prototipo/",
+    "width": 1440,
+    "status": "passed",
+    "pdfDownloads": 22,
+    "combinations": 4,
+    "failureCases": [
+      "blob",
+      "url",
+      "click"
+    ]
+  },
+  {
+    "route": "/prototipo/",
+    "width": 390,
+    "status": "passed",
+    "pdfDownloads": 22,
+    "combinations": 4,
+    "failureCases": [
+      "blob",
+      "url",
+      "click"
+    ]
+  },
+  {
+    "route": "/prototipo/",
+    "width": 320,
+    "status": "passed",
+    "pdfDownloads": 22,
+    "combinations": 4,
+    "failureCases": [
+      "blob",
+      "url",
+      "click"
+    ]
+  },
+  {
+    "case": "no JavaScript, both routes",
+    "status": "passed"
+  },
+  {
+    "case": "source deep link",
+    "status": "passed"
+  }
+]

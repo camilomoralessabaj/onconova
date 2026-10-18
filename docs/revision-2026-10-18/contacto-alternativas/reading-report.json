@@ -1,0 +1,58 @@
+[
+  {
+    "width": 1440,
+    "reduced_motion": false,
+    "status": "passed"
+  },
+  {
+    "width": 1440,
+    "reduced_motion": true,
+    "status": "passed"
+  },
+  {
+    "width": 390,
+    "reduced_motion": false,
+    "status": "passed"
+  },
+  {
+    "width": 390,
+    "reduced_motion": true,
+    "status": "passed"
+  },
+  {
+    "width": 320,
+    "reduced_motion": false,
+    "status": "passed"
+  },
+  {
+    "width": 320,
+    "reduced_motion": true,
+    "status": "passed"
+  },
+  {
+    "case": "touch navigation, vertical scroll and cancellation",
+    "width": 390,
+    "status": "passed"
+  },
+  {
+    "case": "touch navigation, vertical scroll and cancellation",
+    "width": 320,
+    "status": "passed"
+  },
+  {
+    "fallback": "no-js",
+    "status": "passed"
+  },
+  {
+    "fallback": "no-observer",
+    "status": "passed"
+  },
+  {
+    "fallback": "no-resize-observer",
+    "status": "passed"
+  },
+  {
+    "case": "direct links to all chapters",
+    "status": "passed"
+  }
+]
