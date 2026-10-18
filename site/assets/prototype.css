@@ -1,13 +1,13 @@
 .booking {
   --booking-step-duration:150ms;
   --booking-step-ease:cubic-bezier(0.23, 1, 0.32, 1);
-  background:#fff;
+  background:var(--page);
   border:1px solid var(--line);
   border-radius:26px;
   max-width:1000px;
   margin-inline:auto;
   overflow:clip;
-  box-shadow:0 16px 65px #542d4606;
+  box-shadow:var(--shadow-booking);
 }
 
 .booking-top {
@@ -16,12 +16,12 @@
   align-items:center;
   justify-content:space-between;
   padding:17px 30px;
-  background:var(--rose-light);
+  background:var(--surface);
 }
 
 .demo-label {
   font-size:.85rem;
-  color:var(--plum);
+  color:var(--primary);
   display:inline-flex;
   align-items:center;
   gap:8px;
@@ -52,24 +52,24 @@
   flex:none;
   width:30px;
   height:30px;
-  background:#f3eff1;
+  background:var(--surface-muted);
   border-radius:50%;
   font-variant-numeric:tabular-nums;
 }
 
 .booking-progress [aria-current=step] {
-  color:var(--plum);
+  color:var(--primary);
   font-weight:650;
 }
 
 .booking-progress [aria-current=step]>span {
-  background:var(--plum);
-  color:white;
+  background:var(--primary);
+  color:var(--on-primary);
 }
 
 .booking-progress .complete>span {
-  background:var(--sage);
-  color:var(--green);
+  background:var(--accent-soft);
+  color:var(--ink);
 }
 
 .booking-screen {
@@ -97,7 +97,7 @@
 
 .step-caption {
   font-size:.9rem;
-  color:var(--green);
+  color:var(--status);
   margin-bottom:12px;
 }
 
@@ -105,7 +105,7 @@
   font-size:clamp(1.9rem,3vw,2.5rem);
   line-height:1.17;
   letter-spacing:-.045em;
-  color:var(--plum);
+  color:var(--primary);
   font-weight:550;
 }
 
@@ -124,7 +124,7 @@
   gap:15px;
   align-items:center;
   padding:17px 20px;
-  background:#f6f7f4;
+  background:var(--surface);
   border-radius:12px;
   margin-bottom:28px;
 }
@@ -135,8 +135,8 @@
   width:44px;
   height:44px;
   border-radius:50%;
-  background:var(--sage);
-  color:var(--green);
+  background:var(--accent-medium);
+  color:var(--ink);
   font-size:1.05rem;
 }
 
@@ -174,7 +174,7 @@ legend {
 }
 
 .option {
-  border:1px solid #8b747f;
+  border:1px solid var(--control-border);
   border-radius:12px;
   display:flex;
   align-items:center;
@@ -185,19 +185,19 @@ legend {
 }
 
 .option:hover,.slot:hover {
-  background:#f9f5f7;
+  background:var(--surface);
 }
 
 .option:has(input:checked),.slot:has(input:checked) {
-  border-color:var(--plum);
-  background:var(--rose-light);
-  box-shadow:inset 0 0 0 1px var(--plum);
+  border-color:var(--primary);
+  background:var(--surface);
+  box-shadow:inset 0 0 0 1px var(--primary);
 }
 
 input[type=radio],input[type=checkbox] {
   width:20px;
   height:20px;
-  accent-color:var(--plum);
+  accent-color:var(--primary);
   flex:none;
   margin:0;
   cursor:pointer;
@@ -239,13 +239,13 @@ input[type=radio],input[type=checkbox] {
   padding:8px 0;
   text-decoration:underline;
   text-underline-offset:.25em;
-  color:var(--plum);
+  color:var(--primary);
   font-size:.95rem;
   line-height:1.5;
 }
 
 .plain-button:hover {
-  color:#302630;
+  color:var(--ink);
   text-decoration-thickness:2px;
 }
 
@@ -264,27 +264,28 @@ input[type=radio],input[type=checkbox] {
 }
 
 .message-preview {
-  border:1px solid #bdcfc2;
+  border:1px solid var(--line);
   border-radius:18px;
   overflow:hidden;
-  background:#f0f5f0;
+  background:var(--surface-muted);
 }
 
 .message-header {
   display:flex;
   gap:12px;
   align-items:center;
-  background:var(--green);
-  color:white;
+  background:var(--status);
+  color:var(--on-primary);
   padding:17px 20px;
 }
 
 .message-avatar {
+  color:var(--ink);
   display:grid;
   place-items:center;
   width:40px;
   height:40px;
-  background:#ffffff20;
+  background:var(--accent);
   border-radius:50%;
   flex:none;
 }
@@ -301,12 +302,13 @@ input[type=radio],input[type=checkbox] {
 }
 
 .message-header .example-tag {
-  border-color:#b7cbbd;
-  color:white;
+  background:transparent;
+  border-color:var(--on-primary);
+  color:var(--on-primary);
 }
 
 .message-body {
-  background:white;
+  background:var(--page);
   border-radius:0 16px 16px;
   margin:22px;
   padding:25px;
@@ -323,7 +325,7 @@ input[type=radio],input[type=checkbox] {
 
 .message-subject {
   font-weight:650;
-  color:var(--plum);
+  color:var(--primary);
   margin-bottom:20px;
 }
 
@@ -359,7 +361,7 @@ input[type=radio],input[type=checkbox] {
   position:relative;
   gap:8px;
   min-height:145px;
-  border:1px solid #8b747f;
+  border:1px solid var(--control-border);
   border-radius:12px;
   padding:18px;
   cursor:pointer;
@@ -372,7 +374,7 @@ input[type=radio],input[type=checkbox] {
 
 .slot strong {
   font-size:1.1rem;
-  color:var(--plum);
+  color:var(--primary);
 }
 
 .slot small {
@@ -382,7 +384,7 @@ input[type=radio],input[type=checkbox] {
 
 .field-error {
   font-size:1rem;
-  color:#962443;
+  color:var(--error);
   margin-bottom:18px;
 }
 
@@ -397,8 +399,8 @@ input[type=radio],input[type=checkbox] {
   display:grid;
   place-items:center;
   border-radius:50%;
-  background:var(--sage);
-  color:var(--green);
+  background:var(--status-surface);
+  color:var(--status);
   font-size:1.7rem;
   margin-bottom:23px;
 }
@@ -407,7 +409,7 @@ input[type=radio],input[type=checkbox] {
   border:1px solid var(--line);
   border-radius:18px;
   padding:25px;
-  background:#faf9fa;
+  background:var(--surface);
 }
 
 .appointment-card h4 {
@@ -449,8 +451,8 @@ input[type=radio],input[type=checkbox] {
 }
 
 .notice {
-  border-left:4px solid var(--green);
-  background:var(--sage);
+  border-left:4px solid var(--status);
+  background:var(--status-surface);
   padding:22px;
   margin-top:22px;
 }
@@ -461,15 +463,15 @@ input[type=radio],input[type=checkbox] {
 }
 
 .notice h4 {
-  color:var(--green);
+  color:var(--status);
 }
 
 .booking-status:not(:empty) {
   margin:0 30px 25px;
   padding:16px 20px;
-  border-left:4px solid var(--plum);
-  background:var(--rose-light);
-  color:var(--plum);
+  border-left:4px solid var(--primary);
+  background:var(--surface);
+  color:var(--primary);
   font-size:1rem;
   line-height:1.5;
 }

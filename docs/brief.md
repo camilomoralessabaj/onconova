@@ -6,6 +6,10 @@ Primera landing de la Actividad 7.3, CD1201, FCFM, Universidad de Chile. Equipo 
 
 Una persona externa debe comprender en aproximadamente tres minutos el desafío, la propuesta, qué existe como prototipo, qué se validó, resultados, aprendizajes y próximos pasos. La lectura también debe ser cómoda para mujeres de 50–59 años.
 
+## Actualización visual · 18 de octubre de 2026
+
+El equipo solicita aplicar una paleta burdeo y rosada a la UI de la landing y del prototipo. Esta decisión sustituye la conservación de la paleta anterior indicada en el alcance del 17/10. Conserva la composición, tipografía y contenido existentes. Los roles, contrastes y tintas de apoyo se documentan en `docs/paleta-ui.md`.
+
 ## Alcance vigente · especificación recibida el 17 de octubre de 2026
 
 El equipo autoriza implementar `prompt.md` (S11): **servicio acotado de transición** que propone utilizar canales institucionales existentes, con exploración breve no diagnóstica, decisión voluntaria, una derivación prioritaria acompañada y confirmación de acceso compatible. El cambio desde una app integral multifunción está aprobado como decisión conceptual; no acredita una integración institucional construida.
@@ -28,7 +32,7 @@ Las cinco entrevistas son evidencia de necesidades; los escenarios V1–V5 sigue
 
 La referencia vigente del equipo es Roveia: adoptar una propuesta comprensible, secciones con jerarquía y una acción principal. Mantener voz, marca e ilustración originales de OncoNova. No afirmar equivalencia visual con referencias que no se pudieron inspeccionar.
 
-Paleta: blanco #FFFFFF, violeta #583C70, verde #315747, salvia #E5EFEA, lavanda #EFE9F4, fondo suave #F3EDF7 y texto #382944. Tipografía de sistema, títulos amplios, cuerpo cercano a 20 px, textos alineados a la izquierda. Portada dividida entre mensaje y conversación ilustrada con ficha de siguiente paso.
+Paleta vigente: burdeo #B01D4B, rosado intenso #F1578B, rosado medio #F581AC, rosa pastel #EDD5E7, rosa muy pálido #FBD9F1, rosa suave #F9ACCF y rosa casi blanco #FFEBF2. Se usan tintas de apoyo #321521 y #704054 para mantener contraste AA en lectura y texto secundario. La paleta anterior violeta, lavanda y salvia queda como antecedente histórico. Tipografía de sistema, títulos amplios, cuerpo cercano a 20 px, textos alineados a la izquierda. Portada dividida entre mensaje y conversación ilustrada con ficha de siguiente paso.
 
 La simulación completa está integrada en la landing y disponible también en /prototipo/. Se mantienen las siete etapas académicas; evidencia y fuentes son secundarias al recorrido principal, sin ocultar sus límites. Controles de 44 px o más, foco visible, reflujo, contraste AA y movimiento reducido. Sin dependencia de gestos o animaciones.
 

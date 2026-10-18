@@ -1,0 +1,534 @@
+{
+  "status": "passed",
+  "browser": "Chromium local",
+  "method": "Computed foreground and composited ancestor backgrounds on visible DOM text; WCAG 2.2 relative luminance, normal/large text thresholds. CSS colors were sampled through Canvas to include the OKLab hover. Decorative aria-hidden nodes excluded.",
+  "scope": "Both routes at 1440, 390 and 320 px; start, message, slot error/selection, confirmation, waiting, enlarged waiting, plus primary hover. Focus colors checked on light canvas and proposal section.",
+  "brandTokens": [
+    "#B01D4B",
+    "#F1578B",
+    "#F581AC",
+    "#EDD5E7",
+    "#FBD9F1",
+    "#F9ACCF",
+    "#FFEBF2"
+  ],
+  "textSamples": 7080,
+  "minimumRatio": 4.889757887563125,
+  "cases": [
+    {
+      "count": 239,
+      "minimum": 4.889757887563125,
+      "failures": [],
+      "route": "/",
+      "width": 1440,
+      "state": "start"
+    },
+    {
+      "count": 235,
+      "minimum": 4.889757887563125,
+      "failures": [],
+      "route": "/",
+      "width": 1440,
+      "state": "message"
+    },
+    {
+      "count": 242,
+      "minimum": 4.889757887563125,
+      "failures": [],
+      "route": "/",
+      "width": 1440,
+      "state": "slots-error"
+    },
+    {
+      "count": 241,
+      "minimum": 4.889757887563125,
+      "failures": [],
+      "route": "/",
+      "width": 1440,
+      "state": "slots-selected"
+    },
+    {
+      "count": 241,
+      "minimum": 4.889757887563125,
+      "failures": [],
+      "route": "/",
+      "width": 1440,
+      "state": "confirmed"
+    },
+    {
+      "count": 228,
+      "minimum": 4.889757887563125,
+      "failures": [],
+      "route": "/",
+      "width": 1440,
+      "state": "waiting"
+    },
+    {
+      "count": 231,
+      "minimum": 4.889757887563125,
+      "failures": [],
+      "route": "/",
+      "width": 1440,
+      "state": "waiting-result"
+    },
+    {
+      "count": 228,
+      "minimum": 4.889757887563125,
+      "failures": [],
+      "route": "/",
+      "width": 1440,
+      "state": "waiting-large-text"
+    },
+    {
+      "count": 236,
+      "minimum": 4.889757887563125,
+      "failures": [],
+      "route": "/",
+      "width": 390,
+      "state": "start"
+    },
+    {
+      "count": 232,
+      "minimum": 4.889757887563125,
+      "failures": [],
+      "route": "/",
+      "width": 390,
+      "state": "message"
+    },
+    {
+      "count": 239,
+      "minimum": 4.889757887563125,
+      "failures": [],
+      "route": "/",
+      "width": 390,
+      "state": "slots-error"
+    },
+    {
+      "count": 238,
+      "minimum": 4.889757887563125,
+      "failures": [],
+      "route": "/",
+      "width": 390,
+      "state": "slots-selected"
+    },
+    {
+      "count": 238,
+      "minimum": 4.889757887563125,
+      "failures": [],
+      "route": "/",
+      "width": 390,
+      "state": "confirmed"
+    },
+    {
+      "count": 225,
+      "minimum": 4.889757887563125,
+      "failures": [],
+      "route": "/",
+      "width": 390,
+      "state": "waiting"
+    },
+    {
+      "count": 228,
+      "minimum": 4.889757887563125,
+      "failures": [],
+      "route": "/",
+      "width": 390,
+      "state": "waiting-result"
+    },
+    {
+      "count": 228,
+      "minimum": 4.889757887563125,
+      "failures": [],
+      "route": "/",
+      "width": 390,
+      "state": "waiting-large-text"
+    },
+    {
+      "count": 235,
+      "minimum": 4.889757887563125,
+      "failures": [],
+      "route": "/",
+      "width": 320,
+      "state": "start"
+    },
+    {
+      "count": 230,
+      "minimum": 4.889757887563125,
+      "failures": [],
+      "route": "/",
+      "width": 320,
+      "state": "message"
+    },
+    {
+      "count": 238,
+      "minimum": 4.889757887563125,
+      "failures": [],
+      "route": "/",
+      "width": 320,
+      "state": "slots-error"
+    },
+    {
+      "count": 237,
+      "minimum": 4.889757887563125,
+      "failures": [],
+      "route": "/",
+      "width": 320,
+      "state": "slots-selected"
+    },
+    {
+      "count": 237,
+      "minimum": 4.889757887563125,
+      "failures": [],
+      "route": "/",
+      "width": 320,
+      "state": "confirmed"
+    },
+    {
+      "count": 224,
+      "minimum": 4.889757887563125,
+      "failures": [],
+      "route": "/",
+      "width": 320,
+      "state": "waiting"
+    },
+    {
+      "count": 227,
+      "minimum": 4.889757887563125,
+      "failures": [],
+      "route": "/",
+      "width": 320,
+      "state": "waiting-result"
+    },
+    {
+      "count": 227,
+      "minimum": 4.889757887563125,
+      "failures": [],
+      "route": "/",
+      "width": 320,
+      "state": "waiting-large-text"
+    },
+    {
+      "count": 56,
+      "minimum": 4.889757887563125,
+      "failures": [],
+      "route": "/prototipo/",
+      "width": 1440,
+      "state": "start"
+    },
+    {
+      "count": 52,
+      "minimum": 4.889757887563125,
+      "failures": [],
+      "route": "/prototipo/",
+      "width": 1440,
+      "state": "message"
+    },
+    {
+      "count": 59,
+      "minimum": 4.889757887563125,
+      "failures": [],
+      "route": "/prototipo/",
+      "width": 1440,
+      "state": "slots-error"
+    },
+    {
+      "count": 58,
+      "minimum": 4.889757887563125,
+      "failures": [],
+      "route": "/prototipo/",
+      "width": 1440,
+      "state": "slots-selected"
+    },
+    {
+      "count": 58,
+      "minimum": 4.889757887563125,
+      "failures": [],
+      "route": "/prototipo/",
+      "width": 1440,
+      "state": "confirmed"
+    },
+    {
+      "count": 45,
+      "minimum": 4.889757887563125,
+      "failures": [],
+      "route": "/prototipo/",
+      "width": 1440,
+      "state": "waiting"
+    },
+    {
+      "count": 48,
+      "minimum": 4.889757887563125,
+      "failures": [],
+      "route": "/prototipo/",
+      "width": 1440,
+      "state": "waiting-result"
+    },
+    {
+      "count": 46,
+      "minimum": 4.889757887563125,
+      "failures": [],
+      "route": "/prototipo/",
+      "width": 1440,
+      "state": "waiting-large-text"
+    },
+    {
+      "count": 54,
+      "minimum": 4.889757887563125,
+      "failures": [],
+      "route": "/prototipo/",
+      "width": 390,
+      "state": "start"
+    },
+    {
+      "count": 50,
+      "minimum": 4.889757887563125,
+      "failures": [],
+      "route": "/prototipo/",
+      "width": 390,
+      "state": "message"
+    },
+    {
+      "count": 57,
+      "minimum": 4.889757887563125,
+      "failures": [],
+      "route": "/prototipo/",
+      "width": 390,
+      "state": "slots-error"
+    },
+    {
+      "count": 56,
+      "minimum": 4.889757887563125,
+      "failures": [],
+      "route": "/prototipo/",
+      "width": 390,
+      "state": "slots-selected"
+    },
+    {
+      "count": 56,
+      "minimum": 4.889757887563125,
+      "failures": [],
+      "route": "/prototipo/",
+      "width": 390,
+      "state": "confirmed"
+    },
+    {
+      "count": 43,
+      "minimum": 4.889757887563125,
+      "failures": [],
+      "route": "/prototipo/",
+      "width": 390,
+      "state": "waiting"
+    },
+    {
+      "count": 46,
+      "minimum": 4.889757887563125,
+      "failures": [],
+      "route": "/prototipo/",
+      "width": 390,
+      "state": "waiting-result"
+    },
+    {
+      "count": 46,
+      "minimum": 4.889757887563125,
+      "failures": [],
+      "route": "/prototipo/",
+      "width": 390,
+      "state": "waiting-large-text"
+    },
+    {
+      "count": 54,
+      "minimum": 4.889757887563125,
+      "failures": [],
+      "route": "/prototipo/",
+      "width": 320,
+      "state": "start"
+    },
+    {
+      "count": 49,
+      "minimum": 4.889757887563125,
+      "failures": [],
+      "route": "/prototipo/",
+      "width": 320,
+      "state": "message"
+    },
+    {
+      "count": 57,
+      "minimum": 4.889757887563125,
+      "failures": [],
+      "route": "/prototipo/",
+      "width": 320,
+      "state": "slots-error"
+    },
+    {
+      "count": 56,
+      "minimum": 4.889757887563125,
+      "failures": [],
+      "route": "/prototipo/",
+      "width": 320,
+      "state": "slots-selected"
+    },
+    {
+      "count": 56,
+      "minimum": 4.889757887563125,
+      "failures": [],
+      "route": "/prototipo/",
+      "width": 320,
+      "state": "confirmed"
+    },
+    {
+      "count": 43,
+      "minimum": 4.889757887563125,
+      "failures": [],
+      "route": "/prototipo/",
+      "width": 320,
+      "state": "waiting"
+    },
+    {
+      "count": 46,
+      "minimum": 4.889757887563125,
+      "failures": [],
+      "route": "/prototipo/",
+      "width": 320,
+      "state": "waiting-result"
+    },
+    {
+      "count": 46,
+      "minimum": 4.889757887563125,
+      "failures": [],
+      "route": "/prototipo/",
+      "width": 320,
+      "state": "waiting-large-text"
+    },
+    {
+      "state": "primary-hover",
+      "count": 239
+    }
+  ],
+  "pairs": [
+    {
+      "foreground": "rgb(50, 21, 33)",
+      "background": [
+        255,
+        235,
+        242
+      ],
+      "ratio": 14.561019261920666,
+      "threshold": 4.5
+    },
+    {
+      "foreground": "rgb(176, 29, 75)",
+      "background": [
+        237,
+        213,
+        231
+      ],
+      "ratio": 4.889757887563125,
+      "threshold": 4.5
+    },
+    {
+      "foreground": "rgb(176, 29, 75)",
+      "background": [
+        255,
+        235,
+        242
+      ],
+      "ratio": 5.896678906155671,
+      "threshold": 3
+    },
+    {
+      "foreground": "rgb(255, 235, 242)",
+      "background": [
+        176,
+        29,
+        75
+      ],
+      "ratio": 5.896678906155671,
+      "threshold": 4.5
+    },
+    {
+      "foreground": "rgb(112, 64, 84)",
+      "background": [
+        255,
+        235,
+        242
+      ],
+      "ratio": 7.221623427757434,
+      "threshold": 4.5
+    },
+    {
+      "foreground": "rgb(176, 29, 75)",
+      "background": [
+        251,
+        217,
+        241
+      ],
+      "ratio": 5.217818290532575,
+      "threshold": 3
+    },
+    {
+      "foreground": "rgb(50, 21, 33)",
+      "background": [
+        249,
+        172,
+        207
+      ],
+      "ratio": 9.352858754442362,
+      "threshold": 4.5
+    },
+    {
+      "foreground": "rgb(112, 64, 84)",
+      "background": [
+        251,
+        217,
+        241
+      ],
+      "ratio": 6.390227348034019,
+      "threshold": 4.5
+    },
+    {
+      "foreground": "rgb(50, 21, 33)",
+      "background": [
+        251,
+        217,
+        241
+      ],
+      "ratio": 12.884668445204472,
+      "threshold": 4.5
+    },
+    {
+      "foreground": "rgb(50, 21, 33)",
+      "background": [
+        237,
+        213,
+        231
+      ],
+      "ratio": 12.07456941781383,
+      "threshold": 4.5
+    },
+    {
+      "foreground": "rgb(112, 64, 84)",
+      "background": [
+        237,
+        213,
+        231
+      ],
+      "ratio": 5.988453954992295,
+      "threshold": 4.5
+    },
+    {
+      "foreground": "rgb(255, 235, 242)",
+      "background": [
+        156,
+        30,
+        69
+      ],
+      "ratio": 6.85882056836799,
+      "threshold": 4.5
+    }
+  ],
+  "limits": [
+    "Chromium only; no physical devices or assistive-technology session.",
+    "Computed color checks cover the visited states; not a complete accessibility certification.",
+    "Grayscale/CVD comprehension and native browser zoom were not independently tested."
+  ]
+}
