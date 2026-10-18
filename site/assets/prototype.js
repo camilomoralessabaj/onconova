@@ -1,3 +1,5 @@
+import { appointmentDate, createReceiptPdf, sessionInstructions } from './receipt-pdf.js';
+
 // Academic simulation. No requests, personal fields, URL state or persistent booking data.
 const booking = document.querySelector('[data-booking]');
 if (booking) {
@@ -11,10 +13,10 @@ if (booking) {
   let modality = 'Videollamada';
   let selected = null;
   let slots = [];
-  const dateFormat = new Intl.DateTimeFormat('es-CL', { weekday: 'long', day: 'numeric', month: 'long', timeZone: 'UTC' });
   const dayFormat = new Intl.DateTimeFormat('en-CA', { year: 'numeric', month: '2-digit', day: '2-digit', timeZone: 'America/Santiago' });
 
   function show(screen) {
+    find('[data-booking-status]').textContent = '';
     current = screen;
     booking.querySelectorAll('[data-screen]').forEach(element => { element.hidden = element.dataset.screen !== screen; });
     booking.querySelectorAll('[data-progress]').forEach(element => {
@@ -45,7 +47,7 @@ if (booking) {
     while (slots.length < 3) {
       day.setUTCDate(day.getUTCDate() + 1);
       if (![0, 6].includes(day.getUTCDay())) {
-        slots.push({ date: dateFormat.format(day), time: ['10:00', '15:30', '11:00'][slots.length] });
+        slots.push({ year: day.getUTCFullYear(), month: day.getUTCMonth() + 1, day: day.getUTCDate(), time: ['10:00', '15:30', '11:00'][slots.length] });
       }
     }
     find('[data-slots]').replaceChildren(...slots.map((slot, index) => {
@@ -53,7 +55,7 @@ if (booking) {
       label.className = 'slot';
       const radio = document.createElement('input');
       radio.type = 'radio'; radio.name = 'slot'; radio.value = String(index);
-      const date = document.createElement('span'); date.textContent = slot.date;
+      const date = document.createElement('span'); date.textContent = appointmentDate(slot);
       const time = document.createElement('strong'); time.textContent = `${slot.time} h`;
       const note = document.createElement('small'); note.textContent = 'Horario de ejemplo';
       label.append(radio, date, time, note);
@@ -90,10 +92,10 @@ if (booking) {
     }
     selected = slots[Number(input.value)];
     find('[data-slot-error]').hidden = true;
-    find('[data-appointment-date]').textContent = `${selected.date}, ${selected.time} h (Santiago de Chile)`;
+    find('[data-appointment-date]').textContent = `${appointmentDate(selected)}, ${selected.time} h (Santiago de Chile)`;
     find('[data-appointment-modality]').textContent = modality === 'Videollamada' ? 'Videollamada de ejemplo' : 'Consulta presencial de ejemplo';
     find('[data-appointment-channel]').textContent = `${channel} · Mensaje no enviado`;
-    find('[data-before-session]').textContent = modality === 'Videollamada' ? 'Para conversar por videollamada, busca un lugar tranquilo y revisa tu conexión. Esta demostración no habilita una sala de atención.' : 'El comprobante de una sesión presencial incluiría la dirección y las indicaciones de llegada. Aquí se muestra una consulta de ejemplo, sin un lugar real de atención.';
+    find('[data-before-session]').textContent = sessionInstructions(modality).join(' ');
     show('confirmed');
   });
   scheduleForm.addEventListener('change', () => { find('[data-slot-error]').hidden = true; });
@@ -119,11 +121,27 @@ if (booking) {
       show('paused');
     }
     if (action === 'download' && current === 'confirmed' && selected) {
-      const text = ['ONCONOVA — COMPROBANTE DE EJEMPLO', '', 'SIMULACIÓN ACADÉMICA. NO ES UNA RESERVA REAL.', '', 'Usuaria de ejemplo', 'Primera sesión de apoyo psicológico', `Fecha: ${selected.date}, ${selected.time} h (Santiago de Chile)`, 'Duración de ejemplo: 45 minutos', `Modalidad: ${modality}`, 'Profesional de ejemplo; sin identidad asignada', `Canal elegido: ${channel}. No se envió ningún mensaje.`, 'Estado: cita simulada. Atención aún no realizada.', '', 'No corresponde a una institución o profesional real, ni acredita cobertura o pago.', 'Este archivo sirve únicamente para demostrar el prototipo de OncoNova.'].join('\n');
-      const url = URL.createObjectURL(new Blob([text], { type: 'text/plain;charset=utf-8' }));
-      const link = document.createElement('a'); link.href = url; link.download = 'onconova-comprobante-simulado.txt'; document.body.append(link); link.click(); link.remove();
-      setTimeout(() => URL.revokeObjectURL(url), 1000);
-      find('[data-booking-status]').textContent = 'Comprobante de ejemplo preparado para descargar.';
+      const status = find('[data-booking-status]');
+      let url;
+      let link;
+      status.textContent = '';
+      try {
+        const pdf = createReceiptPdf({ slot: selected, modality, channel });
+        url = URL.createObjectURL(pdf);
+        link = document.createElement('a');
+        link.href = url;
+        link.download = 'onconova-comprobante-simulado.pdf';
+        document.body.append(link);
+        link.click();
+        // Announce initiation: the browser owns the final save/cancel decision.
+        status.textContent = 'Descarga del comprobante PDF iniciada. Es una cita simulada.';
+      } catch {
+        status.textContent = 'No se pudo preparar el comprobante PDF. Intenta descargarlo de nuevo.';
+      } finally {
+        link?.remove();
+        // Leave time for the browser to consume the URL, including repeated downloads.
+        if (url) setTimeout(() => URL.revokeObjectURL(url), 1000);
+      }
     }
   });
   find('[data-screen="start"]').hidden = false;

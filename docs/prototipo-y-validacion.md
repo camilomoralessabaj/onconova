@@ -1,6 +1,6 @@
 # Prototipo y guion de demostración
 
-Versión 14/10/2026. La landing contiene el prototipo completo; `/prototipo/` permite presentarlo por separado. Son la misma experiencia. Usar datos ficticios; la página no solicita información personal.
+Versión 18/10/2026. La landing contiene el prototipo completo; `/prototipo/` permite presentarlo por separado. Son la misma experiencia. Usar datos ficticios; la página no solicita información personal.
 
 ## Recorrido principal para la profesora
 
@@ -8,8 +8,8 @@ Versión 14/10/2026. La landing contiene el prototipo completo; `/prototipo/` pe
 2. Elegir WhatsApp o correo y videollamada o presencial. Marcar que se entiende la simulación.
 3. Pulsar **Simular mi solicitud**. Ver la recepción y el mensaje que coordinación enviaría. Aún no hay reserva.
 4. Pulsar **Ver horarios de ejemplo**. Elegir un horario ficticio y confirmar.
-5. Mostrar la cita simulada y descargar el comprobante. Explicar que una cita no es atención realizada y que el mensaje no se envió.
-6. Cambiar horario o reiniciar para presentar otra alternativa.
+5. Mostrar la cita simulada y pulsar **Descargar comprobante PDF**. Abrir el documento de una página A4, comparar fecha completa con año, hora de Santiago de Chile, canal y modalidad con la confirmación. Mostrar las indicaciones y la nota de prototipo: no existe reserva real ni acredita atención, cobertura o pago; no se envió ningún mensaje.
+6. Cambiar horario, confirmar y descargar otra vez para mostrar los datos actualizados. Reiniciar elimina la confirmación y el acceso al comprobante. Probar también la otra modalidad: presencial sin dirección real asignada; videollamada sin sala real habilitada.
 
 ## Escenarios alternativos
 
@@ -26,6 +26,8 @@ Las cinco entrevistas existentes exploran necesidades y no validan este prototip
 
 ## Verificación técnica
 
-`node scripts/check.mjs`, `node scripts/build.mjs` y `git diff --check`. Para el nuevo flujo: `python3 scripts/test-booking.py --base-url http://127.0.0.1:4173 --output work/qa`. Requiere Playwright y Chromium ya instalados; no son dependencias de producción.
+`node scripts/check.mjs`, `node scripts/build.mjs` y `git diff --check`. Para el nuevo flujo: `PYTHONDONTWRITEBYTECODE=1 python3 scripts/test-booking.py --base-url http://127.0.0.1:4173 --output work/qa-comprobante`, con `node scripts/serve.mjs` activo. Requiere Python 3, Playwright, Chromium, PyMuPDF (`fitz`) y Poppler (`pdftotext`) disponibles solo para QA; no son dependencias de producción. La prueba abre, extrae texto y renderiza cada PDF, comprueba una página A4 sin reparación, recortes ni superposiciones de texto, las cuatro combinaciones, reprogramación, reinicio, teclado, errores y limpieza de recursos. Fija el reloj cerca del cambio de año y usa zonas de dispositivo distintas a Santiago; las fechas de esos archivos son ficticias. Los días de agenda siguen siendo ejemplos de lunes a viernes, sin calendario de feriados ni cupos reales.
 
 El smoke anterior de la skill revision-landing comprueba la maqueta multisoporte retirada. Esta versión usa un test específico del nuevo recorrido, conservando las skills sin modificaciones.
+
+Los PDFs de prueba, texto extraído y capturas quedan en `work/`, nunca en `site/`. Se conserva el rechazo de archivos `.pdf` en los checks y el build. La descarga informa su inicio; el navegador controla el guardado o la cancelación final. El PDF usa texto seleccionable en español y gráficos vectoriales con fuentes estándar PDF; no es un PDF etiquetado ni certifica PDF/UA.
