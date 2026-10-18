@@ -121,3 +121,13 @@ Revisión de contraste de los pares principales: texto ≥5,59:1 y botones princ
 ### Preparación del PR autorizada
 
 El usuario autorizó subir la rama y abrir un PR hacia `main`. Se consultó el remoto y `main` sigue en la base `d45b039`; no hay cambios adicionales que integrar. Se incorporan capturas de portada en escritorio y móvil en `docs/revision-2026-10-14/` para facilitar la revisión visual. La autorización no incluye merge; la publicación en GitHub Pages sigue el flujo de revisión del equipo.
+
+## Movimiento moderado durante el scroll · 18/10/2026
+
+Rama `feat/movimiento-scroll`, base local `71c6c95`. Se aplicaron `find-animation-opportunities`, `motion-design`, `animate`, `review-animations` y `revision-landing`. Se consultó `animate-expo`: no existe una app React Native/Expo en este repositorio y no se requiere migración ni gestos nuevos para la landing.
+
+Entradas únicas de la ilustración cuando comienza fuera de pantalla, una secuencia breve de los cuatro pasos y trazos en los bordes existentes de resultados/próximos pasos. Curva común, desplazamientos de 8–12 px y duración de 300–500 ms. El texto académico permanece estable; no cambian hechos ni fuentes. Todo está visible sin animación; teclado, anclas, impresión y preferencia reducida detienen el movimiento. Sin scroll artificial, listeners por fotograma, bibliotecas ni interacción por gesto obligatoria.
+
+Pasaron integridad, sintaxis JS, build y diff; seis casos del agendamiento en las dos páginas a 1440/390/320 px, texto ampliado y comprobaciones sin JS. Revisión específica de entradas, no repetición, reducción de movimiento en vivo, teclado, enlaces, impresión, fallback sin observer y deslizamiento táctil emulado. Capturas inspeccionadas y decisiones, medidas y límites en [revisión de movimiento](revision-2026-10-18/movimiento.md). Revisión local de animaciones aprobada dentro del alcance comprobado.
+
+Límites: Chromium local y móvil emulado; sin Safari, hardware físico, zoom nativo ni validación con usuarias. La URL pública no fue accesible desde las herramientas; se revisó el checkout. Sin push, PR, merge o publicación; continúa pendiente la revisión humana requerida por el proyecto.

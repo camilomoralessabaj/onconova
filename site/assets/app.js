@@ -28,3 +28,48 @@ document.addEventListener('click', event => {
 });
 window.addEventListener('hashchange', openSource);
 openSource();
+
+// Optional, one-time entrances. Reading and interaction never depend on motion.
+function initScrollMotion() {
+  const preference = window.matchMedia('(prefers-reduced-motion: reduce)');
+  if (preference.matches || location.hash || !('IntersectionObserver' in window)) return;
+
+  const targets = [...document.querySelectorAll('[data-scroll-motion]')];
+  if (!targets.length) return;
+
+  const observer = new IntersectionObserver(entries => {
+    for (const entry of entries) {
+      if (!entry.isIntersecting) continue;
+      entry.target.classList.add('motion-play');
+      observer.unobserve(entry.target);
+    }
+  }, { rootMargin: '0px 0px -32px 0px', threshold: 0 });
+
+  // Leave the initial viewport still, including restored scroll positions.
+  const belowViewport = targets.filter(target => target.getBoundingClientRect().top >= window.innerHeight);
+  belowViewport.forEach(target => observer.observe(target));
+
+  // Keyboard navigation, anchors and preference changes settle immediately.
+  // Once stopped, this visit stays still rather than replaying earlier entrances.
+  const stop = () => {
+    observer.disconnect();
+    targets.forEach(target => target.classList.remove('motion-play'));
+    document.removeEventListener('keydown', onKeydown);
+    document.removeEventListener('click', onAnchor);
+    window.removeEventListener('hashchange', stop);
+    window.removeEventListener('beforeprint', stop);
+    preference.removeEventListener('change', stop);
+  };
+  const onKeydown = event => {
+    if (['Tab', 'Home', 'End', 'PageUp', 'PageDown', 'ArrowUp', 'ArrowDown', ' '].includes(event.key)) stop();
+  };
+  const onAnchor = event => {
+    if (event.target.closest('a[href^="#"]')) stop();
+  };
+  document.addEventListener('keydown', onKeydown);
+  document.addEventListener('click', onAnchor);
+  window.addEventListener('hashchange', stop);
+  window.addEventListener('beforeprint', stop);
+  preference.addEventListener('change', stop);
+}
+initScrollMotion();

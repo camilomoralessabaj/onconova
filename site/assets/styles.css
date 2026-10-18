@@ -9,6 +9,9 @@
   --line:#d8cedf;
   --focus:#583c70;
   --anchor-offset:7rem;
+  --ease-out:cubic-bezier(0.23,1,0.32,1);
+  --motion-standard:300ms;
+  --motion-story:500ms;
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
   font-size:16px;
   color:var(--ink);
@@ -1141,6 +1144,58 @@ details[open]>summary::after {
   .hero h1 {
     font-size:2.3rem;
   }
+}
+
+/* Only the illustration, explanatory steps and existing editorial rules move.
+   All content is visible before enhancement and after an interrupted entrance. */
+:is(.findings-list article,.next-list li)[data-scroll-motion="rule"] {
+  position:relative;
+  border-top-color:transparent;
+}
+
+[data-scroll-motion="rule"]::before {
+  content:'';
+  position:absolute;
+  inset:-1px 0 auto;
+  height:1px;
+  background:var(--line);
+  transform-origin:left center;
+}
+
+.findings-list [data-scroll-motion="rule"]::before {
+  top:-2px;
+  height:2px;
+}
+
+@media screen and (prefers-reduced-motion:no-preference) {
+  [data-scroll-motion="illustration"].motion-play {
+    animation:illustration-arrive var(--motion-story) var(--ease-out) backwards;
+  }
+  [data-scroll-motion="step"].motion-play {
+    animation:step-arrive var(--motion-standard) var(--ease-out) backwards;
+  }
+  .service-flow>li:nth-child(2) { animation-delay:50ms; }
+  .service-flow>li:nth-child(3) { animation-delay:100ms; }
+  .service-flow>li:nth-child(4) { animation-delay:150ms; }
+
+  [data-scroll-motion="rule"].motion-play::before {
+    animation:rule-arrive var(--motion-story) var(--ease-out) backwards;
+  }
+}
+
+@keyframes illustration-arrive {
+  from { opacity:.9; transform:translateY(12px) scale(.985); }
+  to { opacity:1; transform:none; }
+}
+
+@keyframes step-arrive {
+  from { opacity:.85; transform:translateY(8px); }
+  to { opacity:1; transform:none; }
+}
+
+@keyframes rule-arrive {
+  from { opacity:.4; transform:scaleX(.2); }
+  to { opacity:1; transform:scaleX(1); }
 }
 
 @media(prefers-reduced-motion:reduce) {
