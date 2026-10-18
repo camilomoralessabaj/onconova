@@ -1,5 +1,28 @@
 # Iteraciones de la primera versión
 
+## Servicio de transición, historia y evidencia · 17/10/2026
+
+Rama `feat/servicio-transicion-evidencia`, desde `71c6c95`. El checkout estaba limpio. La especificación adjunta `prompt.md` y la autorización de implementarla confirman el cambio conceptual y la creación de un PR en borrador, sin merge ni despliegue. Se comprobó mediante el conector de GitHub y después con `git fetch origin main` que la base coincidía con `main`. Se aplicaron las skills locales frontend-design, onconova-storytelling, web-design-guidelines y revision-landing; la guía web actual se consultó mediante el conector GitHub, ya que el acceso directo inicial desde el sandbox falló.
+
+Se preservan exactamente el HTML de la portada y la franja de promesas, la paleta, las fuentes, las ilustraciones y el comportamiento del agendamiento. No se cambian `prototype.js`, `prototype.css`, `app.js` ni la página independiente. Se actualiza la navegación y el relato en el orden autorizado: Desafío → Historia → Propuesta → Prototipado e iteración → Demostración → Preguntas → Validación → Aprendizajes, brechas y planificación. Las anclas `resultados` y `proximos-pasos` se mantienen dentro de las secciones correspondientes. El check existente se adapta a ese orden.
+
+Se añaden el problema de estudio, tres requisitos, la comparación app integral/servicio acotado, los atributos propuestos y la distinción entre papel planificado y maqueta digital disponible. El relato aclara que la web solo simula la coordinación de una primera hora psicológica y no realiza la exploración conversada completa, una derivación institucional ni una atención real. S11 registra la especificación y sus límites, conservando S08/S10 como antecedentes.
+
+Las cinco entrevistas siguen siendo evidencia de necesidades. Los tres indicadores conservan sus definiciones del manifiesto, metas de al menos 80 % y resultados pendientes, sin porcentajes observados ni semáforos. Se incorporan las dos brechas, la decisión ITERAR y la planificación propuesta con responsables y semanas relativas. La tabla conserva semántica de tabla y presenta cada fila en vertical en móvil.
+
+No están disponibles el documento complementario aludido por el prompt, el cuadro estratégico, la foto del papel, el video ni resultados verificables del RIA. No se reconstruyen énfasis desconocidos ni textos literales del documento ausente. Las síntesis se basan en la especificación y en S03/S04/S09. `docs/evidencia.md` registra contradicciones, recursos ausentes y las anclas previstas para incorporarlos. No se emplean el póster histórico ni recursos genéricos como sustitutos de evidencia.
+
+Verificaciones realizadas:
+
+- `node scripts/check.mjs`, `node scripts/build.mjs` y `git diff --check`: aprobados; ocho etapas tras la portada, once fuentes, tres metas, dos páginas y doce archivos públicos.
+- Comparación del HTML original y actualizado de portada/franja: idénticos. Se revisaron diff, fuentes, límites de evidencia y ausencia de archivos privados.
+- `PYTHONDONTWRITEBYTECODE=1 python3 scripts/test-booking.py --output work/revision-transicion-final`: seis casos aprobados (landing y `/prototipo/` a 1440, 390 y 320 px), más lectura sin JavaScript en ambas rutas y enlace directo a fuente. Incluye combinaciones de canal/modalidad, solicitud, mensaje, horarios, confirmación, cambio de hora, comprobante, postergación, rechazo, coordinación pendiente, reinicio, texto ampliado y reflujo a 720 px. Sin errores de consola, HTTP o envíos externos en los recorridos comprobados.
+- Revisión adicional con Chromium a 320, 390, 768, 1024 y 1440 px, con tamaños normal/ampliado y movimiento reducido: sin desbordamiento. Orden de secciones, anclas conservadas y nuevas, apertura de fuentes, salto al contenido y foco de teclado comprobados. El foco sobre el fondo violeta utiliza un contorno blanco de 3 px. Se comprobó la semántica accesible de la tabla en móvil.
+- Se corrigió un desbordamiento del nuevo título de propuesta a 320 px con texto ampliado y se mejoró la lectura móvil de la tabla. La repetición de la prueba funcional aprobó todos los casos. Se utilizó `scripts/test-booking.py`, vigente para el agendamiento actual; el smoke genérico de la skill conserva selectores de una maqueta anterior y no se ejecutó como sustituto.
+- Contraste de pares de texto/fondo utilizados en el cambio: al menos 5,46:1 en las combinaciones comprobadas. Inspección visual de las secciones modificadas en escritorio y móvil. Capturas en `docs/revision-2026-10-17/`; al recortar secciones se oculta solo la cabecera fija para evitar superposiciones de la captura.
+
+Límites: no se evaluó comprensión con usuarias, factibilidad institucional, acceso real ni eficacia clínica. No se probaron Safari, dispositivos físicos o zoom nativo al 200 %; el reflujo es una aproximación. Las pruebas técnicas no equivalen a validación del servicio. El PR se entrega en borrador para revisión de otra persona, sin merge ni despliegue.
+
 Fecha: 10 de octubre de 2026. Trabajo realizado con apoyo de Codex, a partir del material del equipo y de sus aclaraciones. Este registro describe cambios y verificaciones del sitio; no es un resultado de validación del servicio con usuarias.
 
 | Iteración | Instrucción y cambio | Evidencia o comprobación |

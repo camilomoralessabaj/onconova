@@ -1,12 +1,12 @@
 # OncoNova
 
-Sitio y prototipo académico de acceso a apoyo psicológico para **CD1201 · Actividad 7.3 · FCFM, Universidad de Chile**. Recorre Desafío → Propuesta → Prototipo → Validación → Resultados → Aprendizajes → Próximos pasos.
+Sitio y prototipo académico de acceso a apoyo psicológico para **CD1201 · Actividad 7.3 · FCFM, Universidad de Chile**. Recorre Desafío → Historia → Propuesta → Prototipado e iteración → Demostración → Preguntas → Validación → Aprendizajes, brechas y próximos pasos.
 
 [Sitio en GitHub Pages](https://camilomoralessabaj.github.io/onconova/) · [Maqueta del servicio](https://camilomoralessabaj.github.io/onconova/prototipo/)
 
 El 13 de octubre de 2026 se integró el rediseño de [OncoNova · Versión de revisión en Sites](https://onconova-revision.fuzzytide4.chatgpt.site): ilustraciones propias, paleta rosa y ciruela, etiquetas de evidencia y mejoras de lectura. La procedencia y las comprobaciones están en [el registro de iteraciones](docs/iteraciones.md).
 
-La versión del 14/10/2026 se centra en **salud mental después del tratamiento por cáncer de mama**. La landing incluye una demostración completa: solicitud → mensaje de ejemplo por correo/WhatsApp → elección de horario → confirmación y comprobante simulados. La ruta `/prototipo/` ofrece el mismo recorrido por separado. No se envían mensajes ni se reservan horas reales; las pruebas con usuarias siguen pendientes.
+El relato del 17/10/2026 presenta un **servicio acotado de transición** propuesto: exploración breve no diagnóstica, decisión voluntaria, una derivación prioritaria acompañada y confirmación de acceso compatible. La demostración disponible conserva el recorrido del 14/10: solicitud → mensaje de ejemplo por correo/WhatsApp → elección de horario → confirmación y comprobante simulados. La ruta `/prototipo/` ofrece el mismo recorrido por separado. La exploración conversada y la coordinación institucional siguen por evaluar. No se envían mensajes, realizan derivaciones ni reservan horas reales; las pruebas con usuarias y los resultados del RIA siguen pendientes.
 
 Se conserva el respaldo de las cinco entrevistas como exploración de necesidades. El [guion de demostración](docs/prototipo-y-validacion.md) describe el recorrido principal y las alternativas para presentar al curso.
 
