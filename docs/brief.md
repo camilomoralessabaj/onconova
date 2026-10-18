@@ -6,7 +6,17 @@ Primera landing de la Actividad 7.3, CD1201, FCFM, Universidad de Chile. Equipo 
 
 Una persona externa debe comprender en aproximadamente tres minutos el desafío, la propuesta, qué existe como prototipo, qué se validó, resultados, aprendizajes y próximos pasos. La lectura también debe ser cómoda para mujeres de 50–59 años.
 
-## Alcance confirmado el 14 de octubre de 2026
+## Alcance vigente · especificación recibida el 17 de octubre de 2026
+
+El equipo autoriza implementar `prompt.md` (S11): **servicio acotado de transición** que propone utilizar canales institucionales existentes, con exploración breve no diagnóstica, decisión voluntaria, una derivación prioritaria acompañada y confirmación de acceso compatible. El cambio desde una app integral multifunción está aprobado como decisión conceptual; no acredita una integración institucional construida.
+
+La web conserva la simulación de coordinación de una primera hora de apoyo psicológico. Esa simulación representa solo una parte del servicio propuesto: no realiza la exploración conversada completa, una derivación real ni una confirmación de acceso a atención. No hay institución piloto confirmada ni resultados de validación del prototipo.
+
+Se conserva íntegra la portada, su paleta y tipografía. El recorrido vigente es Portada → Desafío → Historia y cambio conceptual → Propuesta → Prototipado e iteración → Demostración → Preguntas → Validación → Aprendizajes, brechas y próximos pasos. `resultados` y `proximos-pasos` conservan sus anclas dentro de las dos últimas secciones.
+
+La única especificación adjunta disponible es `prompt.md`. Sus referencias a otro documento, al cuadro estratégico, foto del papel, video y resultados del RIA no aportan esos recursos. Se utilizan las definiciones registradas del RIA y las fuentes existentes, con resultados pendientes. Los requisitos y las explicaciones sin texto literal adjunto se sintetizan desde esas fuentes; no se reconstruyen negritas o cursivas desconocidas. La decisión ITERAR y el plan de semanas relativas son propuestas del equipo, no resultados ejecutados.
+
+## Antecedente: alcance confirmado el 14 de octubre de 2026
 
 El equipo comunica feedback docente del 13/10 y confirma una **demostración académica de acceso a una primera sesión de apoyo psicológico**. El foco es exclusivamente salud mental después del tratamiento por cáncer de mama, manteniendo el público del proyecto. Sustituye la derivación multisoporte acordada el 10/10; aquella decisión se conserva como histórica en S08 y la actualización se registra en S10.
 

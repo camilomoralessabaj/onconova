@@ -4,8 +4,8 @@
   "course": "CD1201",
   "activity": "7.3",
   "team": "E7",
-  "updated": "2026-10-14",
-  "scope": "Acceso acompañado a una primera sesión de apoyo psicológico después del tratamiento por cáncer de mama; demostración académica sin atención real.",
+  "updated": "2026-10-17",
+  "scope": "Servicio acotado de transición propuesto: exploración breve no diagnóstica, decisión voluntaria, una derivación prioritaria acompañada y confirmación de acceso compatible mediante canales institucionales existentes. La web solo simula la coordinación de una primera hora de apoyo psicológico; sin integración operativa ni atención real.",
   "institution": null,
   "prototype": {
     "status": "conceptual-unvalidated",
@@ -96,91 +96,103 @@
       "type": "team-decision",
       "date": "2026-10-14",
       "note": "El equipo comunica feedback recibido el 13/10: acotar a salud mental, mejorar conexión visual y completar el recorrido hasta la primera hora. Entrega como simulación académica. No acredita validación ni atención real. Cambios adicionales del grupo: título e introducción cercanos, retirar enlaces públicos a actividades, destacar prototipo, renovar paleta y usar evidencia real sin inventar datos."
+    },
+    {
+      "id": "S11",
+      "title": "Especificación del servicio de transición y su iteración",
+      "type": "team-decision",
+      "date": "2026-10-17",
+      "note": "prompt.md adjunto, cuya implementación autorizó el equipo. Confirma el cambio conceptual desde app integral multifunción a servicio acotado de transición; solicita requisitos de diseño, historia, brechas, decisión ITERAR y planificación propuesta con semanas relativas. No aporta un documento complementario, cuadro estratégico, foto del papel, video ni resultados del RIA. No demuestra validación ni integración institucional."
     }
   ],
   "chapters": [
     {
       "id": "desafio",
-      "title": "Desafío",
+      "title": "El Desafío",
       "sources": [
         "S01",
+        "S03",
+        "S04",
         "S07",
-        "S08",
-        "S10"
+        "S11"
       ],
       "kind": "needs-evidence"
     },
     {
+      "id": "historia",
+      "title": "Conoce nuestra historia: ¿Cómo evolucionó Onconova?",
+      "sources": [
+        "S02",
+        "S08",
+        "S10",
+        "S11"
+      ],
+      "kind": "team-decision"
+    },
+    {
       "id": "propuesta",
-      "title": "Propuesta",
+      "title": "La Propuesta",
       "sources": [
         "S03",
-        "S08",
         "S09",
-        "S10"
+        "S11"
       ],
       "kind": "proposal"
     },
     {
-      "id": "prototipo",
-      "title": "Prototipo",
+      "id": "iteracion",
+      "title": "Proceso de Prototipado e Iteración",
       "sources": [
         "S05",
-        "S06",
-        "S08",
         "S09",
-        "S10"
+        "S11"
+      ],
+      "kind": "documented-plan-and-prototype"
+    },
+    {
+      "id": "prototipo",
+      "title": "Pruébalo aquí",
+      "sources": [
+        "S09",
+        "S11"
       ],
       "kind": "conceptual-unvalidated"
     },
     {
+      "id": "preguntas",
+      "title": "Tus preguntas también importan",
+      "sources": [
+        "S09",
+        "S10",
+        "S11"
+      ],
+      "kind": "proposal-limits"
+    },
+    {
       "id": "validacion",
-      "title": "Validación",
+      "title": "Validación Empírica y Experiencia de Uso",
       "sources": [
         "S01",
         "S04",
         "S05",
         "S07",
-        "S08",
-        "S10"
+        "S11"
       ],
-      "kind": "needs-evidence"
-    },
-    {
-      "id": "resultados",
-      "title": "Resultados",
-      "sources": [
-        "S01",
-        "S04",
-        "S07",
-        "S08",
-        "S10"
-      ],
-      "kind": "qualitative-findings"
+      "kind": "needs-evidence-and-pending-evaluation"
     },
     {
       "id": "aprendizajes",
-      "title": "Aprendizajes",
+      "title": "Aprendizajes, Brechas y Próximos Pasos",
       "sources": [
         "S01",
-        "S02",
-        "S03",
-        "S07",
-        "S10"
-      ],
-      "kind": "design-learning"
-    },
-    {
-      "id": "proximos-pasos",
-      "title": "Próximos pasos",
-      "sources": [
         "S04",
         "S05",
-        "S08",
+        "S07",
         "S09",
-        "S10"
+        "S10",
+        "S11"
       ],
-      "kind": "planned"
+      "kind": "design-learning-and-plan"
     }
   ],
   "metrics": [
@@ -188,7 +200,7 @@
       "id": "reconocimiento",
       "label": "Reconocimiento de necesidades y decisión de apoyo",
       "definition": "Expresar una necesidad o su ausencia y elegir de acuerdo con la preferencia declarada, sin ayuda del evaluador.",
-      "scope": "Apoyo psicológico en el RIA original. Instrumento y pertinencia de los umbrales por revisar para el agendamiento simulado actual.",
+      "scope": "Indicador propuesto en el RIA original. Instrumento y umbral por revisar antes de evaluar el servicio de transición. Una medición en simulación debe distinguirse del acceso real y no demuestra eficacia clínica.",
       "status": "proposed",
       "threshold": 80,
       "unit": "%",
@@ -199,7 +211,7 @@
       "id": "avance",
       "label": "Avance acompañado en el proceso de acceso",
       "definition": "Completar el recorrido simulado, identificar la gestión del servicio y el siguiente contacto, sin ayuda adicional del evaluador.",
-      "scope": "Apoyo psicológico en el RIA original. Instrumento y pertinencia de los umbrales por revisar para el agendamiento simulado actual.",
+      "scope": "Indicador propuesto en el RIA original. Instrumento y umbral por revisar antes de evaluar el servicio de transición. Una medición en simulación debe distinguirse del acceso real y no demuestra eficacia clínica.",
       "status": "proposed",
       "threshold": 80,
       "unit": "%",
@@ -210,7 +222,7 @@
       "id": "compatibilidad",
       "label": "Compatibilidad del acceso con la usuaria",
       "definition": "Elegir una alternativa compatible con las restricciones del escenario o solicitar coordinación cuando ninguna sea viable.",
-      "scope": "Apoyo psicológico en el RIA original. Instrumento y pertinencia de los umbrales por revisar para el agendamiento simulado actual.",
+      "scope": "Indicador propuesto en el RIA original. Instrumento y umbral por revisar antes de evaluar el servicio de transición. Una medición en simulación debe distinguirse del acceso real y no demuestra eficacia clínica.",
       "status": "proposed",
       "threshold": 80,
       "unit": "%",
