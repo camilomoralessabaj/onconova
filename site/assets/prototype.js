@@ -15,10 +15,40 @@ if (booking) {
   let slots = [];
   const dayFormat = new Intl.DateTimeFormat('en-CA', { year: 'numeric', month: '2-digit', day: '2-digit', timeZone: 'America/Santiago' });
 
-  function show(screen) {
+  let pointerSubmitActivation = null;
+  const isPointerClick = event => event.isTrusted && event.detail > 0;
+  // A submit event has no click detail; remember only its native pointer activation.
+  document.addEventListener('click', event => {
+    pointerSubmitActivation = null;
+    const button = event.target instanceof Element ? event.target.closest('button') : null;
+    if (!isPointerClick(event) || !button || !booking.contains(button) || button.type !== 'submit') return;
+    const activation = { submitter: button };
+    pointerSubmitActivation = activation;
+    // Expire even when native validation prevents a submit event.
+    setTimeout(() => {
+      if (pointerSubmitActivation === activation) pointerSubmitActivation = null;
+    }, 0);
+  }, true);
+  document.addEventListener('keydown', () => {
+    pointerSubmitActivation = null;
+    booking.querySelectorAll('[data-step-entry]').forEach(element => element.removeAttribute('data-step-entry'));
+  }, true);
+  function consumePointerSubmit(event) {
+    const activation = pointerSubmitActivation;
+    pointerSubmitActivation = null;
+    return Boolean(event.isTrusted && activation && event.submitter === activation.submitter);
+  }
+
+  function show(screen, { animate = false } = {}) {
+    const shouldAnimate = animate && screen !== current &&
+      window.matchMedia('(prefers-reduced-motion: no-preference)').matches;
     find('[data-booking-status]').textContent = '';
     current = screen;
-    booking.querySelectorAll('[data-screen]').forEach(element => { element.hidden = element.dataset.screen !== screen; });
+    booking.querySelectorAll('[data-screen]').forEach(element => {
+      const visible = element.dataset.screen === screen;
+      element.toggleAttribute('data-step-entry', visible && shouldAnimate);
+      element.hidden = !visible;
+    });
     booking.querySelectorAll('[data-progress]').forEach(element => {
       const step = Number(element.dataset.progress);
       element.classList.toggle('complete', step < steps[screen]);
@@ -67,21 +97,23 @@ if (booking) {
     ['date', 'modality', 'channel'].forEach(key => { find(`[data-appointment-${key}]`).textContent = ''; });
     find('[data-before-session]').textContent = '';
   }
-  function reset() {
+  function reset({ animate = false } = {}) {
     requestForm.reset(); scheduleForm.reset(); waitForm.reset();
     clearConfirmation();
     find('[data-slot-error]').hidden = true;
     find('[data-wait-result]').hidden = true;
     find('[data-wait-copy]').textContent = '';
     find('[data-booking-status]').textContent = '';
-    createSlots(); updatePreferences(); show('start');
+    createSlots(); updatePreferences(); show('start', { animate });
   }
   requestForm.addEventListener('submit', event => {
+    const animate = consumePointerSubmit(event);
     event.preventDefault();
     if (current !== 'start' || !requestForm.reportValidity()) return;
-    clearConfirmation(); scheduleForm.reset(); updatePreferences(); show('message');
+    clearConfirmation(); scheduleForm.reset(); updatePreferences(); show('message', { animate });
   });
   scheduleForm.addEventListener('submit', event => {
+    const animate = consumePointerSubmit(event);
     event.preventDefault();
     if (current !== 'schedule') return;
     const input = scheduleForm.querySelector('input[name="slot"]:checked');
@@ -96,7 +128,7 @@ if (booking) {
     find('[data-appointment-modality]').textContent = modality === 'Videollamada' ? 'Videollamada de ejemplo' : 'Consulta presencial de ejemplo';
     find('[data-appointment-channel]').textContent = `${channel} · Mensaje no enviado`;
     find('[data-before-session]').textContent = sessionInstructions(modality).join(' ');
-    show('confirmed');
+    show('confirmed', { animate });
   });
   scheduleForm.addEventListener('change', () => { find('[data-slot-error]').hidden = true; });
   waitForm.addEventListener('submit', event => {
@@ -109,16 +141,17 @@ if (booking) {
   booking.addEventListener('click', event => {
     const action = event.target.closest('[data-action]')?.dataset.action;
     if (!action) return;
-    if (action === 'reset') reset();
-    if (action === 'edit' && current === 'message') { clearConfirmation(); show('start'); }
-    if (action === 'message' && current === 'schedule') show('message');
-    if (action === 'schedules' && ['message', 'waiting'].includes(current)) show('schedule');
-    if (action === 'reschedule' && current === 'confirmed') { clearConfirmation(); scheduleForm.reset(); show('schedule'); }
-    if (action === 'unavailable' && current === 'schedule') { clearConfirmation(); scheduleForm.reset(); find('[data-wait-result]').hidden = true; show('waiting'); }
+    const animate = isPointerClick(event);
+    if (action === 'reset') reset({ animate });
+    if (action === 'edit' && current === 'message') { clearConfirmation(); show('start', { animate }); }
+    if (action === 'message' && current === 'schedule') show('message', { animate });
+    if (action === 'schedules' && ['message', 'waiting'].includes(current)) show('schedule', { animate });
+    if (action === 'reschedule' && current === 'confirmed') { clearConfirmation(); scheduleForm.reset(); show('schedule', { animate }); }
+    if (action === 'unavailable' && current === 'schedule') { clearConfirmation(); scheduleForm.reset(); find('[data-wait-result]').hidden = true; show('waiting', { animate }); }
     if (['later', 'decline'].includes(action) && current === 'start') {
       find('[data-pause-title]').textContent = action === 'later' ? 'Puedes darte un tiempo.' : 'Tu decisión también cuenta.';
       find('[data-pause-copy]').textContent = action === 'later' ? 'No se ha iniciado una solicitud, ni siquiera dentro de la simulación. Puedes conocer la propuesta y volver cuando quieras.' : 'No se inicia una solicitud ni un contacto de seguimiento. Puedes volver a explorar el recorrido si cambias de opinión.';
-      show('paused');
+      show('paused', { animate });
     }
     if (action === 'download' && current === 'confirmed' && selected) {
       const status = find('[data-booking-status]');
