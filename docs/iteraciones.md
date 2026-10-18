@@ -311,3 +311,21 @@ panel aprobados, junto a check/build/sintaxis/diff y huellas de skills. Capturas
 de la planificación actualizadas y reportes agregados a la revisión editorial.
 La subida de esta rama y la creación de su PR están autorizadas; el merge y la
 publicación continúan fuera de alcance.
+
+## 18/10/2026 · Contacto ficticio y horarios alternativos seleccionables
+
+Encargo ejecutado localmente en `feat/prototipo-contacto-alternativas`, sobre el checkout limpio `82a078a`, coincidente con `origin/main`. Se reprodujeron los dos defectos en ambas rutas antes de editar: identidad fija sin campos y preferencia de otro horario que solo terminaba pendiente. La fuente S12 registra la decisión vigente; las descripciones históricas de «sin campos personales» se conservan como antecedentes, sin alterar entrevistas o resultados.
+
+Ambas superficies ahora piden nombre preferido y teléfono/correo según el canal, con etiquetas, ayudas, validación de formato, errores y aceptación explícita de la simulación. El campo inactivo se borra y desactiva. Mensaje y confirmación usan los datos ficticios actuales como texto. Solo viven en memoria/DOM y se limpian al reiniciar/recargar o salir pendiente; no se envían ni se incluyen en URLs, almacenamiento persistente o consola. El PDF omite nombre y contacto, conserva fecha/modalidad/canal actuales y retira la identidad fija. No se solicitan datos de salud.
+
+«Ninguno me acomoda» abre mañana/tarde y modalidad: la nueva propuesta tiene tres fechas posteriores a las rechazadas, según el calendario de Santiago. Permite seleccionar, confirmar y descargar el PDF. El segundo rechazo deja el recorrido pendiente con acciones de revisión y salida sin contacto real. Editar, cambiar modalidad/propuesta y reprogramar limpian selecciones y comprobantes anteriores. FAQ, guion, README, brief, evidencia y metadatos describen el recorrido vigente.
+
+Skills aplicadas por fase: `revision-landing`, `web-design-guidelines`, `frontend-design`, `onconova-storytelling`, `emil-design-eng`, `animate`, `review-animations` y `break-ui`; además `cloud-environment-runtime` para el runtime. Se conserva la transición de opacidad de 150 ms solo con puntero; teclado y movimiento reducido siguen sin entrada animada. No se animan escritura, errores ni selección. La revisión de movimiento se hizo en una segunda pasada separada, con muestreo en navegador y acciones repetidas. Fixtures y control de estrés solo en `.local/break-ui/`.
+
+Pasaron check/build/sintaxis/diff; seis recorridos a 1440/390/320 px en ambas rutas, con 132 PDFs revisados mediante extracción y render (22 por caso), lectura sin JS y ancla de fuente; 13 casos de movimiento; 12 de guía de lectura; 72 de datos extremos; seis de teclado/foco y texto raíz al 200 %; seis de captura/contraste/fotogramas. Se verificaron edición, ambos canales/modalidades, mañana/tarde, conservación/cambio de modalidad, nuevas fechas, rechazo/pendiente, reinicio/recarga, privacidad, consola, fallos de descarga y limpieza de recursos. Segunda revisión del diff completo: se evitó repetir el mismo anuncio de error y se retiró una escritura duplicada; se reforzaron y repitieron las verificaciones afectadas. Sin hallazgos bloqueantes confirmados pendientes en ese alcance.
+
+La revisión y capturas están en [contacto y alternativas](revision-2026-10-18/contacto-alternativas.md); PDFs y demás resultados solo en `work/`. Chromium local y móvil emulado, sin Safari, teléfono físico, lector de pantalla escuchado ni zoom nativo; el PDF no está etiquetado. La referencia publicada devuelve HTTP 403 del proxy: se verificó el checkout local. Las pruebas técnicas no son validación con usuarias. Sin commit, push, PR, merge ni publicación; descripción de PR preparada localmente. Integrar requiere revisión de otra persona y publicar requiere autorización.
+
+### Commit y PR autorizados para contacto y alternativas
+
+El usuario autoriza el commit y la apertura de un PR hacia `main`; realizará la revisión y el merge. El fetch confirma que `origin/main` sigue en `82a078a`, la base ya verificada, sin cambios que integrar ni conflictos. Se conserva la evidencia técnica de esta iteración y se prepara la rama para revisión; no se autoriza ni ejecuta el merge o la publicación.

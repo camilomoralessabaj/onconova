@@ -19,6 +19,7 @@ Se inventariaron los archivos de las tres subcarpetas y de la raíz. Se extrajo 
 | S09 | Propuesta y prototipo navegable de esta versión | Diseño con IA, actualizado el 14/10 con agendamiento simulado; no demuestra efectividad. |
 | S10 | Feedback docente y decisión del equipo, 14/10/2026 | Acotar a salud mental y completar una simulación de contacto y primera hora. Reporte del equipo; no observación directa del feedback ni validación de usuarias. |
 | S11 | Especificación `prompt.md`, implementación autorizada el 17/10/2026 | Confirma el servicio acotado de transición, la evolución desde app integral, requisitos, brechas, decisión ITERAR y planificación propuesta. No aporta datos de resultados, video, cuadro estratégico ni fotografía del papel. |
+| S12 | Encargo de contacto ficticio y alternativas, 18/10/2026 | Decisión de implementación del equipo: nombre/contacto en memoria y horarios nuevos con cambio de modalidad. Sin evidencia de validación con usuarias ni disponibilidad real. |
 
 El sitio y `site/content/project.json` vinculan cada etapa con estas fuentes. Los enlaces a documentos académicos pueden requerir acceso a Drive. No se cambió la configuración de acceso de los originales.
 
@@ -58,3 +59,11 @@ El estado final es **cita simulada**, nunca atención recibida. Un correo o What
 No se agregaron entrevistas, testimonios ni resultados de validación. Los umbrales del RIA siguen siendo metas sin medición. El público original permanece y el relato conserva sus siete etapas. La revisión funcional técnica no equivale a validación del servicio.
 
 Los enlaces a actividades del semestre se retiraron de la interfaz a petición del grupo. Las URLs originales siguen en el manifiesto para trazabilidad, sin cambiar permisos. En portada se destacan las cinco entrevistas reales, con enlace a su contexto y sin presentarlas como validación del prototipo. La nueva paleta es violeta, lavanda y salvia; se conservan las ilustraciones propias.
+
+## Iteración del 18/10/2026 · Contacto ficticio y alternativas (S12)
+
+El encargo actual confirma pedir nombre preferido y teléfono o correo según el canal, con datos ficticios durante la demostración y aceptación explícita de la simulación. Los valores viven solo en memoria/DOM; no se envían, no se guardan en almacenamiento persistente, no se incluyen en URLs ni se registran en consola. Reiniciar, recargar y salir del recorrido pendiente los elimina. La validación comprueba formato, sin afirmar que el correo existe ni que el teléfono tiene WhatsApp. Se muestran como texto en el mensaje y el resumen. El PDF omite nombre y contacto para minimizar información fuera del recorrido; conserva fecha, hora, modalidad y canal actuales.
+
+La decisión confirmada es ofrecer nuevos horarios según mañana/tarde y permitir mantener o cambiar videollamada/presencial. Cada propuesta nueva usa días posteriores a la propuesta rechazada, calculados desde el calendario de Santiago de Chile. Siguen siendo fechas ficticias de lunes a viernes, sin feriados ni cupos existentes. El segundo rechazo abre un estado pendiente con revisión de preferencias y salida sin confirmar; no promete gestiones ni contacto real.
+
+Las descripciones anteriores de «sin campos personales» y cierre pendiente registran la versión de ese momento. Esta iteración las sustituye para el comportamiento vigente sin reescribir la evidencia histórica. S12 registra una decisión de implementación, no entrevistas, pruebas con usuarias ni resultados del RIA. Las verificaciones técnicas se documentan por separado.

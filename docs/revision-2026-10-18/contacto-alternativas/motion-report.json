@@ -1,0 +1,345 @@
+{
+  "browser": "Chromium 154.0.8037.57",
+  "cases": [
+    {
+      "route": "/",
+      "width": 1440,
+      "reduced_motion": false,
+      "status": "passed",
+      "events": 29,
+      "sample": {
+        "screen": "message",
+        "count": 1,
+        "focused": true,
+        "animations": [
+          {
+            "timing": {
+              "delay": 0,
+              "direction": "normal",
+              "duration": 150,
+              "easing": "cubic-bezier(0.23, 1, 0.32, 1)",
+              "endDelay": 0,
+              "fill": "backwards",
+              "iterationStart": 0,
+              "iterations": 1
+            },
+            "frames": [
+              {
+                "offset": 0,
+                "easing": "linear",
+                "composite": "auto",
+                "opacity": "0",
+                "computedOffset": 0
+              },
+              {
+                "offset": 1,
+                "easing": "linear",
+                "composite": "auto",
+                "opacity": "1",
+                "computedOffset": 1
+              }
+            ],
+            "property": "opacity"
+          }
+        ]
+      }
+    },
+    {
+      "route": "/",
+      "width": 1440,
+      "reduced_motion": true,
+      "status": "passed",
+      "events": 29,
+      "sample": {
+        "screen": "message",
+        "count": 1,
+        "focused": true,
+        "animations": []
+      }
+    },
+    {
+      "route": "/",
+      "width": 390,
+      "reduced_motion": false,
+      "status": "passed",
+      "events": 29,
+      "sample": {
+        "screen": "message",
+        "count": 1,
+        "focused": true,
+        "animations": [
+          {
+            "timing": {
+              "delay": 0,
+              "direction": "normal",
+              "duration": 150,
+              "easing": "cubic-bezier(0.23, 1, 0.32, 1)",
+              "endDelay": 0,
+              "fill": "backwards",
+              "iterationStart": 0,
+              "iterations": 1
+            },
+            "frames": [
+              {
+                "offset": 0,
+                "easing": "linear",
+                "composite": "auto",
+                "opacity": "0",
+                "computedOffset": 0
+              },
+              {
+                "offset": 1,
+                "easing": "linear",
+                "composite": "auto",
+                "opacity": "1",
+                "computedOffset": 1
+              }
+            ],
+            "property": "opacity"
+          }
+        ]
+      }
+    },
+    {
+      "route": "/",
+      "width": 390,
+      "reduced_motion": true,
+      "status": "passed",
+      "events": 29,
+      "sample": {
+        "screen": "message",
+        "count": 1,
+        "focused": true,
+        "animations": []
+      }
+    },
+    {
+      "route": "/",
+      "width": 320,
+      "reduced_motion": false,
+      "status": "passed",
+      "events": 29,
+      "sample": {
+        "screen": "message",
+        "count": 1,
+        "focused": true,
+        "animations": [
+          {
+            "timing": {
+              "delay": 0,
+              "direction": "normal",
+              "duration": 150,
+              "easing": "cubic-bezier(0.23, 1, 0.32, 1)",
+              "endDelay": 0,
+              "fill": "backwards",
+              "iterationStart": 0,
+              "iterations": 1
+            },
+            "frames": [
+              {
+                "offset": 0,
+                "easing": "linear",
+                "composite": "auto",
+                "opacity": "0",
+                "computedOffset": 0
+              },
+              {
+                "offset": 1,
+                "easing": "linear",
+                "composite": "auto",
+                "opacity": "1",
+                "computedOffset": 1
+              }
+            ],
+            "property": "opacity"
+          }
+        ]
+      }
+    },
+    {
+      "route": "/",
+      "width": 320,
+      "reduced_motion": true,
+      "status": "passed",
+      "events": 29,
+      "sample": {
+        "screen": "message",
+        "count": 1,
+        "focused": true,
+        "animations": []
+      }
+    },
+    {
+      "route": "/prototipo/",
+      "width": 1440,
+      "reduced_motion": false,
+      "status": "passed",
+      "events": 29,
+      "sample": {
+        "screen": "message",
+        "count": 1,
+        "focused": true,
+        "animations": [
+          {
+            "timing": {
+              "delay": 0,
+              "direction": "normal",
+              "duration": 150,
+              "easing": "cubic-bezier(0.23, 1, 0.32, 1)",
+              "endDelay": 0,
+              "fill": "backwards",
+              "iterationStart": 0,
+              "iterations": 1
+            },
+            "frames": [
+              {
+                "offset": 0,
+                "easing": "linear",
+                "composite": "auto",
+                "opacity": "0",
+                "computedOffset": 0
+              },
+              {
+                "offset": 1,
+                "easing": "linear",
+                "composite": "auto",
+                "opacity": "1",
+                "computedOffset": 1
+              }
+            ],
+            "property": "opacity"
+          }
+        ]
+      }
+    },
+    {
+      "route": "/prototipo/",
+      "width": 1440,
+      "reduced_motion": true,
+      "status": "passed",
+      "events": 29,
+      "sample": {
+        "screen": "message",
+        "count": 1,
+        "focused": true,
+        "animations": []
+      }
+    },
+    {
+      "route": "/prototipo/",
+      "width": 390,
+      "reduced_motion": false,
+      "status": "passed",
+      "events": 29,
+      "sample": {
+        "screen": "message",
+        "count": 1,
+        "focused": true,
+        "animations": [
+          {
+            "timing": {
+              "delay": 0,
+              "direction": "normal",
+              "duration": 150,
+              "easing": "cubic-bezier(0.23, 1, 0.32, 1)",
+              "endDelay": 0,
+              "fill": "backwards",
+              "iterationStart": 0,
+              "iterations": 1
+            },
+            "frames": [
+              {
+                "offset": 0,
+                "easing": "linear",
+                "composite": "auto",
+                "opacity": "0",
+                "computedOffset": 0
+              },
+              {
+                "offset": 1,
+                "easing": "linear",
+                "composite": "auto",
+                "opacity": "1",
+                "computedOffset": 1
+              }
+            ],
+            "property": "opacity"
+          }
+        ]
+      }
+    },
+    {
+      "route": "/prototipo/",
+      "width": 390,
+      "reduced_motion": true,
+      "status": "passed",
+      "events": 29,
+      "sample": {
+        "screen": "message",
+        "count": 1,
+        "focused": true,
+        "animations": []
+      }
+    },
+    {
+      "route": "/prototipo/",
+      "width": 320,
+      "reduced_motion": false,
+      "status": "passed",
+      "events": 29,
+      "sample": {
+        "screen": "message",
+        "count": 1,
+        "focused": true,
+        "animations": [
+          {
+            "timing": {
+              "delay": 0,
+              "direction": "normal",
+              "duration": 150,
+              "easing": "cubic-bezier(0.23, 1, 0.32, 1)",
+              "endDelay": 0,
+              "fill": "backwards",
+              "iterationStart": 0,
+              "iterations": 1
+            },
+            "frames": [
+              {
+                "offset": 0,
+                "easing": "linear",
+                "composite": "auto",
+                "opacity": "0",
+                "computedOffset": 0
+              },
+              {
+                "offset": 1,
+                "easing": "linear",
+                "composite": "auto",
+                "opacity": "1",
+                "computedOffset": 1
+              }
+            ],
+            "property": "opacity"
+          }
+        ]
+      }
+    },
+    {
+      "route": "/prototipo/",
+      "width": 320,
+      "reduced_motion": true,
+      "status": "passed",
+      "events": 29,
+      "sample": {
+        "screen": "message",
+        "count": 1,
+        "focused": true,
+        "animations": []
+      }
+    },
+    {
+      "case": "unsupported-starting-style",
+      "status": "passed"
+    }
+  ]
+}

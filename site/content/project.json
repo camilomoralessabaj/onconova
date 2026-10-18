@@ -4,14 +4,14 @@
   "course": "CD1201",
   "activity": "7.3",
   "team": "E7",
-  "updated": "2026-10-17",
+  "updated": "2026-10-18",
   "scope": "Servicio acotado de transición propuesto: exploración breve no diagnóstica, decisión voluntaria, una derivación prioritaria acompañada y confirmación de acceso compatible mediante canales institucionales existentes. La web solo simula la coordinación de una primera hora de apoyo psicológico; sin integración operativa ni atención real.",
   "institution": null,
   "prototype": {
     "status": "conceptual-unvalidated",
     "created": "2026-10-10",
-    "description": "Prototipo navegable con solicitud, mensaje de ejemplo por correo o WhatsApp, horario y confirmación simulada. No envía ni guarda datos personales ni activa servicios.",
-    "updated": "2026-10-14"
+    "description": "Prototipo navegable con nombre y contacto ficticios en memoria, mensaje personalizado por correo o WhatsApp, horarios alternativos según mañana/tarde y modalidad, confirmación y PDF simulados sin nombre ni contacto. Sin envíos, persistencia de solicitudes ni servicios reales.",
+    "updated": "2026-10-18"
   },
   "interviews": {
     "count": 5,
@@ -103,6 +103,13 @@
       "type": "team-decision",
       "date": "2026-10-17",
       "note": "prompt.md adjunto, cuya implementación autorizó el equipo. Confirma el cambio conceptual desde app integral multifunción a servicio acotado de transición; solicita requisitos de diseño, historia, brechas, decisión ITERAR y planificación propuesta con semanas relativas. No aporta un documento complementario, cuadro estratégico, foto del papel, video ni resultados del RIA. No demuestra validación ni integración institucional."
+    },
+    {
+      "id": "S12",
+      "title": "Contacto ficticio y alternativas seleccionables",
+      "type": "team-decision",
+      "date": "2026-10-18",
+      "note": "Encargo de implementación del equipo: pedir nombre preferido y contacto según el canal, solo en memoria y con datos ficticios; ofrecer nuevos horarios según mañana/tarde y permitir cambiar videollamada/presencial hasta confirmar una cita simulada. El PDF omite nombre y contacto. No aporta validación con usuarias, cupos, instituciones ni contactos reales."
     }
   ],
   "chapters": [
@@ -145,7 +152,8 @@
       "sources": [
         "S05",
         "S09",
-        "S11"
+        "S11",
+        "S12"
       ],
       "kind": "documented-plan-and-prototype"
     },
@@ -154,7 +162,8 @@
       "title": "Pruébalo aquí",
       "sources": [
         "S09",
-        "S11"
+        "S11",
+        "S12"
       ],
       "kind": "conceptual-unvalidated"
     },
@@ -164,7 +173,8 @@
       "sources": [
         "S09",
         "S10",
-        "S11"
+        "S11",
+        "S12"
       ],
       "kind": "proposal-limits"
     },

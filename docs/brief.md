@@ -10,6 +10,12 @@ Una persona externa debe comprender en aproximadamente tres minutos el desafío,
 
 El equipo solicita aplicar una paleta burdeo y rosada a la UI de la landing y del prototipo. Esta decisión sustituye la conservación de la paleta anterior indicada en el alcance del 17/10. Conserva la composición, tipografía y contenido existentes. Los roles, contrastes y tintas de apoyo se documentan en `docs/paleta-ui.md`.
 
+## Iteración del prototipo · 18 de octubre de 2026 (S12)
+
+Se autoriza pedir nombre preferido y contacto según WhatsApp o correo para personalizar la simulación, siempre con datos ficticios y aceptación explícita. Esos valores solo viven en memoria/DOM: no se envían, no se incluyen en URLs ni se persisten, y se eliminan al reiniciar o recargar. No se solicitan RUT, domicilio ni datos de salud. La validación revisa formato, no existencia del correo ni disponibilidad de WhatsApp. El resumen en pantalla muestra el nombre y contacto; el PDF mantiene fecha, modalidad y canal sin incluir esos dos datos.
+
+Cuando ningún horario acomoda, la persona puede elegir mañana/tarde y mantener o cambiar entre videollamada y presencial para obtener nuevos horarios ficticios futuros del calendario de Santiago. Puede confirmar, revisar, volver o salir sin confirmar. Si también rechaza la nueva propuesta, el recorrido explica el estado pendiente y ofrece revisar preferencias o salir, sin prometer contactos reales ni plazos. Esta iteración sustituye el cierre exclusivamente pendiente del flujo anterior; no cambia su evidencia histórica ni implica validación con usuarias.
+
 ## Alcance vigente · especificación recibida el 17 de octubre de 2026
 
 El equipo autoriza implementar `prompt.md` (S11): **servicio acotado de transición** que propone utilizar canales institucionales existentes, con exploración breve no diagnóstica, decisión voluntaria, una derivación prioritaria acompañada y confirmación de acceso compatible. El cambio desde una app integral multifunción está aprobado como decisión conceptual; no acredita una integración institucional construida.

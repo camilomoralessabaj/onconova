@@ -60,7 +60,7 @@ export function createReceiptPdf({ slot, modality, channel }) {
   rule(112);
   text('Comprobante de agendamiento', 48, 156, 27, 'F2', 'primary');
   text('Primera sesión de apoyo psicológico', 48, 189, 17, 'F2');
-  text('Usuaria de ejemplo', 48, 216, 13);
+  text('Demostración sin nombre ni contacto en el PDF', 48, 216, 13);
 
   rect(48, 242, 499.28, 155, 'surface');
   text('Fecha de la cita simulada', 68, 269, 11, 'F2', 'primary');
