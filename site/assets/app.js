@@ -29,6 +29,86 @@ document.addEventListener('click', event => {
 window.addEventListener('hashchange', openSource);
 openSource();
 
+// Cache chapter boundaries on layout changes. Scroll reads only scrollY;
+// it never measures boxes, rewrites history, moves focus or announces a section.
+function initSectionIndex() {
+  const index = document.querySelector('.section-index');
+  if (!index) return;
+  const root = document.documentElement;
+  const header = document.querySelector('.site-header');
+  const track = index.querySelector('.chapter-links');
+  const links = [...track.querySelectorAll('a')];
+  const sections = links.map(link => document.getElementById(link.hash.slice(1)));
+  let boundaries = [];
+  let readingLine = 0;
+  let pageHeight = 0;
+  let viewportHeight = 0;
+  let current = -1;
+  let layoutTask = 0;
+  let scrollTask = 0;
+
+  const showCurrentLink = () => {
+    if (current < 0 || track.contains(document.activeElement)) return;
+    const link = links[current];
+    track.scrollLeft = link.offsetLeft - track.offsetLeft - (track.clientWidth - link.offsetWidth) / 2;
+  };
+
+  const sync = () => {
+    scrollTask = 0;
+    let next = 0;
+    boundaries.forEach((top, i) => { if (top <= window.scrollY + readingLine + 1) next = i; });
+    if (window.scrollY + viewportHeight >= pageHeight - 2) next = links.length - 1;
+    if (next === current) return;
+    current = next;
+    links.forEach((link, i) => {
+      if (i === next) link.setAttribute('aria-current', 'location');
+      else link.removeAttribute('aria-current');
+    });
+    // Only a chapter change reads the link's horizontal geometry. Scroll the
+    // native strip itself; scrollIntoView would also move the reading page.
+    showCurrentLink();
+  };
+  const layout = () => {
+    layoutTask = 0;
+    const headerHeight = getComputedStyle(header).position === 'sticky' ? header.offsetHeight : 0;
+    const indexHeight = index.offsetHeight;
+    viewportHeight = window.innerHeight;
+    // Very short or heavily enlarged views keep the index in normal flow.
+    const staticIndex = indexHeight > viewportHeight * .28;
+    const nextReadingLine = headerHeight + (staticIndex ? 0 : indexHeight) + 24;
+    boundaries = sections.map(section => section.getBoundingClientRect().top + window.scrollY);
+    pageHeight = root.scrollHeight;
+    readingLine = nextReadingLine;
+    root.toggleAttribute('data-index-static', staticIndex);
+    root.style.setProperty('--sticky-header-height', `${headerHeight}px`);
+    root.style.setProperty('--sticky-index-height', `${staticIndex ? 0 : indexHeight}px`);
+    sync();
+  };
+  const scheduleLayout = () => {
+    if (!layoutTask) layoutTask = requestAnimationFrame(layout);
+  };
+  index.dataset.ready = 'true';
+  root.setAttribute('data-section-navigation', '');
+  window.addEventListener('scroll', () => {
+    if (!scrollTask) scrollTask = requestAnimationFrame(sync);
+  }, { passive: true });
+  window.addEventListener('resize', scheduleLayout, { passive: true });
+  window.addEventListener('hashchange', () => requestAnimationFrame(sync));
+  window.addEventListener('pageshow', scheduleLayout);
+  track.addEventListener('focusout', () => requestAnimationFrame(showCurrentLink));
+  if ('ResizeObserver' in window) {
+    const observer = new ResizeObserver(scheduleLayout);
+    [header, index, document.querySelector('main')].forEach(element => observer.observe(element));
+  }
+  layout();
+  // Native anchor positioning can precede JS's measured offsets on first load.
+  // Correct that destination once; later Back/Forward retain native restoration.
+  if (location.hash) requestAnimationFrame(() => {
+    document.getElementById(location.hash.slice(1))?.scrollIntoView({ block: 'start' });
+  });
+}
+initSectionIndex();
+
 // Optional, one-time entrances. Reading and interaction never depend on motion.
 function initScrollMotion() {
   const preference = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -198,7 +278,10 @@ function initReadingGuide() {
     const nav = guide.querySelector('.reading-guide');
     const header = document.querySelector('.site-header');
     const navStyle = getComputedStyle(nav);
-    clearance = (header?.offsetHeight || 0) + 24;
+    const globalIndex = document.querySelector('.section-index');
+    const headerHeight = header && getComputedStyle(header).position === 'sticky' ? header.offsetHeight : 0;
+    const indexHeight = globalIndex && getComputedStyle(globalIndex).position === 'sticky' ? globalIndex.offsetHeight : 0;
+    clearance = headerHeight + indexHeight + 24;
     if (navStyle.position === 'sticky' && window.innerWidth <= 720) {
       clearance = Math.max(clearance, parseFloat(navStyle.top) + nav.offsetHeight + 24);
     }

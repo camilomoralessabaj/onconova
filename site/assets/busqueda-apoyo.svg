@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400" fill="none">
+<style>svg{--art-primary:#B01D4B;--art-accent:#F1578B;--art-medium:#F581AC;--art-pastel:#EDD5E7;--art-surface:#FBD9F1;--art-soft:#F9ACCF;--art-light:#FFEBF2;--art-ink:#321521}</style>
+<!-- Adaptación del arte propio de OncoNova; escena conceptual, no evidencia. -->
+<path d="M70 315C18 244 47 109 152 88 224 9 318 66 347 86 445 42 570 99 584 185 634 277 537 355 442 345 314 370 164 358 70 315Z" fill="var(--art-surface)"/>
+<g transform="translate(-50 10)">
+<path d="M231 253v89m111-87 14 87" stroke="var(--art-primary)" stroke-width="6" stroke-linecap="round"/>
+<path d="M208 167c-16 15-5 66 7 94 18 18 98 18 128 0l-9-36-84-11-9-52Z" fill="var(--art-soft)"/>
+<path d="m271 273 24 59 34-3-13-69" fill="#AF7762"/>
+<path d="m307 268 26 62 34-3-18-73" fill="#D9A185"/>
+<path d="M291 327c7 5 24 3 32-2l16 12c5 5 2 12-5 12h-42c-9-2-10-11-1-22Zm39-2c9 8 22 4 34-2l22 14c7 5 6 13-3 13h-40c-13-1-19-12-13-25Z" fill="var(--art-ink)"/>
+<path d="M272 189c29 5 53 11 64 39l18 40c-16 12-66 12-97 5l-9-47Z" fill="var(--art-ink)"/>
+<path d="M232 139c9-16 49-18 65 3 8 21-12 37-3 69l-51 11c-19-21-24-57-11-83Z" fill="var(--art-medium)"/>
+<path d="m261 128 3 18c7 7 20 4 23-5l-5-20" fill="#D9A185"/>
+<path d="M248 91c1-20 29-30 45-11 9 11 6 35-7 44-10 7-27 2-34-14Z" fill="#D9A185"/>
+<path d="M245 109c-18-23-6-61 23-61 22-1 33 13 30 34-8-3-13-9-16-17-5 15-20 21-27 22l2 26-12 2Z" fill="var(--art-ink)"/>
+<path d="M248 65c10-9 27-9 38-2m-41 14c6-7 16-6 22-11" stroke="var(--art-soft)" stroke-width="3" stroke-linecap="round"/>
+<path d="m287 96 6 6-6 2m-12 4c3 3 7 4 10 2" stroke="#784939" stroke-width="2" stroke-linecap="round"/>
+<circle cx="281" cy="92" r="2" fill="var(--art-ink)"/>
+<path d="M280 166c22 15 30 25 55 22l28-14c7-2 16 2 19 7l-39 24c-32 10-67-9-76-20Z" fill="#D9A185"/>
+<path d="M266 146c15 3 26 13 35 23l-17 22c-18-8-30-21-32-34" fill="var(--art-medium)"/>
+<path d="M239 169c5 21 21 39 43 52l26-6c8-1 17 1 20 8l-35 12c-30-4-63-29-69-52" fill="#D9A185"/>
+</g><!-- Tres barreras conceptuales: información, tiempo y coordinación. -->
+<g stroke="var(--art-primary)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+<rect x="346" y="64" width="84" height="80" rx="14" fill="var(--art-light)"/><path d="M367 88h40m-40 12h29m-29 12h36m-36 12h22"/>
+<circle cx="510" cy="192" r="43" fill="var(--art-light)"/><path d="M510 168v25l17 12"/>
+<rect x="341" y="249" width="88" height="76" rx="14" fill="var(--art-light)"/><circle cx="362" cy="273" r="6"/><circle cx="409" cy="302" r="6"/><path d="M368 273h13c22 0-8 29 12 29h10"/>
+<path d="M287 198c32 0 26-45 48-54m-41 67c61 2 56-29 125-24m-134 47c28 0 35 25 47 34" stroke-dasharray="5 9"/>
+</g></svg>

@@ -160,6 +160,7 @@ strong {
   width:min(100%,1320px);
   padding-inline:48px;
   margin-inline:auto;
+  overflow-wrap:anywhere;
 }
 
 .section-shell :where(div,article,li,figure) {
@@ -264,6 +265,79 @@ strong {
   gap:18px;
   align-items:center;
 }
+
+/* Native chapter links remain available without JavaScript. */
+.has-section-index .header-actions { margin-left:auto; }
+.section-index {
+  background:var(--page);
+  color:var(--primary);
+  border-bottom:1px solid var(--line);
+}
+.section-index[data-ready] {
+  position:sticky;
+  top:var(--sticky-header-height,0px);
+  z-index:19;
+}
+.section-index-inner {
+  max-width:1320px;
+  margin-inline:auto;
+  padding:2px 48px;
+}
+.chapter-links {
+  display:flex;
+  gap:8px;
+  overflow-x:auto;
+  padding:6px;
+  scroll-padding-inline:6px;
+}
+.chapter-links a {
+  display:inline-flex;
+  flex:none;
+  max-width:calc(100vw - 48px);
+  align-items:center;
+  min-height:44px;
+  padding:8px 10px;
+  border:2px solid transparent;
+  border-radius:8px;
+  font-size:1rem;
+  line-height:1.4;
+  text-decoration:none;
+}
+.chapter-links a[aria-current="location"] {
+  background:var(--surface);
+  border-color:var(--primary);
+  font-weight:650;
+  text-decoration:underline;
+}
+.chapter-links a:hover { background:var(--surface); text-decoration:underline; }
+.chapter-links a:focus-visible { outline-offset:2px; }
+.section-index-hint { display:none; font-size:1rem; line-height:1.5; }
+html[data-section-navigation] {
+  --anchor-offset:calc(var(--sticky-header-height,0px) + var(--sticky-index-height,0px) + 24px);
+}
+/* Scroll padding carries the shared obstruction once, including native focus. */
+.has-section-index :where([id],a,button,input,summary),
+.has-section-index .reading-stage { scroll-margin-top:0; }
+.has-section-index .reading-stage a { scroll-margin-block:0 2rem; }
+html[data-index-static] .section-index { position:static; }
+
+@media(max-width:720px),(max-height:520px) {
+  .has-section-index .site-header { position:static; }
+  .section-index-inner { padding-inline:12px; }
+  .has-section-index .reading-guide { position:static; }
+}
+@media(max-width:720px) {
+  .header-inner { flex-wrap:wrap; }
+  .header-actions { flex-wrap:wrap; max-width:100%; }
+  .site-footer .brand { flex-wrap:wrap; white-space:normal; }
+}
+@media(max-width:720px) and (min-height:521px) {
+  .section-index-hint { display:block; padding:6px 6px 0; }
+}
+.large-text .has-section-index .site-header,
+.large-text .has-section-index .reading-guide { position:static; }
+
+@media print { .section-index { display:none; } }
 
 .text-size {
   min-height:44px;
@@ -498,6 +572,27 @@ strong {
   color:var(--muted);
 }
 
+.challenge-insight {
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:24px;
+}
+
+.challenge-context,.research-context {
+  display:grid;
+  grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);
+  gap:40px;
+  align-items:center;
+}
+
+.concept-figure img { width:100%; }
+.concept-figure figcaption {
+  margin-top:12px;
+  color:var(--muted);
+  font-size:.85rem;
+  line-height:1.6;
+}
+
 .source-line {
   font-size:.84rem;
   line-height:1.65;
@@ -538,6 +633,13 @@ strong {
 
 .proposal-section .section-heading>p {
   color:var(--on-primary);
+  max-width:65ch;
+}
+
+.proposal-section .section-heading {
+  display:grid;
+  grid-template-columns:minmax(0,.8fr) minmax(0,1.3fr);
+  align-items:center;
 }
 
 .service-flow {
@@ -680,23 +782,29 @@ strong {
   list-style:none;
   margin:0;
   padding:0;
-  gap:36px;
+  gap:24px;
 }
 
 .proposal-attributes li {
-  border-top:1px solid var(--on-primary);
-  padding-top:24px;
+  border:1px solid var(--accent-soft);
+  border-radius:12px;
+  padding:26px;
+  background:var(--page);
+  color:var(--ink);
 }
 
 .proposal-attributes h3 {
   font-size:1.2rem;
   margin-bottom:18px;
+  color:var(--primary);
 }
 
 .proposal-attributes p,.proposal-limit {
   font-size:1.05rem;
   color:var(--on-primary);
 }
+
+.proposal-attributes p { color:var(--ink); }
 
 .proposal-limit {
   margin-top:36px;
@@ -813,11 +921,12 @@ strong {
   line-height:1.6;
   text-align:left;
   overflow-wrap:anywhere;
+  border:1px solid var(--primary);
 }
 
 .iteration-table th,.iteration-table td {
   padding:22px 20px;
-  border-bottom:1px solid var(--line);
+  border-bottom:1px solid var(--primary);
   vertical-align:top;
 }
 
@@ -1082,9 +1191,10 @@ strong {
   .iteration-table tbody tr {
     display:grid;
     grid-template-columns:minmax(0,1fr);
-    border-top:1px solid var(--line);
-    padding-block:22px;
+    border-top:1px solid var(--primary);
+    padding:22px 18px;
   }
+  .iteration-table tbody tr:first-child { border-top:0; }
   .iteration-table tbody th,.iteration-table tbody td {
     display:block;
     width:auto;
@@ -1704,26 +1814,16 @@ details[open]>summary::after {
   }
 }
 
-/* One-time entries enhance only illustration and proposal, never hide them. */
+/* The existing cover illustration may enter once; reading text stays still. */
 @media screen and (prefers-reduced-motion:no-preference) {
   [data-scroll-motion="illustration"].motion-play {
     animation:illustration-arrive var(--motion-story) var(--ease-out) backwards;
   }
-  [data-scroll-motion="proposal"].motion-play {
-    animation:proposal-arrive var(--motion-standard) var(--ease-out) backwards;
-  }
-  .proposal-attributes>li:nth-child(2) { animation-delay:50ms; }
-  .proposal-attributes>li:nth-child(3) { animation-delay:100ms; }
 }
 
 @keyframes illustration-arrive {
   from { opacity:.9; transform:translateY(12px) scale(.985); }
   to { opacity:1; transform:none; }
-}
-
-@keyframes proposal-arrive {
-  from { transform:translateY(8px); }
-  to { transform:none; }
 }
 
 @media(prefers-reduced-motion:reduce) {
@@ -1762,6 +1862,16 @@ details[open]>summary::after {
 
 .hero-appointment {
   text-decoration:none;
+}
+
+@media(max-width:1000px) {
+  .challenge-context,.research-context { gap:24px; }
+}
+
+@media(max-width:720px) {
+  .challenge-context,.research-context { grid-template-columns:minmax(0,1fr); gap:24px; }
+  .concept-figure { max-width:32rem; margin-inline:auto; }
+  .proposal-section .section-heading { display:block; }
 }
 
 .hero-appointment:hover {

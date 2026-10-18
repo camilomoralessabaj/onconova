@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400" fill="none">
+<style>svg{--art-primary:#B01D4B;--art-accent:#F1578B;--art-medium:#F581AC;--art-pastel:#EDD5E7;--art-surface:#FBD9F1;--art-soft:#F9ACCF;--art-light:#FFEBF2;--art-ink:#321521}</style>
+<!-- Adaptación del arte propio de OncoNova; personajes ficticios adultos. -->
+<path d="M70 315C18 244 47 109 152 88 224 9 318 66 347 86 445 42 570 99 584 185 634 277 537 355 442 345 314 370 164 358 70 315Z" fill="var(--art-surface)"/>
+<g transform="translate(-113 17)">
+<path d="M231 253v89m111-87 14 87" stroke="var(--art-primary)" stroke-width="6" stroke-linecap="round"/>
+<path d="M208 167c-16 15-5 66 7 94 18 18 98 18 128 0l-9-36-84-11-9-52Z" fill="var(--art-soft)"/>
+<path d="m271 273 24 59 34-3-13-69" fill="#AF7762"/>
+<path d="m307 268 26 62 34-3-18-73" fill="#D9A185"/>
+<path d="M291 327c7 5 24 3 32-2l16 12c5 5 2 12-5 12h-42c-9-2-10-11-1-22Zm39-2c9 8 22 4 34-2l22 14c7 5 6 13-3 13h-40c-13-1-19-12-13-25Z" fill="var(--art-ink)"/>
+<path d="M272 189c29 5 53 11 64 39l18 40c-16 12-66 12-97 5l-9-47Z" fill="var(--art-ink)"/>
+<path d="M232 139c9-16 49-18 65 3 8 21-12 37-3 69l-51 11c-19-21-24-57-11-83Z" fill="var(--art-medium)"/>
+<path d="m261 128 3 18c7 7 20 4 23-5l-5-20" fill="#D9A185"/>
+<path d="M248 91c1-20 29-30 45-11 9 11 6 35-7 44-10 7-27 2-34-14Z" fill="#D9A185"/>
+<path d="M245 109c-18-23-6-61 23-61 22-1 33 13 30 34-8-3-13-9-16-17-5 15-20 21-27 22l2 26-12 2Z" fill="var(--art-ink)"/>
+<path d="M248 65c10-9 27-9 38-2m-41 14c6-7 16-6 22-11" stroke="var(--art-soft)" stroke-width="3" stroke-linecap="round"/>
+<path d="m287 96 6 6-6 2m-12 4c3 3 7 4 10 2" stroke="#784939" stroke-width="2" stroke-linecap="round"/>
+<circle cx="281" cy="92" r="2" fill="var(--art-ink)"/>
+<path d="M280 166c22 15 30 25 55 22l28-14c7-2 16 2 19 7l-39 24c-32 10-67-9-76-20Z" fill="#D9A185"/>
+<path d="M266 146c15 3 26 13 35 23l-17 22c-18-8-30-21-32-34" fill="var(--art-medium)"/>
+<path d="M239 169c5 21 21 39 43 52l26-6c8-1 17 1 20 8l-35 12c-30-4-63-29-69-52" fill="#D9A185"/>
+</g><g transform="translate(-110 17)">
+<path d="m562 263-15 78m113-86v86" stroke="var(--art-primary)" stroke-width="6" stroke-linecap="round"/>
+<path d="M638 167c19-13 43-2 42 26-1 17-9 63-19 72-23 16-80 12-104-1l8-31 61-11Z" fill="var(--art-surface)"/>
+<path d="M603 212c-26-4-49 15-57 48l-17 66 30 5 33-64 49-5Z" fill="var(--art-primary)"/>
+<path d="m607 265-37 65 27 8 51-69" fill="var(--art-primary)"/>
+<path d="m531 321-27 15c-9 4-9 14 1 15h44c10-2 15-11 9-23Zm41 6-14 14c-5 7 0 12 7 12h43c9-1 10-10 2-15l-17-8" fill="var(--art-ink)"/>
+<path d="M590 143c14-14 35-21 51-9 23 20 16 58-7 91l-47-9c-3-25-8-49 3-73Z" fill="var(--art-accent)"/>
+<path d="m615 117-5 26c4 8 18 10 25 3l1-24" fill="#AF7762"/>
+<path d="M596 76c-22 14-24 35-10 58 11 17 12 24 6 31 29 6 62-7 69-31 7-18 1-41-10-54Z" fill="var(--art-ink)"/>
+<path d="M607 84c-16 11-14 32 1 43 11 7 28 3 33-13l-1-29Z" fill="#AF7762"/>
+<path d="M600 80c6-18 25-20 40-11 18 13 15 32 5 41-4-17-15-13-24-31-9 10-15 10-21 1Z" fill="var(--art-ink)"/>
+<path d="m603 100-6 6 6 2m4 7c4 2 8 2 11 0" stroke="#673D33" stroke-width="2" stroke-linecap="round"/>
+<circle cx="610" cy="99" r="2" fill="var(--art-ink)"/>
+<path d="M602 161c-16 23-34 26-48 15l-24-17c-7-2-15 0-16 6l31 28c30 22 49 6 65-11Z" fill="#AF7762"/>
+<path d="M609 143c-13 0-22 9-26 17l22 26c15-11 18-28 4-43Z" fill="var(--art-accent)"/>
+<path d="M638 176c-7 25-32 40-50 40l-24-9c-12-2-19 1-20 8l35 16c34 3 59-14 72-37" fill="#AF7762"/>
+</g><!-- Cuaderno y lápiz: conversación de exploración, no sesión clínica documentada. -->
+<g transform="rotate(-12 467 240)" stroke="var(--art-ink)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="439" y="218" width="51" height="40" rx="4" fill="var(--art-light)"/><path d="M450 229h27m-27 9h21m-21 9h25m-30-29v40"/><path d="m476 228 18-24 4 3-18 24Z" fill="var(--art-soft)"/></g>
+<path d="M248 92c-7-38 34-52 70-37 29-15 72 6 58 36-9 19-37 20-54 16l-20 17 1-20c-28 5-49 1-55-12Z" fill="var(--art-light)" stroke="var(--art-primary)" stroke-width="2.5"/>
+<path d="M275 78h73m-61 13h49" stroke="var(--art-primary)" stroke-width="3" stroke-linecap="round"/><path d="M64 370h506" stroke="var(--art-primary)" stroke-width="2" stroke-linecap="round"/></svg>

@@ -247,3 +247,67 @@ Sobre `76c818f` (PR #8 integrado), el usuario confirma un único panel que cambi
 Se sustituye el indicador móvil sobre títulos por una superficie compartida. El final de cada capítulo puede leerse antes de que el scroll avance; no hay panel fijo, scroll interno ni bloqueo del gesto vertical. El cambio automático conserva scrollY y foco. Los saltos deliberados siguen el destino. Salida de 100 ms y entrada de 150 ms con transform/opacidad y la curva existente; una interrupción resuelve al último destino. Teclado y movimiento reducido cambian inmediatamente. Se conservan anclas, historial, texto ampliado, impresión y lectura completa sin JavaScript u observers. Se añade ayuda de navegación y botones Anterior/Siguiente; a 320 px con texto ampliado pasan a varias líneas para no recortarse.
 
 Pasaron integridad, sintaxis JS, build y diff; doce casos del panel a 1440/390/320 px, tres comprobaciones adicionales de teclado/interrupción/resize, seis combinaciones de agendamiento con 78 PDF y trece casos de movimiento del prototipo. Sin cambios factuales, de fuentes, responsables, plazos, paleta o dependencias. [Revisión, decisiones, reportes y capturas](revision-2026-10-18/panel-horizontal.md). Chromium local y emulación táctil; sin dispositivos físicos, Safari, Firefox, zoom nativo, lector de pantalla o validación con usuarias. La revisión de IA complementa la aprobación humana requerida antes de integrar el PR.
+
+## Correcciones editoriales y ubicación global · 18/10/2026
+
+Rama local `feat/revision-contenidos-navegacion`, desde `main` en `76c818f`.
+Checkout limpio y fetch sin avances posteriores a esa base. Se implementan R1–R7
+con paleta burdeo/rosada: marco de hallazgo literal, dos escenas conceptuales
+locales, Historia abreviada (43→26 y 48→42 palabras), introducción de Propuesta más
+ancha sin cambiar texto/tipo/interlineado, tres tarjetas, lazo rosado propio y
+contorno/separaciones burdeo de la tabla. Población, fuentes, responsabilidades,
+semanas propuestas y límites de evidencia se conservan; no cambian project.json
+ni evidencia.md. Ambas cabeceras y favicon consumen el mismo mark.svg.
+
+El usuario comparó «Índice de capítulos» con «Ubicación con selector» y eligió
+explícitamente el primero. Se integraron diez anclas nativas, estado por
+aria-current/borde/subrayado, offsets compartidos y persistencia adaptada a móvil,
+poca altura y ampliación. La guía local se conserva y pasa a flujo cuando hace
+falta espacio. Sin JS no se inventa sección actual. Scroll usa límites cacheados;
+no mueve foco, anuncia cada cambio ni escribe historial. Se retira la entrada de
+las tarjetas para mantener texto quieto, conservando guía 250 ms, prototipo 150 ms
+y curva común. Sin dependencias, hooks, cambios de skills o servicios reales.
+
+Pasaron check/build/sintaxis/diff, ocho escenarios del índice (incluido zoom
+nativo 200%), once de guía, trece de transición y seis de agendamiento con 78 PDFs,
+64 combinaciones de estrés y montaje local `/onconova/` de ambas páginas.
+El smoke exacto de la skill se ejecutó: falla 0/6 por selectores históricos
+`data-choice`/`#support`, ausentes antes del cambio. Se conserva ese resultado;
+un adaptador QA de controles vigentes pasó 6/6 sin editar la skill.
+
+Segunda revisión sobre el diff y dos assessments aislados de diseño/técnica,
+con detector usado una vez e inspección real de escritorio/móvil. Se corrigió la
+señal de desplazamiento del índice y el reflujo extremo. Sin regresiones
+introducidas pendientes en el alcance comprobado. Dos detalles tipográficos
+previos quedan como mejoras opcionales, documentados sin inflarlos a fallas AA.
+Matriz, antes/después, recursos, decisiones, resultados y capturas en
+[revisión editorial y navegación](revision-contenidos-navegacion.md).
+
+Límites: URL pública bloqueada por proxy 403; Chromium 154 y móvil emulado, sin
+Safari, hardware físico ni lector de pantalla escuchado. Comprensión en tres
+minutos y efectividad del servicio siguen sin validación con usuarias. No se hizo
+push, PR, merge ni publicación; se dejó descripción de PR preparada. La
+integración futura necesita revisión de otra persona según CONTRIBUTING.md.
+
+### Commit y PR autorizados; integración de main
+
+El usuario autoriza commit y apertura de PR. El fetch detectó `main` en `c7a9c59`
+(PR #9), posterior a la base inicial. Se creó `1179e02` con las correcciones y
+se integró ese main mediante merge, conservando el panel horizontal compartido
+y todas sus interacciones. Se resolvió el cruce de layout sumando al clearance
+la cabecera y el índice global solo cuando son sticky. La guía local se mantiene
+en flujo en móvil para evitar superposición. No se revierte el avance de #9.
+
+La prueba nueva del índice aprobó nuevamente ocho escenarios tras integrar,
+incluido zoom nativo 200 %. La prueba del panel conserva los casos nuevos de
+main y comprueba offsets/foco contra las capas persistentes reales, además del
+ancho interior completo de la tabla. El muestreo de la fase de salida se hace
+en la misma evaluación del navegador para evitar capturar la fase siguiente
+entre dos llamadas de herramienta. Los resultados finales se registran en la
+revisión editorial. El permiso no incluye merge a main ni publicación.
+
+Revalidación final de esa integración: ocho escenarios del índice y doce del
+panel aprobados, junto a check/build/sintaxis/diff y huellas de skills. Capturas
+de la planificación actualizadas y reportes agregados a la revisión editorial.
+La subida de esta rama y la creación de su PR están autorizadas; el merge y la
+publicación continúan fuera de alcance.

@@ -49,11 +49,14 @@ def phase(page, name, direction, reduced):
     if reduced:
         check(page.locator('.reading-panel').evaluate('el => el.getAnimations().length === 0'), 'Reduced motion animated')
         return
-    page.wait_for_function('(phase) => document.querySelector(".reading-panel").dataset.phase === phase', arg=name)
-    state = page.locator('.reading-panel').evaluate('''el => ({
-      transform:el.style.transform,
-      animations:el.getAnimations().map(a=>({property:a.transitionProperty, duration:a.effect.getTiming().duration, easing:a.effect.getTiming().easing}))
-    })''')
+    # Snapshot in the same browser turn that observes the 100 ms exit. A second
+    # protocol call can arrive after it has already advanced to the entry phase.
+    state = page.wait_for_function('''phase => {
+      const el=document.querySelector('.reading-panel');
+      if (el.dataset.phase !== phase) return false;
+      return {transform:el.style.transform,
+        animations:el.getAnimations().map(a=>({property:a.transitionProperty, duration:a.effect.getTiming().duration, easing:a.effect.getTiming().easing}))};
+    }''', arg=name).json_value()
     if name == 'exit':
         check(state['transform'] == f'translateX({direction * 24}px)', f'Wrong exit direction: {state}')
     check(state['animations'] and all(a['property'] in ('transform', 'opacity') and abs(a['duration'] - (100 if name == 'exit' else 150)) < .5
@@ -96,8 +99,8 @@ with sync_playwright() as p:
                         phase(page, 'enter', 1, False)
                 settled(page, index)
                 g = geometry(page)
-                check(g['clearance'] >= page.locator('.site-header').bounding_box()['height'], 'Heading behind header')
-                if width < 500:
+                check(g['clearance'] >= page.evaluate('Math.max(0,...[...document.querySelectorAll(".site-header,.section-index")].filter(e=>getComputedStyle(e).position==="sticky").map(e=>e.getBoundingClientRect().bottom))'), 'Heading behind global navigation')
+                if width < 500 and page.locator('.reading-guide').evaluate('e=>getComputedStyle(e).position') == 'sticky':
                     nav = page.locator('.reading-guide').bounding_box()
                     check(g['clearance'] >= nav['y'] + nav['height'], 'Heading behind mobile guide')
                 positions.append(g)
@@ -149,6 +152,8 @@ with sync_playwright() as p:
             page.locator('.text-size').click()
             links.nth(2).click()
             settled(page, 2)
+            if width < 500:
+                check(page.locator('.iteration-table tbody tr').first.evaluate('el => { const style=getComputedStyle(el); return Math.abs(el.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight) - el.querySelector("th").getBoundingClientRect().width) < 2; }'), 'Mobile action text is restricted to a table column')
             next_button = page.locator('[data-reading-next]')
             next_button.scroll_into_view_if_needed()
             check(next_button.is_visible() and next_button.is_disabled(), 'Last actions clipped')
@@ -215,8 +220,10 @@ with sync_playwright() as p:
             check(page.evaluate('''() => {
               const el=document.activeElement;
               if(!el.closest('.reading-panel')) return true;
-              const r=el.getBoundingClientRect(), nav=document.querySelector('.reading-guide').getBoundingClientRect();
-              return r.top>=nav.bottom-1 && r.bottom<=innerHeight+1;
+              const r=el.getBoundingClientRect();
+              const obstruction=Math.max(0,...[...document.querySelectorAll('.site-header,.section-index,.reading-guide')]
+                .filter(e=>getComputedStyle(e).position==='sticky').map(e=>e.getBoundingClientRect().bottom));
+              return r.top>=obstruction-1 && r.bottom<=innerHeight+1;
             }'''),'Sticky guide obscures keyboard focus')
         results.append({'case':'touch navigation, vertical scroll and cancellation','width':width,'status':'passed'})
         context.close()
@@ -237,7 +244,8 @@ with sync_playwright() as p:
     for stop in STOPS:
         page.goto(BASE+'/#'+stop,wait_until='networkidle')
         settled(page,STOPS.index(stop))
-        check(page.locator('#'+stop).bounding_box()['y']>=150,'Deep link hidden by navigation')
+        obstruction=page.evaluate('Math.max(0,...[...document.querySelectorAll(".site-header,.section-index")].filter(e=>getComputedStyle(e).position==="sticky").map(e=>e.getBoundingClientRect().bottom))')
+        check(page.locator('#'+stop).bounding_box()['y']>=obstruction+23,'Deep link hidden by navigation')
     results.append({'case':'direct links to all chapters','status':'passed'})
     browser.close()
 (args.output/'report.json').write_text(json.dumps(results,ensure_ascii=False,indent=2)+'\n')
