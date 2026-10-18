@@ -73,3 +73,82 @@ function initScrollMotion() {
   preference.addEventListener('change', stop);
 }
 initScrollMotion();
+
+// A single shared frame follows the reading position; links remain native anchors.
+function initReadingGuide() {
+  const guide = document.querySelector('[data-reading-guide]');
+  if (!guide || !('IntersectionObserver' in window)) return;
+  const stages = [...guide.querySelectorAll('[data-reading-stage]')];
+  const track = guide.querySelector('.reading-guide-track');
+  const links = [...track.querySelectorAll('a')];
+  const frame = track.querySelector('.reading-frame');
+  const preference = window.matchMedia('(prefers-reduced-motion: reduce)');
+  let current = -1;
+  let allowMotion = false;
+  let observer;
+  let readingLine = 0;
+  let resizeTask = 0;
+
+  const select = (index, instant = false) => {
+    if (current === index && !instant) return;
+    current = index;
+    const link = links[index];
+    // Geometry is read only at a section boundary or resize, never per scroll frame.
+    const { offsetLeft: x, offsetTop: y, offsetWidth: width, offsetHeight: height } = link;
+    links.forEach((item, i) => {
+      if (i === index) item.setAttribute('aria-current', 'step');
+      else item.removeAttribute('aria-current');
+    });
+    frame.classList.toggle('reading-frame-instant', instant || !allowMotion || preference.matches);
+    frame.style.width = `${width}px`;
+    frame.style.height = `${height}px`;
+    frame.style.transform = `translate(${x}px, ${y}px)`;
+    frame.hidden = false;
+  };
+  const sync = (instant = false) => {
+    const tops = stages.map(stage => stage.getBoundingClientRect().top);
+    let index = 0;
+    tops.forEach((top, i) => { if (top <= readingLine + 1) index = i; });
+    select(index, instant);
+  };
+  const layout = () => {
+    resizeTask = 0;
+    const headerHeight = document.querySelector('.site-header')?.offsetHeight || 0;
+    const navHeight = window.innerWidth <= 720 ? guide.querySelector('.reading-guide').offsetHeight : 0;
+    readingLine = Math.min(window.innerHeight - 1, Math.max(window.innerHeight * .35, headerHeight + navHeight + 24));
+    observer?.disconnect();
+    observer = new IntersectionObserver(() => sync(), {
+      rootMargin: `-${readingLine}px 0px -${window.innerHeight - readingLine - 1}px 0px`,
+      threshold: 0
+    });
+    stages.forEach(stage => observer.observe(stage));
+    sync(true);
+  };
+  const scheduleLayout = () => {
+    if (!resizeTask) resizeTask = requestAnimationFrame(layout);
+  };
+  const stopMotion = () => {
+    allowMotion = false;
+    frame.classList.add('reading-frame-instant');
+  };
+  const pointerInput = () => { allowMotion = true; };
+  document.addEventListener('keydown', stopMotion);
+  document.addEventListener('pointerdown', pointerInput, { passive: true });
+  document.addEventListener('touchstart', pointerInput, { passive: true });
+  document.addEventListener('wheel', pointerInput, { passive: true });
+  track.addEventListener('click', event => {
+    const index = links.indexOf(event.target.closest('a'));
+    if (index !== -1) {
+      allowMotion = event.detail > 0;
+      select(index, !allowMotion);
+    }
+  });
+  // Focus remains on the native link or target. No live announcements on scroll.
+  preference.addEventListener('change', () => { stopMotion(); sync(true); });
+  window.addEventListener('resize', scheduleLayout, { passive: true });
+  window.addEventListener('hashchange', () => sync(!allowMotion));
+  window.addEventListener('beforeprint', stopMotion);
+  if ('ResizeObserver' in window) new ResizeObserver(scheduleLayout).observe(guide);
+  layout();
+}
+initReadingGuide();

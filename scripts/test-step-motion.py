@@ -105,7 +105,7 @@ with sync_playwright() as p:
                 page.locator('[name=slot]').first.check()
                 activate(page.get_by_role('button', name='Confirmar hora de ejemplo'))
                 snapshot(page, 'confirmed', not reduced)
-                check(page.locator('[aria-current=step]').get_attribute('data-progress') == '3', 'Progress delayed')
+                check(page.locator('.booking-progress [aria-current=step]').get_attribute('data-progress') == '3', 'Progress delayed')
                 activate(page.get_by_role('button', name='Cambiar horario', exact=True))
                 snapshot(page, 'schedule', not reduced)
                 activate(page.get_by_role('button', name='Ninguno me acomoda', exact=True))

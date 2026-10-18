@@ -1,49 +1,49 @@
-# Movimiento durante el scroll · 18/10/2026
+# Movimiento y guía de lectura · 18/10/2026
 
-Rama `feat/movimiento-scroll`, base local `71c6c95`. Alcance: landing de `site/index.html`; el prototipo independiente y los estados de agendamiento mantienen su comportamiento. Sin cambios de relato, evidencia, paleta, tipografía o dependencias.
+Rama `feat/movimiento-scroll`. Se integró `origin/main` en `78c479b` antes de cerrar la implementación, conservando la paleta burdeo/rosados, el relato de S11, los comprobantes PDF y las transiciones del prototipo. Esta revisión sustituye las capturas y las decisiones de la primera pasada sobre `71c6c95`.
 
-Se aplicaron las skills locales `find-animation-opportunities`, `motion-design`, `animate`, `review-animations` y `revision-landing`, junto con las guías de diseño y relato requeridas por AGENTS.md. Se consultó también `animate-expo` por petición del usuario: el repositorio no tiene una aplicación React Native/Expo; su ajuste local reserva esas recetas para un encargo fuera de esta landing. No se incorporan paquetes de Expo ni gestos personalizados. Se conserva el deslizamiento táctil nativo.
+Se aplicaron `find-animation-opportunities`, `motion-design`, `animate`, `review-animations` y `revision-landing`, con las guías de diseño, relato e interfaz del repositorio. Se consultó `animate-expo`: esta landing nativa no necesita una aplicación Expo ni gestos nuevos. El scroll y los enlaces continúan siendo del navegador.
 
-## Oportunidades seleccionadas
+## Selección e implementación
 
-Personalidad: cercana, tranquila y contenida. Una curva compartida `--ease-out: cubic-bezier(0.23,1,0.32,1)`, entradas de 300 ms y acentos narrativos de 500 ms. Las duraciones más largas corresponden a ilustración y trazos decorativos, sin bloquear controles. La capa ambiental permanece estática para respetar la intensidad solicitada.
+| Superficie | Antes | Propósito y frecuencia | Movimiento elegido |
+| --- | --- | --- | --- |
+| Aprendizajes, Brechas y Próximos Pasos | Hallazgos y brechas repartidos en columnas, seguidos del plan | Indicación de posición de lectura y continuidad espacial; al cambiar de bloque | Un único cuadro compartido se traslada entre tres enlaces en 250 ms, solo `transform`, `cubic-bezier(0.23,1,0.32,1)`. Responde al scroll y a los enlaces. |
+| Tres atributos de la propuesta vigente | Aparición simultánea | Presentación de la propuesta; una vez por visita | Entrada de 8 px en 300 ms, demoras 0/50/100 ms y la misma curva. Opacidad completa para conservar contraste. Sustituye la secuencia de cuatro pasos de la versión anterior. |
+| Ilustración de portada | Estática al entrar desde fuera de pantalla | Bienvenida; rara | `translateY(12px) scale(.985)`, opacidad .9 → estado original en 500 ms con la misma curva. Permanece quieta si ya estaba visible al cargar. |
 
-| Ubicación | Antes | Propósito y frecuencia | Receta implementada | Función y presupuesto |
-| --- | --- | --- | --- | --- |
-| `site/index.html:8`, ilustración | Estática al recorrer la portada | Bienvenida (delight); rara | `translateY(12px) scale(.985)` y opacidad .9 → estado original, 500 ms, `--ease-out` | Solo imagen; título, descripción y CTA estables. No reproduce si ya estaba visible al cargar. |
-| `site/index.html:11`, cuatro pasos | Aparición simultánea al recorrer la propuesta | Explicación del orden; una vez por visita | `translateY(8px)` y opacidad .85 → estado original, 300 ms, `--ease-out`; demoras 0/50/100/150 ms | Secuencia completa ≤450 ms, sin ocultar ni bloquear contenido. En móvil cada fila entra al llegar a pantalla. |
-| `site/index.html:60`, resultados | Bordes superiores estáticos | Indicación de entrada al grupo de hallazgos; una vez | Solo línea: `scaleX(.2)` y opacidad .4 → 1, origen izquierdo, 500 ms, `--ease-out` | El texto y las limitaciones de evidencia permanecen inmóviles. |
-| `site/index.html:62`, próximos pasos | Bordes superiores estáticos | Indicación de entrada al plan de trabajo; una vez | Mismo trazo de resultados, 500 ms, `--ease-out` | Mantiene continuidad sin animar datos ni acciones. |
+El mayor aporte es la guía de lectura: tres paradas en orden, con el cuadro en una columna lateral en escritorio y una barra superior en móvil. Los textos de los tres grupos se leen en una sola columna, sin movimiento de contenido, ocultamientos, carruseles o avance automático. La tabla conserva acciones, responsables y semanas relativas. El indicador usa `aria-current="step"`, número, negrita, subrayado y contorno; no depende solo del color.
 
-Se descartaron: contador de las cinco entrevistas (función: es evidencia que debe leerse directamente), transiciones de formularios/confirmación (función y frecuencia: distraerían del estado y el foco), entradas de todos los títulos y párrafos (función: interferirían con la lectura), loops ambientales y parallax (propósito: decoración continua sin necesidad), y swipe para navegar pasos (función: competiría con el scroll y necesitaría alternativas).
+Se descartaron animar el número de entrevistas y los datos del RIA (función: evidencia para leer), transiciones de todo el texto (función: obstaculizarían la lectura), parallax o loops (propósito y frecuencia: decoración constante), y gestos de arrastre o swipe de capítulos (función: competirían con el scroll). La guía aporta continuidad sin estas capas.
 
-El mayor aporte es la secuencia de cuatro pasos: hace perceptible su orden sin retrasar la lectura. El resto del recorrido necesita poco movimiento. La selección se trasladó directamente a la implementación con `animate`, dentro del encargo ya autorizado.
-
-## Revisión de animaciones
+## Revisión de animaciones y accesibilidad
 
 | Antes | Después | Por qué |
 | --- | --- | --- |
-| Sin hallazgos pendientes confirmados en el diff revisado | Aprobado dentro del alcance comprobado | Entradas únicas, propiedades acotadas, cancelación inmediata y contenido siempre visible. |
+| No había señal persistente del bloque leído | Un cuadro compartido con transición interrumpible, de 250 ms | La última acción retoma desde la posición actual; los cambios rápidos no acumulan animaciones. |
+| La nueva barra necesita un destino de teclado claro | Los tres bloques aceptan foco nativo con `tabindex="-1"` y contorno visible | Enter salta al bloque sin añadir paradas al orden Tab ni mover el foco mediante JS. |
+| Una regla existente dejaba el encabezado de acción al 48 % en móvil | Ancho completo dentro de la nueva disposición móvil | Evita palabras cortadas innecesariamente, especialmente con texto ampliado. |
+| Al volver con Shift+Tab, la barra móvil podía cubrir parte del botón | Márgenes de scroll en los enlaces del relato | El foco queda visible por debajo de la barra al avanzar y retroceder. |
+| Un test del prototipo asumía un único `aria-current` en toda la página | Selector acotado a `.booking-progress` | La guía y el agendamiento son dos contextos distintos; se conserva su semántica. |
 
-- `site/assets/app.js:33`: IntersectionObserver, margen inferior de 32 px y desconexión de cada elemento después de su primera entrada. Sin listeners de scroll, bloqueo de eventos ni cálculos por fotograma.
-- `site/assets/app.js:54`: teclado de navegación, enlaces internos, impresión o cambio de preferencia detienen el movimiento durante la visita. Los enlaces directos con hash abren una página estática.
-- `site/assets/styles.css:1170`: únicamente transform y opacidad; sin interacción hover añadida, rebotes o bucles. Keyframes para entradas únicas; sin animaciones de estados repetidos.
-- `site/assets/styles.css:1201`: reducción de movimiento estática, válida según el ajuste local de las skills. La cancelación durante una entrada no vuelve a reproducirla al desactivar la preferencia.
-- El HTML permanece idéntico a la base al retirar los once atributos `data-scroll-motion`. El estado inicial es visible sin JS, sin IntersectionObserver y antes de cualquier animación; ningún contenido empieza en opacidad cero.
+El cuadro mantiene dimensiones estables entre enlaces; solo cambia `transform`. El tamaño se recalcula sin transición al cambiar de ancho o de texto. IntersectionObserver detecta los límites de los tres bloques; no hay mediciones por fotograma ni listeners de scroll que alteren la navegación. ResizeObserver reajusta la guía cuando cambia su distribución.
 
-Decisión de `review-animations`: **aprobar el diff dentro de las superficies y el navegador revisados**. Esta revisión local no sustituye la revisión humana del equipo previa al merge.
+La preferencia de movimiento reducido cancela las entradas y hace instantáneo el indicador, conservando la posición señalada. El teclado también cancela inmediatamente una transición en curso. En móvil con texto ampliado, la guía pasa al flujo normal y a enlaces verticales para dejar espacio al relato. En impresión se omite la guía y permanece el contenido. Sin JavaScript o sin IntersectionObserver quedan los tres enlaces nativos y los bloques completos; el cuadro decorativo permanece oculto.
 
-## Verificación de landing
+Los párrafos y su orden se compararon con `origin/main`: son idénticos, salvo la etiqueta nueva “Sigue el recorrido”. No cambian hechos, fuentes, personas, plazos, resultados ni estados de evidencia. Se añadieron títulos de agrupación y se ajustó la jerarquía de subtítulos. El manifiesto y el prototipo independiente no cambian frente a main.
 
-Se utilizó `scripts/test-booking.py`, adaptación vigente del smoke para el agendamiento actual. El smoke incluido en la skill sigue dirigido a la maqueta anterior; no se modificaron skills.
+Decisión de `review-animations`: **aprobar dentro del alcance verificado**, sin hallazgos bloqueantes pendientes. La revisión local no sustituye la aprobación humana requerida para integrar el PR.
 
-- `node scripts/check.mjs`: siete etapas, diez fuentes, tres metas sin resultados inventados; dos páginas y doce archivos públicos íntegros.
-- `node --check site/assets/app.js`, `node scripts/build.mjs` y `git diff --check`: aprobados.
-- Agendamiento: seis casos aprobados, `/` y `/prototipo/` a 1440, 390 y 320 px; canal/modalidad, consentimiento, horario requerido, comprobante, reprogramación, espera, postergación, rechazo y reinicio. Texto ampliado, foco básico, ausencia de errores de consola/recursos y desbordamiento horizontal. Lectura sin JS en ambas rutas y enlace directo a S10 aprobados.
-- Movimiento normal a 1440×900, 390×760 y 320×760: entradas verificadas, solo transform/opacidad y sin repetición del elemento ya recorrido. Los elementos todavía no vistos pueden entrar después, especialmente en la cuadrícula móvil.
-- Preferencia reducida desde carga y activada durante una entrada; vuelta a la preferencia normal; teclado, enlaces internos, anclas directas, impresión, falta de IntersectionObserver y lectura sin JS: aprobados.
-- Deslizamiento táctil nativo emulado a 390×760: desplaza la página sin controles de gesto añadidos. Curva CSS y keyframes observados: `cubic-bezier(0.23, 1, 0.32, 1)`. La posición documental del prototipo no cambia al cancelar el movimiento.
-- Capturas de portada, propuesta, resultados y próximos pasos inspeccionadas. Se observó también la secuencia a un cuarto de velocidad para inspeccionar sus estados intermedios. [Escritorio](escritorio.png) y [móvil](movil.png) muestran la propuesta durante esa inspección ralentizada.
-- Incremento de fuentes sin comprimir: HTML +294 bytes, JS +1970 bytes, CSS +1626 bytes, total +3890 bytes. Cero dependencias y peticiones nuevas. No se infieren tiempos de red ni FPS de hardware a partir de localhost.
+## Verificaciones
 
-Reportes y scripts puntuales: `work/motion/` (ignorado). Se consultó la guía actual de Web Interface Guidelines enlazada por la skill; revisión proporcional del diff sin hallazgos pendientes. No se pudo abrir la URL de GitHub Pages desde las herramientas disponibles, por lo que la inspección corresponde al checkout y su servidor local. No se probaron Safari, dispositivos físicos, zoom nativo ni comprensión con usuarias. La emulación y el reflujo no sustituyen esas comprobaciones. Sin push, PR, merge ni publicación.
+- `node scripts/check.mjs`: ocho etapas registradas, once fuentes y tres metas sin resultados inventados; dos páginas y trece archivos públicos válidos.
+- Sintaxis JS, `node scripts/build.mjs` y `git diff --check`: aprobados.
+- `scripts/test-reading-guide.py`: seis combinaciones de 1440/390/320 px y movimiento normal/reducido, más dos recorridos Tab/Shift+Tab, alternativas sin JS/sin observer y enlaces directos: once casos. Verifica clic/toque, scroll nativo, alineación del cuadro, transición real de transform de 250 ms con curva exacta, reversión rápida, Tab/Enter, cancelación durante movimiento, texto ampliado, cambio de ancho e impresión. Sin desbordamiento ni errores de consola/HTTP en lo comprobado. [Reporte](lectura-report.json).
+- `scripts/test-booking.py`: seis casos, ambas rutas a tres anchos, cuatro combinaciones de canal/modalidad por caso y 78 PDFs válidos; estados alternativos, consentimiento, errores, reinicio, texto ampliado, lectura sin JS y enlace de fuente aprobados.
+- `scripts/test-step-motion.py`: trece casos aprobados tras acotar su selector de progreso; se mantienen las transiciones de 150 ms de ambas rutas y sus alternativas accesibles.
+- Comprobación específica de las entradas de ilustración/propuesta a tres anchos y con ambas preferencias: seis casos aprobados. La propuesta mantiene opacidad 1 y no repite su entrada al volver atrás.
+- Inspección de [escritorio](escritorio.png), [móvil](movil.png) y [móvil con texto ampliado](movil-texto-ampliado.png), además de vistas de las tres paradas en `work/reading-guide/`. La guía conserva los roles de color del brief; texto secundario sobre rosa pastel 5,99:1 y contorno burdeo sobre ese fondo 4,89:1, según `docs/paleta-ui.md`.
+
+Se consultaron las Web Interface Guidelines vigentes enlazadas por la skill para la revisión proporcional del diff. Reportes de comprobaciones adicionales y archivos temporales quedan en `work/reading-guide/`, ignorado. Sin dependencias ni servicios externos nuevos. Incremento de fuentes sin comprimir respecto de main: HTML +1356 bytes, JS +5471 bytes, CSS +3822 bytes, total +10649 bytes. No se infiere rendimiento de teléfonos ni tiempos de red desde localhost.
+
+Límites: Chromium local y toque móvil emulado; sin Safari, Firefox, teléfonos físicos, zoom nativo, lector de pantalla o pruebas de comprensión con usuarias. La verificación técnica no acredita validación del servicio. El encargo autoriza subir la rama y abrir el PR; no se fusiona ni se publica en Pages antes de la revisión del equipo.
