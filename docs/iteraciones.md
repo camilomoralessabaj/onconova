@@ -1,5 +1,30 @@
 # Iteraciones de la primera versión
 
+## Paleta burdeo y rosados · 18/10/2026
+
+Rama `feat/paleta-burdeo-rosados`, creada desde `origin/main` en `e0a61bf` después de comprobar que el checkout inicial estaba limpio y actualizar las referencias remotas. Se aplican las skills locales `color-expert`, `frontend-design`, `onconova-storytelling`, `web-design-guidelines` y `revision-landing`; se consultó la guía web vigente de Vercel. La solicitud actual de paleta sustituye la instrucción histórica de conservar los colores del 17/10.
+
+Los siete colores recibidos quedan como referencias y se asignan a roles semánticos para página, superficies, acciones, texto, acentos, bordes y estados. Se añaden tintas de apoyo `#321521` y `#704054` para lectura y texto secundario. Los detalles de uso y las restricciones se documentan en [paleta-ui.md](paleta-ui.md). La landing, la página independiente, las ilustraciones propias, la marca y el comprobante PDF comparten esa dirección. El hover se deriva en OKLab con una alternativa visible para navegadores sin `color-mix`. Los campos conservan bordes funcionales burdeo; los separadores pastel son decorativos.
+
+Se conserva el contenido, las fuentes, la tipografía, la composición y la lógica del prototipo. En HTML solo cambia `theme-color` y el símbolo decorativo: Chromium lo mostraba como emoji verde, por lo que se reemplazó por un SVG con `currentColor`. Se conservan los tonos de piel de la ilustración y el papel blanco del PDF.
+
+Verificaciones ejecutadas:
+
+- `node scripts/check.mjs`, `node scripts/build.mjs`, `node --check site/assets/receipt-pdf.js` y `git diff --check`: aprobados. SVG analizados como XML sin errores.
+- `PYTHONDONTWRITEBYTECODE=1 python3 scripts/test-booking.py --base-url http://127.0.0.1:4173 --output work/paleta-qa/booking`: seis casos aprobados en ambas rutas a 1440, 390 y 320 px, con 78 PDFs, cuatro combinaciones de canal/modalidad por caso, reprogramación, errores inyectados, teclado, ampliación de texto, lectura sin JavaScript y ancla de fuente. PDFs extraídos con Poppler y analizados/renderizados con MuPDF. Sin errores de consola ni carga detectados por esa prueba.
+- Auditoría temporal de color en navegador sobre ambas rutas: 49 casos/estados y 7080 muestras de texto visible, sin fallos frente a los umbrales AA de tamaño y peso comprobados. El menor ratio observado fue 4,89:1. Se verificaron los siete valores originales en las variables calculadas por Chromium, las opciones seleccionadas, el hover y los focos claro/burdeo. Tras reemplazar el emoji se repitió la auditoría y sus capturas.
+- Inspección visual de portada en móvil/escritorio, mensaje, horarios, foco claro sobre propuesta, comprobante PDF y confirmación con texto ampliado a 320 px. El diff se revisó junto con los archivos nuevos. No se modificaron skills ni se añadieron dependencias.
+
+Las capturas y los informes se conservan en [revision-2026-10-18/paleta/](revision-2026-10-18/paleta/). El test antiguo incluido en la skill contiene selectores de un prototipo anterior; se utilizó el test vigente `scripts/test-booking.py`, sin modificar la skill.
+
+Límites: Chromium local, sin Safari, Firefox, dispositivos físicos ni sesión con lector de pantalla. La comprobación de reflujo no equivale a probar zoom nativo; los pares calculados y los estados visitados no certifican accesibilidad completa ni comprensión por usuarias. La revisión técnica no valida el servicio. En la entrega local inicial, push y apertura de PR quedaron pendientes de confirmar el alcance autorizado según `AGENTS.md` y `CONTRIBUTING.md`.
+
+### Subida de rama y PR autorizados · 18/10/2026
+
+El usuario autoriza subir `feat/paleta-burdeo-rosados` y crear el PR en borrador hacia `main`. El fetch detectó la integración de las transiciones del prototipo (#6), con `main` en `f3227d5`. Antes del primer push se trasladó el commit local a esa base; el cruce en `.booking` se resolvió conservando los dos tokens de movimiento de `main` y el nuevo fondo semántico de la paleta. El JS y el test de transición coinciden con `main`, sin retirar trabajo ajeno ni reescribir historial remoto.
+
+Sobre esa base pasaron nuevamente check, build, sintaxis de ambos módulos JS y diff. Se repitieron el agendamiento completo (seis casos y 78 PDFs, más lectura sin JavaScript y ancla), los 49 casos de color y los 13 casos de `scripts/test-step-motion.py`. Los informes de agendamiento y movimiento están en `docs/revision-2026-10-18/paleta/`. Los límites de navegador y accesibilidad anteriores se mantienen. La autorización corresponde a la rama y al PR; la integración sigue sujeta a revisión humana y checks.
+
 ## Servicio de transición, historia y evidencia · 17/10/2026
 
 Rama `feat/servicio-transicion-evidencia`, desde `71c6c95`. El checkout estaba limpio. La especificación adjunta `prompt.md` y la autorización de implementarla confirman el cambio conceptual y la creación de un PR en borrador, sin merge ni despliegue. Se comprobó mediante el conector de GitHub y después con `git fetch origin main` que la base coincidía con `main`. Se aplicaron las skills locales frontend-design, onconova-storytelling, web-design-guidelines y revision-landing; la guía web actual se consultó mediante el conector GitHub, ya que el acceso directo inicial desde el sandbox falló.

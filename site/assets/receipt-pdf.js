@@ -26,11 +26,17 @@ function pdfString(value) {
 }
 
 export function createReceiptPdf({ slot, modality, channel }) {
-  const colors = {
-    violet: '0.3451 0.2353 0.4392', lavender: '0.9373 0.9137 0.9569',
-    sage: '0.8980 0.9373 0.9176', green: '0.1922 0.3412 0.2784',
-    ink: '0.2196 0.1608 0.2667'
+  // Reference colors -> semantic roles -> PDF drawing commands.
+  const palette = {
+    raspberry: '#B01D4B', pastel: '#EDD5E7', pale: '#FBD9F1', ink: '#321521'
   };
+  const roles = {
+    primary: palette.raspberry, surface: palette.pale,
+    statusSurface: palette.pastel, status: palette.raspberry, ink: palette.ink
+  };
+  const colors = Object.fromEntries(Object.entries(roles).map(([role, hex]) => [
+    role, hex.slice(1).match(/../g).map(channel => (parseInt(channel, 16) / 255).toFixed(4)).join(' ')
+  ]));
   const height = 841.89;
   const commands = [];
   const text = (value, x, top, size = 12, font = 'F1', color = 'ink') => {
@@ -39,47 +45,47 @@ export function createReceiptPdf({ slot, modality, channel }) {
   const rect = (x, top, width, h, color) => {
     commands.push(`${colors[color]} rg ${x} ${height - top - h} ${width} ${h} re f`);
   };
-  const rule = top => rect(48, top, 499.28, 0.7, 'lavender');
+  const rule = top => rect(48, top, 499.28, 0.7, 'surface');
 
-  rect(0, 0, 595.28, 8, 'violet');
-  rect(48, 40, 48, 48, 'lavender');
+  rect(0, 0, 595.28, 8, 'primary');
+  rect(48, 40, 48, 48, 'surface');
   // Vector mark from assets/mark.svg, using the current brief palette.
-  commands.push(`q 1 0 0 -1 48 ${height - 40} cm ${colors.violet} RG 2.8 w 1 J 1 j`,
+  commands.push(`q 1 0 0 -1 48 ${height - 40} cm ${colors.primary} RG 2.8 w 1 J 1 j`,
     '12 30 m 5 18 17 7 23 20 c 29 7 42 18 35 30 c 30 39 19 36 22 28 c 24 23 31 25 30 30 c S',
-    `${colors.green} RG 22 28 m 20 36 29 41 36 37 c S Q`);
-  text('OncoNova', 110, 63, 27, 'F2', 'violet');
+    `${colors.status} RG 22 28 m 20 36 29 41 36 37 c S Q`);
+  text('OncoNova', 110, 63, 27, 'F2', 'primary');
   text('Un espacio para ti', 111, 84, 11);
-  text('Prototipo académico', 424, 58, 11, 'F2', 'violet');
+  text('Prototipo académico', 424, 58, 11, 'F2', 'primary');
   text('Servicio propuesto', 424, 76, 10);
   rule(112);
-  text('Comprobante de agendamiento', 48, 156, 27, 'F2', 'violet');
+  text('Comprobante de agendamiento', 48, 156, 27, 'F2', 'primary');
   text('Primera sesión de apoyo psicológico', 48, 189, 17, 'F2');
   text('Usuaria de ejemplo', 48, 216, 13);
 
-  rect(48, 242, 499.28, 155, 'lavender');
-  text('Fecha de la cita simulada', 68, 269, 11, 'F2', 'violet');
+  rect(48, 242, 499.28, 155, 'surface');
+  text('Fecha de la cita simulada', 68, 269, 11, 'F2', 'primary');
   text(appointmentDate(slot), 68, 294, 15, 'F2');
   text(`${slot.time} h · Hora de Santiago de Chile`, 68, 318, 13);
-  text('Modalidad', 68, 351, 11, 'F2', 'violet');
+  text('Modalidad', 68, 351, 11, 'F2', 'primary');
   text(modality, 68, 375, 14, 'F2');
-  text('Duración de ejemplo', 329, 351, 11, 'F2', 'violet');
+  text('Duración de ejemplo', 329, 351, 11, 'F2', 'primary');
   text('45 minutos', 329, 375, 14, 'F2');
 
-  text('Profesional', 48, 430, 11, 'F2', 'violet');
+  text('Profesional', 48, 430, 11, 'F2', 'primary');
   text('Profesional de ejemplo, sin identidad asignada', 48, 451, 13);
   rule(466);
-  text('Canal seleccionado', 48, 490, 11, 'F2', 'violet');
+  text('Canal seleccionado', 48, 490, 11, 'F2', 'primary');
   text(`${channel} · No se envió ningún mensaje.`, 48, 511, 13);
   rule(526);
-  text('Estado', 48, 550, 11, 'F2', 'violet');
+  text('Estado', 48, 550, 11, 'F2', 'primary');
   text('Cita simulada; atención aún no realizada.', 48, 571, 13, 'F2');
 
-  text('Antes de la primera sesión', 48, 615, 15, 'F2', 'violet');
+  text('Antes de la primera sesión', 48, 615, 15, 'F2', 'primary');
   sessionInstructions(modality).forEach((line, index) => text(line, 48, 641 + index * 20, 12));
 
-  rect(48, 700, 499.28, 92, 'sage');
-  rect(48, 700, 4, 92, 'green');
-  text('Prototipo académico de OncoNova.', 68, 725, 13, 'F2', 'green');
+  rect(48, 700, 499.28, 92, 'statusSurface');
+  rect(48, 700, 4, 92, 'status');
+  text('Prototipo académico de OncoNova.', 68, 725, 13, 'F2', 'status');
   text('Cita simulada: no constituye una reserva real,', 68, 748, 12);
   text('no acredita atención, cobertura ni pago.', 68, 768, 12);
   text('Demostración con datos ficticios', 48, 815, 10);
