@@ -1,0 +1,17 @@
+[
+  {
+    "width": 1440,
+    "case": "keyboard controls, swipe interruption and resize during exit",
+    "status": "passed"
+  },
+  {
+    "width": 390,
+    "case": "keyboard controls, swipe interruption and resize during exit",
+    "status": "passed"
+  },
+  {
+    "width": 320,
+    "case": "keyboard controls, swipe interruption and resize during exit",
+    "status": "passed"
+  }
+]
