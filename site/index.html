@@ -119,13 +119,14 @@
     <nav class="reading-guide" aria-label="Guía de lectura de aprendizajes, brechas y próximos pasos">
       <p class="reading-guide-label">Sigue el recorrido</p>
       <div class="reading-guide-track">
-        <div class="reading-frame" aria-hidden="true" hidden></div>
         <a href="#lectura-aprendizajes"><span aria-hidden="true">1</span>Aprendizajes</a>
         <a href="#lectura-brechas"><span aria-hidden="true">2</span>Brechas</a>
         <a href="#proximos-pasos"><span aria-hidden="true">3</span>Próximos pasos</a>
       </div>
+      <p class="reading-hint" hidden>Lee hasta el final y sigue bajando para avanzar.<span class="reading-touch-hint"> También puedes deslizar a la derecha.</span></p>
     </nav>
     <div class="reading-stages">
+      <div class="reading-panel">
       <section class="reading-stage" id="lectura-aprendizajes" data-reading-stage tabindex="-1" aria-labelledby="lectura-aprendizajes-title">
         <h3 id="lectura-aprendizajes-title">Aprendizajes</h3>
         <div class="findings-list">
@@ -153,6 +154,11 @@
         <p class="source-line">Brechas, decisión y planificación comunicadas por el equipo: <a href="#fuente-S11">S11</a>. Instrumento por revisar: <a href="#fuente-S04">S04</a> y <a href="#fuente-S05">S05</a>.</p>
         <a class="button button-secondary" href="#prototipo">Volver a la demostración</a>
       </section>
+      <div class="reading-actions" hidden>
+        <button class="button button-secondary" type="button" data-reading-prev>Anterior</button>
+        <button class="button button-secondary" type="button" data-reading-next>Siguiente</button>
+      </div>
+      </div>
     </div>
   </div>
 </div></section>

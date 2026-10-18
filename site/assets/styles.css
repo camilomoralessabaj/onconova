@@ -951,7 +951,7 @@ html[data-index-static] .section-index { position:static; }
   margin-top:24px;
 }
 
-/* A shared frame tracks three reading stops; the narrative stays in normal flow. */
+/* One surface changes reading chapters; document scrolling remains native. */
 .reading-layout {
   display:grid;
   grid-template-columns:230px minmax(0,1fr);
@@ -973,6 +973,10 @@ html[data-index-static] .section-index { position:static; }
   font-size:.9rem;
   color:var(--muted);
 }
+
+.reading-hint { margin:16px 12px 4px; font-size:.85rem; color:var(--muted); }
+.reading-touch-hint { display:none; }
+@media(pointer:coarse) { .reading-touch-hint { display:inline; } }
 
 .reading-guide-track {
   position:relative;
@@ -1003,34 +1007,72 @@ html[data-index-static] .section-index { position:static; }
 .reading-guide a[aria-current="step"] {
   font-weight:650;
   text-decoration:underline;
+  border-color:var(--primary);
+  background:var(--page);
 }
 
 .reading-guide a:hover {
   text-decoration:underline;
 }
 
-.reading-frame {
+.reading-panel {
+  display:grid;
+  gap:48px;
+}
+
+.reading-enhanced .reading-stages {
+  position:relative;
+  overflow-anchor:none;
+  /* Clip only the deliberate 24px horizontal transition, never vertical text. */
+  overflow-x:clip;
+}
+
+.reading-enhanced .reading-panel {
   position:absolute;
-  inset:0 auto auto 0;
-  border:2px solid var(--primary);
-  border-radius:12px;
-  background:var(--page);
-  pointer-events:none;
+  inset:0 0 auto;
+  display:block;
+  padding:30px;
+  border:1px solid var(--primary);
+  border-radius:20px;
+  background:var(--surface-muted);
+  touch-action:pan-y pinch-zoom;
+}
+
+.reading-enhanced .reading-stage {
+  padding:0;
+  border:0;
+  border-radius:0;
+}
+
+.reading-actions {
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:space-between;
+  gap:16px;
+  margin-top:28px;
+}
+
+.reading-actions button { min-height:44px; }
+.reading-actions button:disabled { opacity:.5; cursor:default; }
+.reading-enhanced .reading-panel :is(a,button) {
+  scroll-margin-block:var(--reading-clearance,var(--anchor-offset)) 24px;
+}
+
+/* Only used during a resize measurement; hidden content stays inaccessible. */
+.reading-panel.reading-measure .reading-stage {
+  display:block!important;
+  position:absolute;
+  inset-inline:30px;
+  visibility:hidden;
 }
 
 @media screen and (prefers-reduced-motion:no-preference) {
-  .reading-frame {
-    transition:transform 250ms var(--ease-out);
+  .reading-panel[data-phase="exit"] {
+    transition:transform 100ms var(--ease-out),opacity 100ms var(--ease-out);
   }
-}
-
-.reading-frame.reading-frame-instant {
-  transition:none;
-}
-
-.reading-stages {
-  display:grid;
-  gap:48px;
+  .reading-panel[data-phase="enter"] {
+    transition:transform 150ms var(--ease-out),opacity 150ms var(--ease-out);
+  }
 }
 
 .reading-stage {
@@ -1070,9 +1112,12 @@ html[data-index-static] .section-index { position:static; }
   .reading-layout { display:block; }
   .reading-guide { top:calc(var(--anchor-offset) - 20px); margin-bottom:28px; padding:6px; }
   .reading-guide-label { display:none; }
+  .reading-hint { margin:8px 6px 4px; font-size:.8rem; }
   .reading-guide-track { grid-template-columns:repeat(3,minmax(0,1fr)); gap:4px; }
   .reading-guide a { flex-direction:column; justify-content:center; gap:2px; padding:6px 2px; font-size:.8rem; }
-  .reading-stages { gap:28px; }
+  .reading-panel { gap:28px; }
+  .reading-enhanced .reading-panel { padding:22px 18px; }
+  .reading-panel.reading-measure .reading-stage { inset-inline:18px; }
   .reading-stage { padding:22px 18px; scroll-margin-top:6rem; }
   .reading-stage a { scroll-margin-block:6rem 2rem; }
   .reading-stage .iteration-table tbody th { width:auto; }
@@ -1085,6 +1130,10 @@ html[data-index-static] .section-index { position:static; }
   .reading-guide { display:none; }
   .reading-layout { display:block; }
   .reading-stage { break-inside:avoid; }
+  .reading-enhanced .reading-stages { height:auto!important; }
+  .reading-enhanced .reading-panel { position:static; padding:0; border:0; transform:none!important; opacity:1!important; }
+  .reading-enhanced .reading-stage { display:block!important; margin-bottom:28px; }
+  .reading-actions { display:none!important; }
 }
 
 .mobile-cell-label {

@@ -154,85 +154,228 @@ function initScrollMotion() {
 }
 initScrollMotion();
 
-// A single shared frame follows the reading position; links remain native anchors.
+// One shared surface, three reading chapters. Scroll never gets cancelled or set
+// by an automatic chapter change. Cached ranges allow tall chapters to be read
+// to the end before the next one enters at the top of the reading area.
 function initReadingGuide() {
   const guide = document.querySelector('[data-reading-guide]');
-  if (!guide || !('IntersectionObserver' in window)) return;
+  if (!guide || !('IntersectionObserver' in window) || !('ResizeObserver' in window)) return;
   const stages = [...guide.querySelectorAll('[data-reading-stage]')];
-  const track = guide.querySelector('.reading-guide-track');
-  const links = [...track.querySelectorAll('a')];
-  const frame = track.querySelector('.reading-frame');
+  const ids = stages.map(stage => stage.id);
+  const links = [...guide.querySelectorAll('.reading-guide a')];
+  const track = guide.querySelector('.reading-stages');
+  const panel = guide.querySelector('.reading-panel');
+  const actions = guide.querySelector('.reading-actions');
+  const prev = actions.querySelector('[data-reading-prev]');
+  const next = actions.querySelector('[data-reading-next]');
   const preference = window.matchMedia('(prefers-reduced-motion: reduce)');
-  let current = -1;
+  let current = Math.max(0, ids.indexOf(location.hash.slice(1)));
+  let destination = current;
+  let offsets = [0, 0, 0];
+  let origin = 0;
+  let clearance = 0;
+  let geometryTask = 0;
+  let scrollTask = 0;
+  let generation = 0;
+  let phaseTimer = 0;
+  let phaseFrame = 0;
   let allowMotion = false;
-  let observer;
-  let readingLine = 0;
-  let resizeTask = 0;
+  let pointer = null;
+  let printing = false;
+  let pendingNavigation = null;
 
-  const select = (index, instant = false) => {
-    if (current === index && !instant) return;
-    current = index;
-    const link = links[index];
-    // Geometry is read only at a section boundary or resize, never per scroll frame.
-    const { offsetLeft: x, offsetTop: y, offsetWidth: width, offsetHeight: height } = link;
-    links.forEach((item, i) => {
-      if (i === index) item.setAttribute('aria-current', 'step');
-      else item.removeAttribute('aria-current');
-    });
-    frame.classList.toggle('reading-frame-instant', instant || !allowMotion || preference.matches);
-    frame.style.width = `${width}px`;
-    frame.style.height = `${height}px`;
-    frame.style.transform = `translate(${x}px, ${y}px)`;
-    frame.hidden = false;
+  const resetMotion = () => {
+    generation++;
+    clearTimeout(phaseTimer);
+    cancelAnimationFrame(phaseFrame);
+    panel.removeAttribute('data-phase');
+    panel.style.transform = '';
+    panel.style.opacity = '';
+    stages.forEach(stage => { stage.inert = false; });
   };
-  const sync = (instant = false) => {
-    const tops = stages.map(stage => stage.getBoundingClientRect().top);
+  const render = index => {
+    current = index;
+    stages.forEach((stage, i) => { stage.hidden = i !== index; });
+    links.forEach((link, i) => {
+      if (i === index) link.setAttribute('aria-current', 'step');
+      else link.removeAttribute('aria-current');
+    });
+    prev.disabled = index === 0;
+    next.disabled = index === stages.length - 1;
+    panel.style.top = `${offsets[index]}px`;
+  };
+  const reveal = (index, focus) => {
+    // Only deliberate navigation follows an anchor. Automatic scrolling never
+    // calls this function, changes the hash, or relocates the user's focus.
+    window.scrollTo({ top: origin + offsets[index] - clearance, behavior: 'instant' });
+    if (focus) stages[index].focus({ preventScroll: true });
+  };
+  const select = (index, { motion = false, follow = false, focus = false } = {}) => {
+    if (index < 0 || index >= stages.length) return;
+    const interrupted = panel.hasAttribute('data-phase');
+    const direction = Math.sign(index - current) || Math.sign(index - destination) || 1;
+    // Move focus to a persistent title before hiding the departing chapter.
+    if (panel.contains(document.activeElement)) links[index].focus({ preventScroll: true });
+    destination = index;
+    resetMotion();
+    pendingNavigation = { follow, focus };
+    const finish = () => {
+      render(index);
+      if (follow) reveal(index, focus);
+    };
+    if (!motion || preference.matches || interrupted || index === current) {
+      finish();
+      return;
+    }
+    const token = generation;
+    // Keep shared controls and swipe recognition available during the exit.
+    stages[current].inert = true;
+    panel.dataset.phase = 'exit';
+    panel.style.transform = `translateX(${direction * 24}px)`;
+    panel.style.opacity = '0';
+    phaseTimer = setTimeout(() => {
+      if (token !== generation) return;
+      panel.removeAttribute('data-phase');
+      finish();
+      panel.style.transform = `translateX(${-direction * 24}px)`;
+      // Flush only at the phase boundary, not during scrolling or per frame.
+      panel.getBoundingClientRect();
+      phaseFrame = requestAnimationFrame(() => {
+        if (token !== generation) return;
+        panel.dataset.phase = 'enter';
+        panel.style.transform = 'translateX(0)';
+        panel.style.opacity = '1';
+        // Focus is placed once the arriving chapter is no longer inert.
+        stages[index].inert = false;
+        if (focus) stages[index].focus({ preventScroll: true });
+        phaseTimer = setTimeout(() => {
+          if (token === generation) {
+            resetMotion();
+            scheduleScroll();
+          }
+        }, 150);
+      });
+    }, 100);
+  };
+  const syncScroll = () => {
+    scrollTask = 0;
+    if (printing || panel.hasAttribute('data-phase') || panel.contains(document.activeElement) ||
+        (window.getSelection()?.toString() && panel.contains(window.getSelection().anchorNode))) return;
+    const position = window.scrollY + clearance - origin;
     let index = 0;
-    tops.forEach((top, i) => { if (top <= readingLine + 1) index = i; });
-    select(index, instant);
+    offsets.forEach((offset, i) => { if (position + 1 >= offset) index = i; });
+    if (index !== current) select(index, { motion: allowMotion });
+  };
+  const scheduleScroll = () => {
+    if (!scrollTask) scrollTask = requestAnimationFrame(syncScroll);
   };
   const layout = () => {
-    resizeTask = 0;
-    const header = document.querySelector('.site-header');
-    const globalIndex = document.querySelector('.section-index');
+    geometryTask = 0;
+    if (printing) return;
+    const focused = document.activeElement;
+    const wasNavigating = panel.hasAttribute('data-phase') && pendingNavigation?.follow;
+    resetMotion();
     const nav = guide.querySelector('.reading-guide');
+    const header = document.querySelector('.site-header');
+    const navStyle = getComputedStyle(nav);
+    const globalIndex = document.querySelector('.section-index');
     const headerHeight = header && getComputedStyle(header).position === 'sticky' ? header.offsetHeight : 0;
-    const globalHeight = globalIndex && getComputedStyle(globalIndex).position === 'sticky' ? globalIndex.offsetHeight : 0;
-    const navHeight = window.innerWidth <= 720 && getComputedStyle(nav).position === 'sticky' ? nav.offsetHeight : 0;
-    readingLine = Math.min(window.innerHeight - 1, Math.max(window.innerHeight * .35, headerHeight + globalHeight + navHeight + 24));
-    observer?.disconnect();
-    observer = new IntersectionObserver(() => sync(), {
-      rootMargin: `-${readingLine}px 0px -${window.innerHeight - readingLine - 1}px 0px`,
-      threshold: 0
-    });
-    stages.forEach(stage => observer.observe(stage));
-    sync(true);
+    const indexHeight = globalIndex && getComputedStyle(globalIndex).position === 'sticky' ? globalIndex.offsetHeight : 0;
+    clearance = headerHeight + indexHeight + 24;
+    if (navStyle.position === 'sticky' && window.innerWidth <= 720) {
+      clearance = Math.max(clearance, parseFloat(navStyle.top) + nav.offsetHeight + 24);
+    }
+    panel.style.setProperty('--reading-clearance', `${clearance}px`);
+    // Measure at the actual content width, with all inactive chapters remaining
+    // visually hidden and outside the accessibility tree. No cloned text/IDs.
+    panel.classList.add('reading-measure');
+    const style = getComputedStyle(panel);
+    const chrome = parseFloat(style.paddingTop) + parseFloat(style.paddingBottom) + 2 + actions.offsetHeight + 28;
+    const heights = stages.map(stage => stage.offsetHeight + chrome);
+    panel.classList.remove('reading-measure');
+    const viewport = Math.max(160, window.innerHeight - clearance - 24);
+    offsets = [0];
+    // The 96px reading margin leaves the end visible before advancing. Short
+    // chapters also require a deliberate amount of native scroll to advance.
+    heights.slice(0, -1).forEach((height, i) => offsets.push(offsets[i] + Math.max(96, height - viewport + 96)));
+    track.style.height = `${Math.max(...heights.map((height, i) => height + offsets[i]))}px`;
+    origin = track.getBoundingClientRect().top + window.scrollY;
+    render(destination);
+    if (wasNavigating) reveal(destination, pendingNavigation.focus);
+    if (focused && panel.contains(focused)) focused.focus({ preventScroll: true });
   };
   const scheduleLayout = () => {
-    if (!resizeTask) resizeTask = requestAnimationFrame(layout);
+    if (!geometryTask) geometryTask = requestAnimationFrame(layout);
+  };
+  const navigate = (index, keyboard = false, updateHash = true) => {
+    if (index < 0 || index >= stages.length) return;
+    if (updateHash && location.hash !== '#' + ids[index]) history.pushState(null, '', '#' + ids[index]);
+    select(index, { motion: !keyboard, follow: true, focus: keyboard });
   };
   const stopMotion = () => {
     allowMotion = false;
-    frame.classList.add('reading-frame-instant');
+    if (panel.hasAttribute('data-phase')) select(destination, pendingNavigation || {});
   };
-  const pointerInput = () => { allowMotion = true; };
-  document.addEventListener('keydown', stopMotion);
-  document.addEventListener('pointerdown', pointerInput, { passive: true });
-  document.addEventListener('touchstart', pointerInput, { passive: true });
-  document.addEventListener('wheel', pointerInput, { passive: true });
-  track.addEventListener('click', event => {
-    const index = links.indexOf(event.target.closest('a'));
-    if (index !== -1) {
-      allowMotion = event.detail > 0;
-      select(index, !allowMotion);
-    }
-  });
-  // Focus remains on the native link or target. No live announcements on scroll.
-  preference.addEventListener('change', () => { stopMotion(); sync(true); });
-  window.addEventListener('resize', scheduleLayout, { passive: true });
-  window.addEventListener('hashchange', () => sync(!allowMotion));
-  window.addEventListener('beforeprint', stopMotion);
-  if ('ResizeObserver' in window) new ResizeObserver(scheduleLayout).observe(guide);
+  guide.classList.add('reading-enhanced');
+  actions.hidden = false;
+  guide.querySelector('.reading-hint').hidden = false;
   layout();
+
+  document.addEventListener('click', event => {
+    const link = event.target.closest('a[href^="#"]');
+    const index = link ? ids.indexOf(link.hash.slice(1)) : -1;
+    if (index === -1 || event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.altKey || event.shiftKey) return;
+    event.preventDefault();
+    navigate(index, event.detail === 0);
+  });
+  prev.addEventListener('click', event => navigate(destination - 1, event.detail === 0));
+  next.addEventListener('click', event => navigate(destination + 1, event.detail === 0));
+  const onHash = () => {
+    const index = ids.indexOf(location.hash.slice(1));
+    if (index !== -1) navigate(index, true, false);
+  };
+  window.addEventListener('hashchange', onHash);
+  if (ids.includes(location.hash.slice(1))) requestAnimationFrame(onHash);
+  window.addEventListener('load', () => {
+    layout();
+    if (ids.includes(location.hash.slice(1))) onHash();
+  }, { once: true });
+
+  document.addEventListener('keydown', stopMotion);
+  document.addEventListener('wheel', () => { allowMotion = true; }, { passive: true });
+  document.addEventListener('pointerdown', () => { allowMotion = true; }, { passive: true });
+  window.addEventListener('scroll', scheduleScroll, { passive: true });
+  window.addEventListener('resize', scheduleLayout, { passive: true });
+  preference.addEventListener('change', stopMotion);
+  // Track content width and reading preferences, not the height we assign.
+  let lastWidth = track.clientWidth;
+  new ResizeObserver(() => {
+    if (track.clientWidth !== lastWidth) {
+      lastWidth = track.clientWidth;
+      scheduleLayout();
+    }
+  }).observe(track);
+  // The demonstration above can change height after this module initializes,
+  // or when a visitor uses it. Keep the cached document origin in sync too.
+  new ResizeObserver(scheduleLayout).observe(document.body);
+  new MutationObserver(scheduleLayout).observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+  document.fonts?.ready.then(scheduleLayout);
+
+  panel.addEventListener('pointerdown', event => {
+    pointer = null;
+    if (!event.isPrimary || event.pointerType !== 'touch' || event.target.closest('a,button,input,select,textarea') || window.getSelection()?.toString()) return;
+    pointer = { id: event.pointerId, x: event.clientX, y: event.clientY };
+  });
+  panel.addEventListener('pointerup', event => {
+    const start = pointer;
+    pointer = null;
+    if (!start || event.pointerId !== start.id || window.getSelection()?.toString()) return;
+    const dx = event.clientX - start.x;
+    const dy = event.clientY - start.y;
+    if (Math.abs(dx) >= 48 && Math.abs(dx) >= Math.abs(dy) * 1.5) navigate(destination + (dx > 0 ? 1 : -1));
+  });
+  panel.addEventListener('pointercancel', () => { pointer = null; });
+  window.addEventListener('beforeprint', () => { printing = true; stopMotion(); });
+  window.addEventListener('afterprint', () => { printing = false; scheduleLayout(); });
 }
 initReadingGuide();

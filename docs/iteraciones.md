@@ -240,6 +240,14 @@ La sección presenta tres bloques consecutivos en una sola columna. Un cuadro co
 
 Se conservan todos los párrafos y su orden frente a main, salvo una etiqueta de navegación. No cambian fuentes, evidencia, responsables ni semanas propuestas. Pasaron check/build/sintaxis/diff, los once casos de la guía (seis combinaciones, dos recorridos de foco y tres alternativas), seis casos de entradas únicas, seis casos del agendamiento con 78 PDFs y trece casos de transiciones del prototipo. Capturas, criterios, hallazgos corregidos y límites en [revisión integrada de movimiento](revision-2026-10-18/movimiento.md). Chromium local y móvil emulado; sin certificación de dispositivos físicos, Safari, zoom nativo o validación del servicio con usuarias.
 
+## Panel de lectura con transición horizontal · 18/10/2026
+
+Sobre `76c818f` (PR #8 integrado), el usuario confirma un único panel que cambie entre Aprendizajes, Brechas y Próximos pasos: avance hacia la derecha, retroceso a la izquierda, 250 ms sin rebote, títulos, scroll natural y swipe derecho para avanzar. También autoriza implementar y abrir el nuevo PR. Rama `feat/panel-horizontal`; sin merge autorizado.
+
+Se sustituye el indicador móvil sobre títulos por una superficie compartida. El final de cada capítulo puede leerse antes de que el scroll avance; no hay panel fijo, scroll interno ni bloqueo del gesto vertical. El cambio automático conserva scrollY y foco. Los saltos deliberados siguen el destino. Salida de 100 ms y entrada de 150 ms con transform/opacidad y la curva existente; una interrupción resuelve al último destino. Teclado y movimiento reducido cambian inmediatamente. Se conservan anclas, historial, texto ampliado, impresión y lectura completa sin JavaScript u observers. Se añade ayuda de navegación y botones Anterior/Siguiente; a 320 px con texto ampliado pasan a varias líneas para no recortarse.
+
+Pasaron integridad, sintaxis JS, build y diff; doce casos del panel a 1440/390/320 px, tres comprobaciones adicionales de teclado/interrupción/resize, seis combinaciones de agendamiento con 78 PDF y trece casos de movimiento del prototipo. Sin cambios factuales, de fuentes, responsables, plazos, paleta o dependencias. [Revisión, decisiones, reportes y capturas](revision-2026-10-18/panel-horizontal.md). Chromium local y emulación táctil; sin dispositivos físicos, Safari, Firefox, zoom nativo, lector de pantalla o validación con usuarias. La revisión de IA complementa la aprobación humana requerida antes de integrar el PR.
+
 ## Correcciones editoriales y ubicación global · 18/10/2026
 
 Rama local `feat/revision-contenidos-navegacion`, desde `main` en `76c818f`.
@@ -280,3 +288,26 @@ Safari, hardware físico ni lector de pantalla escuchado. Comprensión en tres
 minutos y efectividad del servicio siguen sin validación con usuarias. No se hizo
 push, PR, merge ni publicación; se dejó descripción de PR preparada. La
 integración futura necesita revisión de otra persona según CONTRIBUTING.md.
+
+### Commit y PR autorizados; integración de main
+
+El usuario autoriza commit y apertura de PR. El fetch detectó `main` en `c7a9c59`
+(PR #9), posterior a la base inicial. Se creó `1179e02` con las correcciones y
+se integró ese main mediante merge, conservando el panel horizontal compartido
+y todas sus interacciones. Se resolvió el cruce de layout sumando al clearance
+la cabecera y el índice global solo cuando son sticky. La guía local se mantiene
+en flujo en móvil para evitar superposición. No se revierte el avance de #9.
+
+La prueba nueva del índice aprobó nuevamente ocho escenarios tras integrar,
+incluido zoom nativo 200 %. La prueba del panel conserva los casos nuevos de
+main y comprueba offsets/foco contra las capas persistentes reales, además del
+ancho interior completo de la tabla. El muestreo de la fase de salida se hace
+en la misma evaluación del navegador para evitar capturar la fase siguiente
+entre dos llamadas de herramienta. Los resultados finales se registran en la
+revisión editorial. El permiso no incluye merge a main ni publicación.
+
+Revalidación final de esa integración: ocho escenarios del índice y doce del
+panel aprobados, junto a check/build/sintaxis/diff y huellas de skills. Capturas
+de la planificación actualizadas y reportes agregados a la revisión editorial.
+La subida de esta rama y la creación de su PR están autorizadas; el merge y la
+publicación continúan fuera de alcance.

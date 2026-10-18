@@ -1,9 +1,17 @@
 # Revisión editorial y navegación · 18/10/2026
 
-Rama local `feat/revision-contenidos-navegacion`, base `main` / `76c818f36021b07e3277096215bb769e029b4c00`.
+Rama local `feat/revision-contenidos-navegacion`, base inicial `main` / `76c818f36021b07e3277096215bb769e029b4c00`.
 El checkout estaba limpio; fetch confirmó esa misma base. Se conservan los cambios
 integrados de paleta, relato S11, comprobante PDF, transiciones y guía local.
 No hay issue confirmado. No se hizo push, PR, merge ni publicación.
+
+
+**Estado de integración:** al preparar commit y PR se incorporó `main` en
+`c7a9c59` (PR #9). Su panel horizontal compartido sustituye al marco local de la
+base inicial y se conserva completo: contenidos, botones, swipe, scroll nativo,
+historial y transición de 100 + 150 ms. Esta rama ajusta su espacio libre para
+sumar cabecera e índice global solo cuando son persistentes. Los resultados
+iniciales siguientes se distinguen de la revalidación de integración al final.
 
 ## Matriz de aceptación
 
@@ -224,3 +232,39 @@ Archivo de crítica: `.impeccable/critique/2026-10-18T11-09-29Z__site-index-html
 Primera corrida de este objetivo,27/32; todavía sin tendencia comparable. Snapshot
 escrito y consulta de tendencia realizada; temporal de persistencia eliminado.
 Questions skipped: menos de tres Priority Issues; alcance y variante ya resueltos.
+
+
+## Revalidación sobre main integrado (c7a9c59)
+
+Con autorización expresa para commit y PR, se preservó el panel horizontal del
+PR #9 y se adaptaron únicamente los offsets a las capas persistentes reales.
+El índice volvió a aprobar sus **8 escenarios** con zoom nativo 200 %.
+El panel actual aprobó **12 casos**: seis combinaciones de ancho/movimiento,
+dos recorridos táctiles con cancelación y foco, tres alternativas sin JavaScript
+u observers, y enlaces profundos a los tres capítulos. Se comprobaron teclado,
+100 + 150 ms y curva, interrupciones, texto ampliado, historial e impresión.
+Se conservó además la comprobación del ancho interior completo de la tabla.
+
+Comandos ejecutados de nuevo:
+
+- `node --check site/assets/app.js`, `node scripts/check.mjs`,
+ `node scripts/build.mjs`, `node scripts/check-skills.mjs` y `git diff --check`:
+ aprobados; las 24 skills y 393 huellas están intactas.
+- `PYTHONDONTWRITEBYTECODE=1 python3 scripts/test-section-index.py --base-url http://127.0.0.1:4173 --output .local/revision-editorial/integracion-main/indice`: 8 aprobados.
+- `PYTHONDONTWRITEBYTECODE=1 python3 scripts/test-reading-guide.py --base-url http://127.0.0.1:4173 --output .local/revision-editorial/integracion-main/panel`: 12 aprobados.
+
+[Reporte de índice](revision-2026-10-18/editorial/integracion-indice-report.json),
+[reporte de panel](revision-2026-10-18/editorial/integracion-panel-report.json),
+[composición integrada de escritorio](revision-2026-10-18/editorial/panel-integrado-1440.png),
+[móvil](revision-2026-10-18/editorial/panel-integrado-390.png) y
+[320 px](revision-2026-10-18/editorial/panel-integrado-320.png).
+Las capturas de Planificación se actualizaron al panel integrado; el resto de
+los resultados iniciales se conserva con su alcance. No se repitieron pruebas
+ajenas al cruce resuelto. Sin errores JS ni overflow observados en la inspección
+integrada. No se modificó la simulación de agendamiento.
+
+La fase de salida se muestrea de forma atómica en el navegador: dos llamadas
+separadas podían observar la salida y luego leer la entrada, produciendo un
+falso fallo de tiempos. La comprobación conserva duración, curva y dirección;
+los tests no se saltan ni se suavizan. El único cambio a la lógica del panel de
+main suma cabecera/índice sticky al clearance; su comportamiento se preserva.

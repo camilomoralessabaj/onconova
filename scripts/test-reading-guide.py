@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Local browser regression checks for the shared reading frame. Requires Playwright/Chromium."""
+"""Local regression checks for the shared reading panel. Requires Playwright/Chromium."""
 import argparse
 import json
 import shutil
@@ -25,30 +25,55 @@ def check(condition, message):
     assert condition, message
 
 
-def settled(page, index=None):
-    page.wait_for_timeout(300)
-    check(page.locator('.reading-guide [aria-current="step"]').count() == 1, 'Missing or duplicate current stop')
-    if index is not None:
-        check(page.locator('.reading-guide [aria-current="step"]').get_attribute('href') == '#' + STOPS[index], 'Wrong reading stop')
-    delta = page.locator('.reading-frame').evaluate('''(frame) => {
-      const target = document.querySelector('.reading-guide [aria-current]').getBoundingClientRect();
-      const box = frame.getBoundingClientRect();
-      return ['x','y','width','height'].map(key => Math.abs(box[key] - target[key]));
-    }''')
-    check(max(delta) < 2, f'Frame does not surround current link: {delta}')
+def selected(page):
+    return page.locator('[data-reading-stage]:not([hidden])').get_attribute('id')
+
+
+def settled(page, index):
+    page.wait_for_timeout(350)
+    check(selected(page) == STOPS[index], f'Wrong panel: {selected(page)}, expected {STOPS[index]}')
+    check(page.locator('.reading-panel').count() == 1, 'Shared panel was duplicated')
+    check(page.locator('.reading-guide [aria-current="step"]').get_attribute('href') == '#' + STOPS[index], 'Wrong current link')
+    check(page.locator('.reading-panel').evaluate('el => !el.inert && !el.hasAttribute("data-phase") && el.getAnimations().length === 0'), 'Panel did not settle')
     check(page.evaluate('document.documentElement.scrollWidth <= innerWidth + 1'), 'Horizontal overflow')
-    check(page.locator('[data-reading-stage]').evaluate_all('els => els.every(el => getComputedStyle(el).transform === "none" && getComputedStyle(el).opacity === "1")'), 'Reading text moves or fades')
 
 
-def frame_motion(page, expected):
-    animations = page.locator('.reading-frame').evaluate('''el => el.getAnimations().map(a => ({
-      property:a.transitionProperty, duration:a.effect.getTiming().duration,
-      easing:a.effect.getTiming().easing
-    }))''')
-    check(bool(animations) == expected, f'Unexpected frame animation: {animations}')
-    if expected:
-        check(all(a == {'property':'transform','duration':250,'easing':'cubic-bezier(0.23, 1, 0.32, 1)'} for a in animations), f'Wrong motion: {animations}')
-    return animations
+def geometry(page):
+    return page.locator('.reading-panel').evaluate('''el => ({
+      top:el.offsetTop, height:el.offsetHeight, origin:el.parentElement.getBoundingClientRect().top+scrollY,
+      clearance:el.getBoundingClientRect().top, scroll:scrollY
+    })''')
+
+
+def phase(page, name, direction, reduced):
+    if reduced:
+        check(page.locator('.reading-panel').evaluate('el => el.getAnimations().length === 0'), 'Reduced motion animated')
+        return
+    # Snapshot in the same browser turn that observes the 100 ms exit. A second
+    # protocol call can arrive after it has already advanced to the entry phase.
+    state = page.wait_for_function('''phase => {
+      const el=document.querySelector('.reading-panel');
+      if (el.dataset.phase !== phase) return false;
+      return {transform:el.style.transform,
+        animations:el.getAnimations().map(a=>({property:a.transitionProperty, duration:a.effect.getTiming().duration, easing:a.effect.getTiming().easing}))};
+    }''', arg=name).json_value()
+    if name == 'exit':
+        check(state['transform'] == f'translateX({direction * 24}px)', f'Wrong exit direction: {state}')
+    check(state['animations'] and all(a['property'] in ('transform', 'opacity') and abs(a['duration'] - (100 if name == 'exit' else 150)) < .5
+          and a['easing'] == 'cubic-bezier(0.23, 1, 0.32, 1)' for a in state['animations']), f'Wrong transition: {state}')
+    check(page.evaluate('document.documentElement.scrollWidth <= innerWidth + 1'), 'Overflow during transition')
+
+
+def touch(page, dx, dy=0):
+    box = page.locator('.reading-panel').bounding_box()
+    x, y = box['x'] + (60 if dx >= 0 else box['width'] - 60), max(220, box['y'] + 125)
+    cdp = page.context.new_cdp_session(page)
+    cdp.send('Input.dispatchTouchEvent', {'type':'touchStart','touchPoints':[{'x':x,'y':y}]})
+    for fraction in (.25,.5,.75,1):
+        cdp.send('Input.dispatchTouchEvent', {'type':'touchMove','touchPoints':[{'x':x+dx*fraction,'y':y+dy*fraction}]})
+        page.wait_for_timeout(20)
+    cdp.send('Input.dispatchTouchEvent', {'type':'touchEnd','touchPoints':[]})
+    cdp.detach()
 
 
 with sync_playwright() as p:
@@ -64,119 +89,164 @@ with sync_playwright() as p:
             page.on('response', lambda r: errors.append(f'HTTP {r.status} {r.url}') if r.status >= 400 else None)
             page.goto(BASE + '/#aprendizajes', wait_until='networkidle')
             links = page.locator('.reading-guide a')
-            page.locator('#' + STOPS[0]).evaluate('el => el.scrollIntoView({block:"start"})')
-            settled(page, 0)
-            # Native anchors, pointer/touch input, and the single shared frame.
-            for index in (1, 2, 0):
-                if width < 500:
-                    links.nth(index).tap()
-                else:
-                    links.nth(index).click()
-                frame_motion(page, not reduced)
+            check(page.locator('.reading-enhanced').count() == 1, 'Progressive enhancement failed')
+            positions = []
+            for index in range(3):
+                links.nth(index).click()
+                if index:
+                    phase(page, 'exit', 1, reduced)
+                    if not reduced:
+                        phase(page, 'enter', 1, False)
                 settled(page, index)
-                check(page.locator('.reading-frame').count() == 1, 'Frame was duplicated')
-                check(page.locator('#' + STOPS[index]).evaluate('el => el.getBoundingClientRect().top') > page.locator('.site-header').evaluate('el => el.getBoundingClientRect().bottom'), 'Target hidden behind header')
-            # Native wheel crossing a section boundary updates the frame without auto-scrolling.
-            target_y = page.locator('#' + STOPS[1]).evaluate('el => el.getBoundingClientRect().top + scrollY - innerHeight * .35 + 50')
-            page.evaluate('y => scrollTo(0,y)', target_y)
-            page.wait_for_timeout(100)
-            page.mouse.wheel(0, 130)
-            page.wait_for_function('document.querySelector(".reading-guide [aria-current]").hash === "#lectura-brechas"')
-            frame_motion(page, not reduced)
+                g = geometry(page)
+                check(g['clearance'] >= page.evaluate('Math.max(0,...[...document.querySelectorAll(".site-header,.section-index")].filter(e=>getComputedStyle(e).position==="sticky").map(e=>e.getBoundingClientRect().bottom))'), 'Heading behind global navigation')
+                if width < 500 and page.locator('.reading-guide').evaluate('e=>getComputedStyle(e).position') == 'sticky':
+                    nav = page.locator('.reading-guide').bounding_box()
+                    check(g['clearance'] >= nav['y'] + nav['height'], 'Heading behind mobile guide')
+                positions.append(g)
+            page.screenshot(path=str(args.output/f'panel-{width}-{"reduce" if reduced else "normal"}.png'))
+            links.nth(0).click()
+            phase(page, 'exit', -1, reduced)
+            settled(page, 0)
+            # Natural document scroll exposes the end before crossing each boundary.
+            # It must not be cancelled, force scrollY, or create a nested scroller.
+            for index in (1, 2):
+                boundary = positions[index]['origin'] + positions[index]['top'] - positions[index]['clearance']
+                page.evaluate('y => scrollTo(0,y)', boundary - 4)
+                page.wait_for_timeout(80)
+                check(selected(page) == STOPS[index-1], 'Advanced before reading the complete panel')
+                bottom = page.locator('.reading-panel').bounding_box()
+                check(bottom['y'] + bottom['height'] <= page.viewport_size['height'] - 40, 'End not fully readable before advance')
+                page.mouse.wheel(0, 12)
+                page.wait_for_timeout(90)
+                scroll = page.evaluate('scrollY')
+                settled(page, index)
+                check(abs(page.evaluate('scrollY') - scroll) < 1, 'Automatic change moved scrollY')
+                check(page.locator('.reading-panel').evaluate('e=>getComputedStyle(e).overflowY === "visible"'), 'Nested scroll introduced')
+            # Reversing native scroll revisits the preceding complete chapter.
+            boundary = positions[2]['origin'] + positions[2]['top'] - positions[2]['clearance']
+            page.evaluate('y => scrollTo(0,y)', boundary - 4)
             settled(page, 1)
-            scroll = page.evaluate('scrollY')
-            page.wait_for_timeout(100)
-            check(page.evaluate('scrollY') == scroll, 'Guide moved the scroll position')
-            nav = page.locator('.reading-guide').bounding_box()
-            if page.locator('.reading-guide').evaluate('el => getComputedStyle(el).position') == 'sticky':
-                check(nav['y'] >= 0 and nav['y'] + nav['height'] < page.viewport_size['height'], 'Sticky guide disappeared')
-            else:
-                check(width <= 720, 'Unexpected nonpersistent desktop guide')
-                check(page.locator('.section-index').evaluate('el => getComputedStyle(el).position') == 'sticky', 'Global location missing while local guide is in flow')
-            page.screenshot(path=str(args.output / f'guide-{width}-{"reduce" if reduced else "normal"}.png'))
-            # Rapid reversal must finish at the latest stop, not queue animations.
-            links.nth(2).click()
-            links.nth(0).click()
-            settled(page, 0)
-            # Keyboard activation and Tab during an entry must settle immediately.
-            links.nth(1).focus()
-            page.keyboard.press('Tab')
-            check(links.nth(2).evaluate('el => document.activeElement === el && getComputedStyle(el).outlineStyle === "solid"'), 'Keyboard link focus missing')
+            # Last action wins, whether interruption happens during exit or entry.
+            for delay in (35, 130):
+                links.nth(2).click()
+                page.wait_for_timeout(delay)
+                links.nth(0).click()
+                settled(page, 0)
+            # Keyboard activation and cancellation have no remaining motion.
+            links.nth(2).focus()
             page.keyboard.press('Enter')
-            frame_motion(page, False)
+            check(page.locator('.reading-panel').evaluate('e=>e.getAnimations().length===0'), 'Keyboard animation')
             settled(page, 2)
-            check(page.locator('#'+STOPS[2]).evaluate('el => document.activeElement === el && getComputedStyle(el).outlineStyle === "solid"'), 'Keyboard target focus missing')
+            check(page.locator('#'+STOPS[2]).evaluate('el=>document.activeElement===el && getComputedStyle(el).outlineStyle==="solid"'), 'Keyboard target focus missing')
             links.nth(0).click()
             page.keyboard.press('Tab')
-            frame_motion(page, False)
             settled(page, 0)
-            # System preference changing during an entrance cancels it immediately.
             if not reduced:
                 links.nth(1).click()
-                frame_motion(page, True)
                 page.emulate_media(reduced_motion='reduce')
-                frame_motion(page, False)
+                check(page.locator('.reading-panel').evaluate('e=>e.getAnimations().length===0'), 'Preference change failed to cancel')
                 settled(page, 1)
                 page.emulate_media(reduced_motion='no-preference')
-                frame_motion(page, False)
-            # Larger type and a breakpoint change must resize/reposition the same frame.
+            # Recompute heights on enlarged text; all final actions must be reachable.
             page.locator('.text-size').click()
-            settled(page)
             links.nth(2).click()
             settled(page, 2)
             if width < 500:
-                check(page.locator('.reading-guide').evaluate('el => getComputedStyle(el).position') == 'static', 'Large type guide obscures content')
                 check(page.locator('.iteration-table tbody tr').first.evaluate('el => { const style=getComputedStyle(el); return Math.abs(el.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight) - el.querySelector("th").getBoundingClientRect().width) < 2; }'), 'Mobile action text is restricted to a table column')
-            page.screenshot(path=str(args.output / f'large-{width}-{"reduce" if reduced else "normal"}.png'))
+            next_button = page.locator('[data-reading-next]')
+            next_button.scroll_into_view_if_needed()
+            check(next_button.is_visible() and next_button.is_disabled(), 'Last actions clipped')
+            check(page.locator('.reading-actions').evaluate('''el=>{
+              const box=el.getBoundingClientRect();
+              return [...el.querySelectorAll('button')].every(button=>{
+                const r=button.getBoundingClientRect();
+                return r.left>=box.left-1 && r.right<=box.right+1;
+              });
+            }'''),'Enlarged-text controls are clipped by the panel')
+            check(page.evaluate('document.documentElement.scrollWidth<=innerWidth+1'), 'Large text overflow')
+            page.screenshot(path=str(args.output/f'large-{width}-{"reduce" if reduced else "normal"}.png'))
+            # Native browser history and hash changes reveal hidden targets.
+            page.evaluate('location.hash="lectura-brechas"')
+            settled(page, 1)
+            page.go_back()
+            settled(page, 2)
             page.set_viewport_size({'width':720 if width == 1440 else 1000,'height':900})
-            page.wait_for_timeout(100)
-            settled(page)
-            check(page.locator('.reading-frame').count() == 1, 'Resize duplicated the frame')
-            check(page.evaluate('document.documentElement.scrollWidth <= innerWidth + 1'), 'Resize overflow')
+            settled(page, 2)
+            # Print shows every chapter despite their screen-only hidden state.
             page.emulate_media(media='print')
-            check(page.locator('.reading-guide').is_hidden(), 'Print guide obscures text')
-            check(page.locator('[data-reading-stage]').evaluate_all('els=>els.every(el => el.getBoundingClientRect().height > 0)'), 'Print hides narrative')
+            check(page.locator('[data-reading-stage]').evaluate_all('els=>els.every(el=>el.getBoundingClientRect().height>0)'), 'Print loses chapters')
+            check(page.locator('.reading-guide').is_hidden(), 'Print guide remains')
             check(not errors, '; '.join(errors))
-            results.append({'width':width,'reduced_motion':reduced,'status':'passed'})
-            print(json.dumps(results[-1]), flush=True)
+            result = {'width':width,'reduced_motion':reduced,'status':'passed'}
+            results.append(result)
+            print(json.dumps(result), flush=True)
             context.close()
-    # Reverse Tab can bring an action close to the sticky bar: it must stay clear.
+    # Actual Chromium touch events: horizontal navigation, natural vertical scroll,
+    # no wrap at either end. This is emulation, not a physical-device assertion.
     for width in (390, 320):
-        context = browser.new_context(viewport={'width':width,'height':800})
-        page = context.new_page()
-        page.goto(BASE+'/#lectura-aprendizajes', wait_until='networkidle')
+        context = browser.new_context(viewport={'width':width,'height':800},is_mobile=True,has_touch=True)
+        page=context.new_page()
+        page.goto(BASE+'/#lectura-aprendizajes',wait_until='networkidle')
+        settled(page,0)
+        touch(page,130)
+        settled(page,1)
+        touch(page,-130)
+        settled(page,0)
+        touch(page,-130)
+        settled(page,0)
+        scroll=page.evaluate('scrollY')
+        touch(page,0,-75)
+        page.wait_for_timeout(150)
+        check(page.evaluate('scrollY')>scroll,'Vertical touch scroll blocked')
+        settled(page,0)
+        # Synthetic cancellation and short/diagonal gestures must not navigate.
+        for kind in ('short','diagonal','cancel'):
+            page.locator('.reading-panel').evaluate('''(el,kind)=>{
+              const event=(type,x,y)=>el.dispatchEvent(new PointerEvent(type,{bubbles:true,pointerType:'touch',isPrimary:true,pointerId:9,clientX:x,clientY:y}));
+              event('pointerdown',80,250);
+              event(kind==='cancel'?'pointercancel':'pointerup',kind==='short'?100:180,kind==='diagonal'?380:250);
+            }''',kind)
+            settled(page,0)
+        page.locator('.reading-guide a').nth(2).click()
+        settled(page,2)
+        touch(page,130)
+        settled(page,2)
+        page.locator('.reading-guide a').first.click()
+        settled(page,0)
         page.locator('.reading-guide a').first.focus()
-        for key in ['Tab'] * 12 + ['Shift+Tab'] * 12:
+        for key in ['Tab'] * 10 + ['Shift+Tab'] * 10:
             page.keyboard.press(key)
             check(page.evaluate('''() => {
-                const el = document.activeElement;
-                if (!el.closest('.reading-stage')) return true;
-                const rect = el.getBoundingClientRect();
-                const nav = document.querySelector('.reading-guide').getBoundingClientRect();
-                return rect.top >= nav.bottom - 1 && rect.bottom <= innerHeight + 1;
-            }'''), 'Mobile guide obscures keyboard focus')
-        results.append({'case':'Tab and Shift+Tab below sticky guide','width':width,'status':'passed'})
+              const el=document.activeElement;
+              if(!el.closest('.reading-panel')) return true;
+              const r=el.getBoundingClientRect();
+              const obstruction=Math.max(0,...[...document.querySelectorAll('.site-header,.section-index,.reading-guide')]
+                .filter(e=>getComputedStyle(e).position==='sticky').map(e=>e.getBoundingClientRect().bottom));
+              return r.top>=obstruction-1 && r.bottom<=innerHeight+1;
+            }'''),'Sticky guide obscures keyboard focus')
+        results.append({'case':'touch navigation, vertical scroll and cancellation','width':width,'status':'passed'})
         context.close()
-    for fallback in ('no-js','no-observer'):
-        context = browser.new_context(viewport={'width':320,'height':800}, java_script_enabled=fallback != 'no-js')
-        if fallback == 'no-observer':
-            context.add_init_script('delete window.IntersectionObserver')
-        page = context.new_page()
-        page.goto(BASE, wait_until='networkidle')
-        check(page.locator('[data-reading-stage]').count() == 3, 'Fallback loses stages')
-        check(page.locator('.reading-frame').is_hidden(), 'Fallback has an unpositioned frame')
+    for fallback in ('no-js','no-observer','no-resize-observer'):
+        context=browser.new_context(viewport={'width':320,'height':800},java_script_enabled=fallback!='no-js')
+        if fallback=='no-observer': context.add_init_script('delete window.IntersectionObserver')
+        if fallback=='no-resize-observer': context.add_init_script('delete window.ResizeObserver')
+        page=context.new_page()
+        page.goto(BASE,wait_until='networkidle')
+        check(page.locator('[data-reading-stage]').evaluate_all('els=>els.every(e=>!e.hidden && e.getBoundingClientRect().height>0)'), 'Fallback loses content')
         for index in range(3):
             page.locator('.reading-guide a').nth(index).click()
-            check(page.url.endswith('#'+STOPS[index]), 'Fallback link failed')
-            check(page.locator('#'+STOPS[index]).is_visible(), 'Fallback content hidden')
-        check(page.evaluate('document.documentElement.scrollWidth <= innerWidth + 1'), 'Fallback overflow')
+            check(page.url.endswith('#'+STOPS[index]),'Fallback anchor failed')
+        check(page.evaluate('document.documentElement.scrollWidth<=innerWidth+1'),'Fallback overflow')
         results.append({'fallback':fallback,'status':'passed'})
         context.close()
-    page = browser.new_page(viewport={'width':390,'height':800})
+    page=browser.new_page(viewport={'width':390,'height':800})
     for stop in STOPS:
         page.goto(BASE+'/#'+stop,wait_until='networkidle')
-        settled(page, STOPS.index(stop))
-    results.append({'case':'direct links to all three stops','status':'passed'})
+        settled(page,STOPS.index(stop))
+        obstruction=page.evaluate('Math.max(0,...[...document.querySelectorAll(".site-header,.section-index")].filter(e=>getComputedStyle(e).position==="sticky").map(e=>e.getBoundingClientRect().bottom))')
+        check(page.locator('#'+stop).bounding_box()['y']>=obstruction+23,'Deep link hidden by navigation')
+    results.append({'case':'direct links to all chapters','status':'passed'})
     browser.close()
 (args.output/'report.json').write_text(json.dumps(results,ensure_ascii=False,indent=2)+'\n')
 print(json.dumps(results,ensure_ascii=False,indent=2))
