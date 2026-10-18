@@ -6,8 +6,8 @@ import { fileURLToPath } from 'node:url';
 const root = fileURLToPath(new URL('../', import.meta.url));
 const site = resolve(root, 'site');
 const project = JSON.parse(await readFile(resolve(site, 'content/project.json'), 'utf8'));
-const expected = ['desafio', 'propuesta', 'prototipo', 'validacion', 'resultados', 'aprendizajes', 'proximos-pasos'];
-assert.deepEqual(project.chapters.map(chapter => chapter.id), expected, 'El relato debe conservar las siete etapas');
+const expected = ['desafio', 'historia', 'propuesta', 'iteracion', 'prototipo', 'preguntas', 'validacion', 'aprendizajes'];
+assert.deepEqual(project.chapters.map(chapter => chapter.id), expected, 'El relato debe seguir el recorrido aprobado');
 const sources = new Set(project.sources.map(source => source.id));
 assert.equal(sources.size, project.sources.length, 'Los IDs de fuentes deben ser únicos');
 assert.equal(project.institution, null, 'No hay una institución piloto confirmada');
@@ -58,11 +58,15 @@ for (const [path, html] of htmlByPath) {
   }
 }
 const index = htmlByPath.get(resolve(site, 'index.html'));
-let lastPosition = -1;
+let lastPosition = index.indexOf('id="inicio"');
+assert(lastPosition >= 0, 'Debe conservarse la portada');
 for (const id of expected) {
   const position = index.indexOf(`id="${id}"`);
   assert(position > lastPosition, `Orden de sección incorrecto: ${id}`);
   lastPosition = position;
+}
+for (const id of ['resultados', 'proximos-pasos']) {
+  assert(index.includes(`id="${id}"`), `Conservar el ancla existente: ${id}`);
 }
 for (const source of project.sources) {
   assert(index.includes(`id="fuente-${source.id}"`), `Fuente sin referencia visible: ${source.id}`);

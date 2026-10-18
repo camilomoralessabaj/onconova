@@ -1,3 +1,5 @@
+import { appointmentDate, createReceiptPdf, sessionInstructions } from './receipt-pdf.js';
+
 // Academic simulation. No requests, personal fields, URL state or persistent booking data.
 const booking = document.querySelector('[data-booking]');
 if (booking) {
@@ -11,12 +13,42 @@ if (booking) {
   let modality = 'Videollamada';
   let selected = null;
   let slots = [];
-  const dateFormat = new Intl.DateTimeFormat('es-CL', { weekday: 'long', day: 'numeric', month: 'long', timeZone: 'UTC' });
   const dayFormat = new Intl.DateTimeFormat('en-CA', { year: 'numeric', month: '2-digit', day: '2-digit', timeZone: 'America/Santiago' });
 
-  function show(screen) {
+  let pointerSubmitActivation = null;
+  const isPointerClick = event => event.isTrusted && event.detail > 0;
+  // A submit event has no click detail; remember only its native pointer activation.
+  document.addEventListener('click', event => {
+    pointerSubmitActivation = null;
+    const button = event.target instanceof Element ? event.target.closest('button') : null;
+    if (!isPointerClick(event) || !button || !booking.contains(button) || button.type !== 'submit') return;
+    const activation = { submitter: button };
+    pointerSubmitActivation = activation;
+    // Expire even when native validation prevents a submit event.
+    setTimeout(() => {
+      if (pointerSubmitActivation === activation) pointerSubmitActivation = null;
+    }, 0);
+  }, true);
+  document.addEventListener('keydown', () => {
+    pointerSubmitActivation = null;
+    booking.querySelectorAll('[data-step-entry]').forEach(element => element.removeAttribute('data-step-entry'));
+  }, true);
+  function consumePointerSubmit(event) {
+    const activation = pointerSubmitActivation;
+    pointerSubmitActivation = null;
+    return Boolean(event.isTrusted && activation && event.submitter === activation.submitter);
+  }
+
+  function show(screen, { animate = false } = {}) {
+    const shouldAnimate = animate && screen !== current &&
+      window.matchMedia('(prefers-reduced-motion: no-preference)').matches;
+    find('[data-booking-status]').textContent = '';
     current = screen;
-    booking.querySelectorAll('[data-screen]').forEach(element => { element.hidden = element.dataset.screen !== screen; });
+    booking.querySelectorAll('[data-screen]').forEach(element => {
+      const visible = element.dataset.screen === screen;
+      element.toggleAttribute('data-step-entry', visible && shouldAnimate);
+      element.hidden = !visible;
+    });
     booking.querySelectorAll('[data-progress]').forEach(element => {
       const step = Number(element.dataset.progress);
       element.classList.toggle('complete', step < steps[screen]);
@@ -45,7 +77,7 @@ if (booking) {
     while (slots.length < 3) {
       day.setUTCDate(day.getUTCDate() + 1);
       if (![0, 6].includes(day.getUTCDay())) {
-        slots.push({ date: dateFormat.format(day), time: ['10:00', '15:30', '11:00'][slots.length] });
+        slots.push({ year: day.getUTCFullYear(), month: day.getUTCMonth() + 1, day: day.getUTCDate(), time: ['10:00', '15:30', '11:00'][slots.length] });
       }
     }
     find('[data-slots]').replaceChildren(...slots.map((slot, index) => {
@@ -53,7 +85,7 @@ if (booking) {
       label.className = 'slot';
       const radio = document.createElement('input');
       radio.type = 'radio'; radio.name = 'slot'; radio.value = String(index);
-      const date = document.createElement('span'); date.textContent = slot.date;
+      const date = document.createElement('span'); date.textContent = appointmentDate(slot);
       const time = document.createElement('strong'); time.textContent = `${slot.time} h`;
       const note = document.createElement('small'); note.textContent = 'Horario de ejemplo';
       label.append(radio, date, time, note);
@@ -65,21 +97,23 @@ if (booking) {
     ['date', 'modality', 'channel'].forEach(key => { find(`[data-appointment-${key}]`).textContent = ''; });
     find('[data-before-session]').textContent = '';
   }
-  function reset() {
+  function reset({ animate = false } = {}) {
     requestForm.reset(); scheduleForm.reset(); waitForm.reset();
     clearConfirmation();
     find('[data-slot-error]').hidden = true;
     find('[data-wait-result]').hidden = true;
     find('[data-wait-copy]').textContent = '';
     find('[data-booking-status]').textContent = '';
-    createSlots(); updatePreferences(); show('start');
+    createSlots(); updatePreferences(); show('start', { animate });
   }
   requestForm.addEventListener('submit', event => {
+    const animate = consumePointerSubmit(event);
     event.preventDefault();
     if (current !== 'start' || !requestForm.reportValidity()) return;
-    clearConfirmation(); scheduleForm.reset(); updatePreferences(); show('message');
+    clearConfirmation(); scheduleForm.reset(); updatePreferences(); show('message', { animate });
   });
   scheduleForm.addEventListener('submit', event => {
+    const animate = consumePointerSubmit(event);
     event.preventDefault();
     if (current !== 'schedule') return;
     const input = scheduleForm.querySelector('input[name="slot"]:checked');
@@ -90,11 +124,11 @@ if (booking) {
     }
     selected = slots[Number(input.value)];
     find('[data-slot-error]').hidden = true;
-    find('[data-appointment-date]').textContent = `${selected.date}, ${selected.time} h (Santiago de Chile)`;
+    find('[data-appointment-date]').textContent = `${appointmentDate(selected)}, ${selected.time} h (Santiago de Chile)`;
     find('[data-appointment-modality]').textContent = modality === 'Videollamada' ? 'Videollamada de ejemplo' : 'Consulta presencial de ejemplo';
     find('[data-appointment-channel]').textContent = `${channel} · Mensaje no enviado`;
-    find('[data-before-session]').textContent = modality === 'Videollamada' ? 'Para conversar por videollamada, busca un lugar tranquilo y revisa tu conexión. Esta demostración no habilita una sala de atención.' : 'El comprobante de una sesión presencial incluiría la dirección y las indicaciones de llegada. Aquí se muestra una consulta de ejemplo, sin un lugar real de atención.';
-    show('confirmed');
+    find('[data-before-session]').textContent = sessionInstructions(modality).join(' ');
+    show('confirmed', { animate });
   });
   scheduleForm.addEventListener('change', () => { find('[data-slot-error]').hidden = true; });
   waitForm.addEventListener('submit', event => {
@@ -107,23 +141,40 @@ if (booking) {
   booking.addEventListener('click', event => {
     const action = event.target.closest('[data-action]')?.dataset.action;
     if (!action) return;
-    if (action === 'reset') reset();
-    if (action === 'edit' && current === 'message') { clearConfirmation(); show('start'); }
-    if (action === 'message' && current === 'schedule') show('message');
-    if (action === 'schedules' && ['message', 'waiting'].includes(current)) show('schedule');
-    if (action === 'reschedule' && current === 'confirmed') { clearConfirmation(); scheduleForm.reset(); show('schedule'); }
-    if (action === 'unavailable' && current === 'schedule') { clearConfirmation(); scheduleForm.reset(); find('[data-wait-result]').hidden = true; show('waiting'); }
+    const animate = isPointerClick(event);
+    if (action === 'reset') reset({ animate });
+    if (action === 'edit' && current === 'message') { clearConfirmation(); show('start', { animate }); }
+    if (action === 'message' && current === 'schedule') show('message', { animate });
+    if (action === 'schedules' && ['message', 'waiting'].includes(current)) show('schedule', { animate });
+    if (action === 'reschedule' && current === 'confirmed') { clearConfirmation(); scheduleForm.reset(); show('schedule', { animate }); }
+    if (action === 'unavailable' && current === 'schedule') { clearConfirmation(); scheduleForm.reset(); find('[data-wait-result]').hidden = true; show('waiting', { animate }); }
     if (['later', 'decline'].includes(action) && current === 'start') {
       find('[data-pause-title]').textContent = action === 'later' ? 'Puedes darte un tiempo.' : 'Tu decisión también cuenta.';
       find('[data-pause-copy]').textContent = action === 'later' ? 'No se ha iniciado una solicitud, ni siquiera dentro de la simulación. Puedes conocer la propuesta y volver cuando quieras.' : 'No se inicia una solicitud ni un contacto de seguimiento. Puedes volver a explorar el recorrido si cambias de opinión.';
-      show('paused');
+      show('paused', { animate });
     }
     if (action === 'download' && current === 'confirmed' && selected) {
-      const text = ['ONCONOVA — COMPROBANTE DE EJEMPLO', '', 'SIMULACIÓN ACADÉMICA. NO ES UNA RESERVA REAL.', '', 'Usuaria de ejemplo', 'Primera sesión de apoyo psicológico', `Fecha: ${selected.date}, ${selected.time} h (Santiago de Chile)`, 'Duración de ejemplo: 45 minutos', `Modalidad: ${modality}`, 'Profesional de ejemplo; sin identidad asignada', `Canal elegido: ${channel}. No se envió ningún mensaje.`, 'Estado: cita simulada. Atención aún no realizada.', '', 'No corresponde a una institución o profesional real, ni acredita cobertura o pago.', 'Este archivo sirve únicamente para demostrar el prototipo de OncoNova.'].join('\n');
-      const url = URL.createObjectURL(new Blob([text], { type: 'text/plain;charset=utf-8' }));
-      const link = document.createElement('a'); link.href = url; link.download = 'onconova-comprobante-simulado.txt'; document.body.append(link); link.click(); link.remove();
-      setTimeout(() => URL.revokeObjectURL(url), 1000);
-      find('[data-booking-status]').textContent = 'Comprobante de ejemplo preparado para descargar.';
+      const status = find('[data-booking-status]');
+      let url;
+      let link;
+      status.textContent = '';
+      try {
+        const pdf = createReceiptPdf({ slot: selected, modality, channel });
+        url = URL.createObjectURL(pdf);
+        link = document.createElement('a');
+        link.href = url;
+        link.download = 'onconova-comprobante-simulado.pdf';
+        document.body.append(link);
+        link.click();
+        // Announce initiation: the browser owns the final save/cancel decision.
+        status.textContent = 'Descarga del comprobante PDF iniciada. Es una cita simulada.';
+      } catch {
+        status.textContent = 'No se pudo preparar el comprobante PDF. Intenta descargarlo de nuevo.';
+      } finally {
+        link?.remove();
+        // Leave time for the browser to consume the URL, including repeated downloads.
+        if (url) setTimeout(() => URL.revokeObjectURL(url), 1000);
+      }
     }
   });
   find('[data-screen="start"]').hidden = false;

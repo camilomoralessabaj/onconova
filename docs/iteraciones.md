@@ -1,5 +1,53 @@
 # Iteraciones de la primera versión
 
+## Paleta burdeo y rosados · 18/10/2026
+
+Rama `feat/paleta-burdeo-rosados`, creada desde `origin/main` en `e0a61bf` después de comprobar que el checkout inicial estaba limpio y actualizar las referencias remotas. Se aplican las skills locales `color-expert`, `frontend-design`, `onconova-storytelling`, `web-design-guidelines` y `revision-landing`; se consultó la guía web vigente de Vercel. La solicitud actual de paleta sustituye la instrucción histórica de conservar los colores del 17/10.
+
+Los siete colores recibidos quedan como referencias y se asignan a roles semánticos para página, superficies, acciones, texto, acentos, bordes y estados. Se añaden tintas de apoyo `#321521` y `#704054` para lectura y texto secundario. Los detalles de uso y las restricciones se documentan en [paleta-ui.md](paleta-ui.md). La landing, la página independiente, las ilustraciones propias, la marca y el comprobante PDF comparten esa dirección. El hover se deriva en OKLab con una alternativa visible para navegadores sin `color-mix`. Los campos conservan bordes funcionales burdeo; los separadores pastel son decorativos.
+
+Se conserva el contenido, las fuentes, la tipografía, la composición y la lógica del prototipo. En HTML solo cambia `theme-color` y el símbolo decorativo: Chromium lo mostraba como emoji verde, por lo que se reemplazó por un SVG con `currentColor`. Se conservan los tonos de piel de la ilustración y el papel blanco del PDF.
+
+Verificaciones ejecutadas:
+
+- `node scripts/check.mjs`, `node scripts/build.mjs`, `node --check site/assets/receipt-pdf.js` y `git diff --check`: aprobados. SVG analizados como XML sin errores.
+- `PYTHONDONTWRITEBYTECODE=1 python3 scripts/test-booking.py --base-url http://127.0.0.1:4173 --output work/paleta-qa/booking`: seis casos aprobados en ambas rutas a 1440, 390 y 320 px, con 78 PDFs, cuatro combinaciones de canal/modalidad por caso, reprogramación, errores inyectados, teclado, ampliación de texto, lectura sin JavaScript y ancla de fuente. PDFs extraídos con Poppler y analizados/renderizados con MuPDF. Sin errores de consola ni carga detectados por esa prueba.
+- Auditoría temporal de color en navegador sobre ambas rutas: 49 casos/estados y 7080 muestras de texto visible, sin fallos frente a los umbrales AA de tamaño y peso comprobados. El menor ratio observado fue 4,89:1. Se verificaron los siete valores originales en las variables calculadas por Chromium, las opciones seleccionadas, el hover y los focos claro/burdeo. Tras reemplazar el emoji se repitió la auditoría y sus capturas.
+- Inspección visual de portada en móvil/escritorio, mensaje, horarios, foco claro sobre propuesta, comprobante PDF y confirmación con texto ampliado a 320 px. El diff se revisó junto con los archivos nuevos. No se modificaron skills ni se añadieron dependencias.
+
+Las capturas y los informes se conservan en [revision-2026-10-18/paleta/](revision-2026-10-18/paleta/). El test antiguo incluido en la skill contiene selectores de un prototipo anterior; se utilizó el test vigente `scripts/test-booking.py`, sin modificar la skill.
+
+Límites: Chromium local, sin Safari, Firefox, dispositivos físicos ni sesión con lector de pantalla. La comprobación de reflujo no equivale a probar zoom nativo; los pares calculados y los estados visitados no certifican accesibilidad completa ni comprensión por usuarias. La revisión técnica no valida el servicio. En la entrega local inicial, push y apertura de PR quedaron pendientes de confirmar el alcance autorizado según `AGENTS.md` y `CONTRIBUTING.md`.
+
+### Subida de rama y PR autorizados · 18/10/2026
+
+El usuario autoriza subir `feat/paleta-burdeo-rosados` y crear el PR en borrador hacia `main`. El fetch detectó la integración de las transiciones del prototipo (#6), con `main` en `f3227d5`. Antes del primer push se trasladó el commit local a esa base; el cruce en `.booking` se resolvió conservando los dos tokens de movimiento de `main` y el nuevo fondo semántico de la paleta. El JS y el test de transición coinciden con `main`, sin retirar trabajo ajeno ni reescribir historial remoto.
+
+Sobre esa base pasaron nuevamente check, build, sintaxis de ambos módulos JS y diff. Se repitieron el agendamiento completo (seis casos y 78 PDFs, más lectura sin JavaScript y ancla), los 49 casos de color y los 13 casos de `scripts/test-step-motion.py`. Los informes de agendamiento y movimiento están en `docs/revision-2026-10-18/paleta/`. Los límites de navegador y accesibilidad anteriores se mantienen. La autorización corresponde a la rama y al PR; la integración sigue sujeta a revisión humana y checks.
+
+## Servicio de transición, historia y evidencia · 17/10/2026
+
+Rama `feat/servicio-transicion-evidencia`, desde `71c6c95`. El checkout estaba limpio. La especificación adjunta `prompt.md` y la autorización de implementarla confirman el cambio conceptual y la creación de un PR en borrador, sin merge ni despliegue. Se comprobó mediante el conector de GitHub y después con `git fetch origin main` que la base coincidía con `main`. Se aplicaron las skills locales frontend-design, onconova-storytelling, web-design-guidelines y revision-landing; la guía web actual se consultó mediante el conector GitHub, ya que el acceso directo inicial desde el sandbox falló.
+
+Se preservan exactamente el HTML de la portada y la franja de promesas, la paleta, las fuentes, las ilustraciones y el comportamiento del agendamiento. No se cambian `prototype.js`, `prototype.css`, `app.js` ni la página independiente. Se actualiza la navegación y el relato en el orden autorizado: Desafío → Historia → Propuesta → Prototipado e iteración → Demostración → Preguntas → Validación → Aprendizajes, brechas y planificación. Las anclas `resultados` y `proximos-pasos` se mantienen dentro de las secciones correspondientes. El check existente se adapta a ese orden.
+
+Se añaden el problema de estudio, tres requisitos, la comparación app integral/servicio acotado, los atributos propuestos y la distinción entre papel planificado y maqueta digital disponible. El relato aclara que la web solo simula la coordinación de una primera hora psicológica y no realiza la exploración conversada completa, una derivación institucional ni una atención real. S11 registra la especificación y sus límites, conservando S08/S10 como antecedentes.
+
+Las cinco entrevistas siguen siendo evidencia de necesidades. Los tres indicadores conservan sus definiciones del manifiesto, metas de al menos 80 % y resultados pendientes, sin porcentajes observados ni semáforos. Se incorporan las dos brechas, la decisión ITERAR y la planificación propuesta con responsables y semanas relativas. La tabla conserva semántica de tabla y presenta cada fila en vertical en móvil.
+
+No están disponibles el documento complementario aludido por el prompt, el cuadro estratégico, la foto del papel, el video ni resultados verificables del RIA. No se reconstruyen énfasis desconocidos ni textos literales del documento ausente. Las síntesis se basan en la especificación y en S03/S04/S09. `docs/evidencia.md` registra contradicciones, recursos ausentes y las anclas previstas para incorporarlos. No se emplean el póster histórico ni recursos genéricos como sustitutos de evidencia.
+
+Verificaciones realizadas:
+
+- `node scripts/check.mjs`, `node scripts/build.mjs` y `git diff --check`: aprobados; ocho etapas tras la portada, once fuentes, tres metas, dos páginas y doce archivos públicos.
+- Comparación del HTML original y actualizado de portada/franja: idénticos. Se revisaron diff, fuentes, límites de evidencia y ausencia de archivos privados.
+- `PYTHONDONTWRITEBYTECODE=1 python3 scripts/test-booking.py --output work/revision-transicion-final`: seis casos aprobados (landing y `/prototipo/` a 1440, 390 y 320 px), más lectura sin JavaScript en ambas rutas y enlace directo a fuente. Incluye combinaciones de canal/modalidad, solicitud, mensaje, horarios, confirmación, cambio de hora, comprobante, postergación, rechazo, coordinación pendiente, reinicio, texto ampliado y reflujo a 720 px. Sin errores de consola, HTTP o envíos externos en los recorridos comprobados.
+- Revisión adicional con Chromium a 320, 390, 768, 1024 y 1440 px, con tamaños normal/ampliado y movimiento reducido: sin desbordamiento. Orden de secciones, anclas conservadas y nuevas, apertura de fuentes, salto al contenido y foco de teclado comprobados. El foco sobre el fondo violeta utiliza un contorno blanco de 3 px. Se comprobó la semántica accesible de la tabla en móvil.
+- Se corrigió un desbordamiento del nuevo título de propuesta a 320 px con texto ampliado y se mejoró la lectura móvil de la tabla. La repetición de la prueba funcional aprobó todos los casos. Se utilizó `scripts/test-booking.py`, vigente para el agendamiento actual; el smoke genérico de la skill conserva selectores de una maqueta anterior y no se ejecutó como sustituto.
+- Contraste de pares de texto/fondo utilizados en el cambio: al menos 5,46:1 en las combinaciones comprobadas. Inspección visual de las secciones modificadas en escritorio y móvil. Capturas en `docs/revision-2026-10-17/`; al recortar secciones se oculta solo la cabecera fija para evitar superposiciones de la captura.
+
+Límites: no se evaluó comprensión con usuarias, factibilidad institucional, acceso real ni eficacia clínica. No se probaron Safari, dispositivos físicos o zoom nativo al 200 %; el reflujo es una aproximación. Las pruebas técnicas no equivalen a validación del servicio. El PR se entrega en borrador para revisión de otra persona, sin merge ni despliegue.
+
 Fecha: 10 de octubre de 2026. Trabajo realizado con apoyo de Codex, a partir del material del equipo y de sus aclaraciones. Este registro describe cambios y verificaciones del sitio; no es un resultado de validación del servicio con usuarias.
 
 | Iteración | Instrucción y cambio | Evidencia o comprobación |
@@ -121,6 +169,56 @@ Revisión de contraste de los pares principales: texto ≥5,59:1 y botones princ
 ### Preparación del PR autorizada
 
 El usuario autorizó subir la rama y abrir un PR hacia `main`. Se consultó el remoto y `main` sigue en la base `d45b039`; no hay cambios adicionales que integrar. Se incorporan capturas de portada en escritorio y móvil en `docs/revision-2026-10-14/` para facilitar la revisión visual. La autorización no incluye merge; la publicación en GitHub Pages sigue el flujo de revisión del equipo.
+
+## Comprobante de agendamiento en PDF · 18/10/2026
+
+Rama local `feat/comprobante-pdf`, desde `main` confirmado mediante fetch en `71c6c95`. Checkout inicialmente limpio. Alcance autorizado: implementación, verificación local y descripción de PR; sin push, PR, merge ni publicación. Se aplicaron frontend-design, onconova-storytelling, web-design-guidelines (guía externa consultada) y revision-landing junto con `docs/code_review.md`. No se modificaron skills.
+
+Se reemplazó el archivo de texto por un PDF 1.4 generado en el navegador, de una página A4, MIME `application/pdf` y nombre `onconova-comprobante-simulado.pdf`. El módulo nativo `site/assets/receipt-pdf.js` compone marca vectorial, tipografía estándar PDF con texto seleccionable en español, fecha destacada en lavanda e indicaciones y nota de simulación en la paleta del brief. No incorpora dependencias de producción, fuentes remotas, imágenes como contenido único ni servicios externos. Las fuentes S09/S10 y la decisión vigente sostienen el escenario; no se añaden datos ni resultados de validación al manifiesto.
+
+El PDF incluye usuaria ficticia, primera sesión de apoyo psicológico, fecha con año, hora de Santiago de Chile, 45 minutos de ejemplo, modalidad, profesional sin identidad asignada, canal sin mensaje enviado y estado de cita simulada sin atención realizada. Videollamada no habilita sala real; presencial no tiene dirección real asignada. Nota visible: no constituye reserva real ni acredita atención, cobertura o pago. Se conservan año, mes y día como números en los horarios y se comparte el formato de fecha y las indicaciones entre pantalla y documento, sin reconstruir fechas desde etiquetas.
+
+Ambas rutas anuncian **Descargar comprobante PDF**. El estado de descarga o error es visible y usa `role=status`, `aria-live=polite` y `aria-atomic=true`. El mensaje de éxito solo informa el inicio; el guardado o la cancelación final dependen del navegador. Se retiran los enlaces temporales y se revocan las URLs de descarga. El estado se limpia al cambiar de pantalla; no se generan comprobantes sin confirmación. Se mantienen postergación, rechazo, coordinación pendiente, reprogramación, reinicio y privacidad. El guion documenta la demostración del PDF y los requisitos de QA. Se conservan intactas las protecciones contra `.pdf` dentro de `site/` en check/build; los archivos generados están en `work/`.
+
+Verificaciones reales:
+
+- `node scripts/check.mjs`, `node scripts/build.mjs`, `git diff --check` y sintaxis de ambos módulos JS: aprobados.
+- Servidor `node scripts/serve.mjs` y prueba adaptada `PYTHONDONTWRITEBYTECODE=1 python3 scripts/test-booking.py --base-url http://127.0.0.1:4173 --output work/qa-comprobante`: seis casos aprobados, `/` y `/prototipo/` a 1440, 390 y 320 px. Cada caso prueba cuatro combinaciones, descarga inicial, reprogramación, reintento tras errores y una descarga con texto ampliado: **78 PDFs válidos** en la pasada final.
+- Cada descarga se abre con PyMuPDF sin reparación, cifrado ni advertencias; se renderiza y se extrae texto también con Poppler (`pdftotext`) sin advertencias. Se comprueban una página A4, contenido exacto de pantalla, acentos y ñ, límites de página y ausencia de superposiciones entre cajas de texto. `pdfinfo` confirma PDF 1.4, una página A4, sin JavaScript ni cifrado. Muestras cercanas a 4 KB. Inspección visual de PDFs de las dos modalidades, marca, nota, alineación y legibilidad; apertura adicional de ambas modalidades en el visor PDF de Chromium mediante servidor HTTP local de QA, sin aviso de corrupción visible.
+- Reloj de QA fijado en `2026-12-31T01:00Z` (todavía 30/12 en Santiago), dispositivos con zonas Kiritimati y Los Ángeles: agenda cruza correctamente de 2026 a 2027 y mantiene las horas seleccionadas. Son días ficticios de lunes a viernes, sin calendario de feriados.
+- Tab llega desde el título de confirmación al botón; Enter y Espacio descargan; foco visible y tamaño mínimo de 44 px comprobados. Capturas de foco y estado inspeccionadas en móvil/escritorio, también con texto ampliado. Sin desbordamiento detectado. Se verificaron consentimiento, horarios, reinicio, recarga y bloqueo de comprobantes en estados sin cita, sin errores de consola/HTTP, nuevas peticiones externas ni almacenamiento de reservas. Lectura sin JS en ambas rutas y ancla S10 aprobadas.
+- Fallos inyectados en construcción del Blob, creación de URL y activación del enlace: se anuncia error sin éxito falso; reintentar funciona y se eliminan enlaces y URLs temporales. El acceso a sockets y navegador requirió el permiso de red del ejecutor; las verificaciones se realizaron sobre localhost.
+
+Segunda pasada separada sobre el diff, incluido el módulo nuevo: revisión de estados, fechas, codificación, offsets y longitudes PDF, privacidad, fuentes, semántica, foco y limpieza. Se retiró un token de color sin uso y se reforzó la prueba con fallos de construcción, detección de superposiciones y comprobante/estado con texto ampliado. Se repitió completa la prueba adaptada con esos ajustes y se repitieron check, build, sintaxis y diff. Sin hallazgos bloqueantes pendientes en el alcance revisado.
+
+Límites: Chromium local; sin Safari, Firefox, Adobe Reader ni dispositivos físicos. Se verificó la región de anuncio y su contenido, sin escuchar un lector de pantalla. La aproximación de reflujo no prueba zoom nativo. El PDF usa fuentes estándar no incrustadas y no está etiquetado: no se certifica PDF/UA ni PDF/A. Su composición está acotada al contenido español del prototipo, sin campos libres. Esta revisión técnica no evalúa comprensión con usuarias ni valida el servicio. Integración pendiente de revisión humana por otra persona; no se hizo commit, push, apertura de PR, merge ni publicación.
+
+Entrega local en `work/entrega-comprobante/`: PDF ficticio, render, capturas, reporte, texto extraído, parche completo y descripción de PR. No fue posible crear la ruta de salida `/codex/browser/projectless/0024-repositorio-onconova-base-de-integraci-n-main-ra/output` indicada por el cliente: `/codex` no existe y la raíz del ejecutor es de solo lectura o no permite crearla, incluso fuera del sandbox. Se conserva la entrega en el workspace sin subirla a servicios externos.
+
+
+### Preparación de push y PR autorizada · 18/10/2026
+
+El usuario autoriza explícitamente subir `feat/comprobante-pdf` y abrir PR hacia `main`; merge y publicación siguen fuera del alcance. El fetch detectó `main` en `81db292` (#4), posterior a la base inicial. Antes del primer push se trasladó el commit local a esa base y se resolvió el cruce del HTML conservando el relato, las preguntas y la referencia S11 del cambio integrado. La comparación de ambos HTML con `main` confirma únicamente los cuatro ajustes previstos del comprobante; no se retiran cambios ajenos ni se reescribe historia remota.
+
+Sobre esa base pasaron check, build, sintaxis JS, `git diff --check` y verificación de las 24 skills/393 huellas. Se repitió completa la prueba adaptada usando el puerto local 4175: seis casos y 78 PDFs aprobados, más lectura sin JavaScript y ancla S10. El reporte está en `docs/revision-2026-10-18/comprobante-report.json`; las capturas del PDF ficticio y del estado en escritorio/móvil se incluyen en la misma carpeta para revisión humana desde el PR. Se mantienen los límites de QA registrados arriba. Los PDFs de prueba siguen solo en `work/`, sin alterar la protección de `site/`.
+
+## Transición entre pasos del prototipo · 18/10/2026
+
+Implementación autorizada del plan de `improve-animations`, en la rama `feat/transicion-pasos-prototipo-150ms`, desde `main` en `e0a61bf`. Se aplicaron las skills `animate`, `review-animations`, `revision-landing`, las instrucciones de diseño y relato y las guías de interfaz consultadas. No se modificaron skills. El usuario autoriza publicar esta rama y crear un PR; la integración conserva la revisión humana del equipo.
+
+Las dos rutas comparten una entrada CSS de opacidad 0 → 1, de 150 ms con `cubic-bezier(0.23, 1, 0.32, 1)`, al cambiar de paso mediante clic o toque reconocido. La pantalla anterior se oculta inmediatamente y se actualizan progreso y foco sin esperar la transición. Las acciones con teclado, las activaciones sin procedencia de puntero confirmada, la carga inicial y el movimiento reducido conservan el cambio instantáneo. Un envío inválido no dispara otra entrada. La captura de activación del submit expira incluso si la validación nativa impide enviarlo.
+
+No se animan alturas, posiciones, errores, avisos ni el indicador de progreso. Se conservan la descarga PDF y los cambios del relato ya integrados. Sin dependencias nuevas, almacenamiento de reservas ni peticiones de servicio. `@starting-style` permite una alternativa funcional estática cuando no está soportado. Al probar Tab durante una entrada, se detectó que retirar la marca de animación dejaba continuar la transición CSS existente: se añadió `transition:none` como estado base de la pantalla para cancelarla inmediatamente.
+
+Verificación realizada en Chromium 154.0.8037.57:
+
+- `node --check site/assets/prototype.js`, `node scripts/check.mjs`, `node scripts/build.mjs` y `git diff --check`: aprobados.
+- `PYTHONDONTWRITEBYTECODE=1 python3 scripts/test-step-motion.py --base-url http://127.0.0.1:4177 --output work/qa-step-motion`: 13 casos aprobados; ambas rutas a 1440, 390 y 320 px, con y sin movimiento reducido, más simulación de navegador que ignora `@starting-style`. Comprueba clic/toque emulado, Enter, Espacio, Tab durante la entrada, activaciones sintetizadas y programáticas, validación, pausas, espera, regresos rápidos, cambio de preferencia de movimiento durante la entrada, foco, progreso inmediato, texto ampliado, una sola pantalla activa y ausencia de desbordamiento y errores de consola/HTTP. Se inspecciona la transición real del navegador: propiedad opacidad, extremos 0/1, 150 ms y curva exacta. El script se conserva como comprobación opcional reproducible; requiere Playwright y Chromium solo para QA.
+- `PYTHONDONTWRITEBYTECODE=1 python3 scripts/test-booking.py --base-url http://127.0.0.1:4177 --output work/qa-booking-motion`: seis casos aprobados, ambas rutas a tres anchos, 78 descargas PDF verificadas, fallos y reintentos, lectura sin JavaScript y enlace a fuente. La prueba existente usa movimiento reducido; la prueba nueva cubre también movimiento normal.
+- Inspección visual de los estados finales en escritorio y móvil con texto ampliado, y fotogramas de una transición pausada a 30 y 150 ms: solo cambia la opacidad, sin desplazamiento ni superposición. Las capturas finales y el reporte están en `docs/revision-2026-10-18/transicion-pasos-{escritorio.png,movil.png,report.json}`. Las capturas estáticas documentan disposición y legibilidad; los tiempos se verifican mediante la prueba de interacción.
+- Segunda revisión del diff y de los archivos nuevos: flujo de estados, procedencia de activación, cancelación, movimiento reducido, foco y alcance. Sin hallazgos bloqueantes pendientes en lo comprobado.
+
+Límites: no se probaron Safari, Firefox, un teléfono físico, zoom nativo ni lectura con tecnología de asistencia. La altura del contenedor sigue cambiando instantáneamente. Esta verificación técnica no valida comprensión con usuarias ni acceso real a atención. El PR necesita revisión de otra persona antes de integrarse; GitHub Pages se actualizará después del merge y del despliegue.
 
 ## Movimiento moderado durante el scroll · 18/10/2026
 
