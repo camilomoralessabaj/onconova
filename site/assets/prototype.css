@@ -1,4 +1,6 @@
 .booking {
+  --booking-step-duration:150ms;
+  --booking-step-ease:cubic-bezier(0.23, 1, 0.32, 1);
   background:#fff;
   border:1px solid var(--line);
   border-radius:26px;
@@ -74,6 +76,19 @@
   padding:40px 55px 35px;
   max-width:850px;
   margin-inline:auto;
+  transition:none;
+}
+
+@media(prefers-reduced-motion:no-preference) {
+  .booking-screen[data-step-entry]:not([hidden]) {
+    transition:opacity var(--booking-step-duration) var(--booking-step-ease);
+  }
+
+  @starting-style {
+    .booking-screen[data-step-entry]:not([hidden]) {
+      opacity:0;
+    }
+  }
 }
 
 .screen-intro {
