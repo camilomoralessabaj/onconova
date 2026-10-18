@@ -33,6 +33,9 @@
   --shadow-raised:0 6px 25px #32152122;
   --shadow-booking:0 16px 65px #32152106;
   --anchor-offset:7rem;
+  --ease-out:cubic-bezier(0.23,1,0.32,1);
+  --motion-standard:300ms;
+  --motion-story:500ms;
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
   font-size:16px;
   color:var(--ink);
@@ -839,6 +842,142 @@ strong {
   margin-top:24px;
 }
 
+/* A shared frame tracks three reading stops; the narrative stays in normal flow. */
+.reading-layout {
+  display:grid;
+  grid-template-columns:230px minmax(0,1fr);
+  gap:48px;
+  align-items:start;
+}
+
+.reading-guide {
+  position:sticky;
+  top:var(--anchor-offset);
+  z-index:10;
+  padding:8px;
+  border-radius:16px;
+  background:var(--surface-muted);
+}
+
+.reading-guide-label {
+  margin:0 12px 14px;
+  font-size:.9rem;
+  color:var(--muted);
+}
+
+.reading-guide-track {
+  position:relative;
+  display:grid;
+  gap:8px;
+}
+
+.reading-guide a {
+  position:relative;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  min-height:64px;
+  padding:12px;
+  border:2px solid transparent;
+  border-radius:12px;
+  font-size:1rem;
+  line-height:1.4;
+  text-decoration:none;
+}
+
+.reading-guide a>span {
+  flex:none;
+  font-variant-numeric:tabular-nums;
+  color:var(--primary);
+}
+
+.reading-guide a[aria-current="step"] {
+  font-weight:650;
+  text-decoration:underline;
+}
+
+.reading-guide a:hover {
+  text-decoration:underline;
+}
+
+.reading-frame {
+  position:absolute;
+  inset:0 auto auto 0;
+  border:2px solid var(--primary);
+  border-radius:12px;
+  background:var(--page);
+  pointer-events:none;
+}
+
+@media screen and (prefers-reduced-motion:no-preference) {
+  .reading-frame {
+    transition:transform 250ms var(--ease-out);
+  }
+}
+
+.reading-frame.reading-frame-instant {
+  transition:none;
+}
+
+.reading-stages {
+  display:grid;
+  gap:48px;
+}
+
+.reading-stage {
+  margin:0;
+  padding:30px;
+  border:1px solid var(--primary);
+  border-radius:20px;
+  scroll-margin-top:var(--anchor-offset);
+}
+
+.reading-stage>h3 {
+  margin-bottom:28px;
+  font-size:1.65rem;
+  color:var(--primary);
+}
+
+.reading-stage:focus-visible {
+  outline:3px solid var(--focus);
+  outline-offset:5px;
+}
+
+.reading-stage :is(.findings-list,.gap-list) {
+  grid-template-columns:minmax(0,1fr);
+  gap:28px;
+  margin-top:0;
+}
+
+.reading-stage h4 {
+  font-size:1.25rem;
+}
+
+@media(max-width:1000px) {
+  .reading-layout { grid-template-columns:200px minmax(0,1fr); gap:24px; }
+}
+
+@media(max-width:720px) {
+  .reading-layout { display:block; }
+  .reading-guide { top:calc(var(--anchor-offset) - 20px); margin-bottom:28px; padding:6px; }
+  .reading-guide-label { display:none; }
+  .reading-guide-track { grid-template-columns:repeat(3,minmax(0,1fr)); gap:4px; }
+  .reading-guide a { flex-direction:column; justify-content:center; gap:2px; padding:6px 2px; font-size:.8rem; }
+  .reading-stages { gap:28px; }
+  .reading-stage { padding:22px 18px; scroll-margin-top:6rem; }
+  .reading-stage a { scroll-margin-block:6rem 2rem; }
+  .reading-stage .iteration-table tbody th { width:auto; }
+  .large-text .reading-guide { position:static; }
+  .large-text .reading-guide-track { grid-template-columns:minmax(0,1fr); }
+  .large-text .reading-guide a { flex-direction:row; gap:12px; font-size:1rem; }
+}
+
+@media print {
+  .reading-guide { display:none; }
+  .reading-layout { display:block; }
+  .reading-stage { break-inside:avoid; }
+}
+
 .mobile-cell-label {
   display:none;
 }
@@ -1514,6 +1653,28 @@ details[open]>summary::after {
   .hero h1 {
     font-size:2.3rem;
   }
+}
+
+/* One-time entries enhance only illustration and proposal, never hide them. */
+@media screen and (prefers-reduced-motion:no-preference) {
+  [data-scroll-motion="illustration"].motion-play {
+    animation:illustration-arrive var(--motion-story) var(--ease-out) backwards;
+  }
+  [data-scroll-motion="proposal"].motion-play {
+    animation:proposal-arrive var(--motion-standard) var(--ease-out) backwards;
+  }
+  .proposal-attributes>li:nth-child(2) { animation-delay:50ms; }
+  .proposal-attributes>li:nth-child(3) { animation-delay:100ms; }
+}
+
+@keyframes illustration-arrive {
+  from { opacity:.9; transform:translateY(12px) scale(.985); }
+  to { opacity:1; transform:none; }
+}
+
+@keyframes proposal-arrive {
+  from { transform:translateY(8px); }
+  to { transform:none; }
 }
 
 @media(prefers-reduced-motion:reduce) {

@@ -219,3 +219,23 @@ Verificación realizada en Chromium 154.0.8037.57:
 - Segunda revisión del diff y de los archivos nuevos: flujo de estados, procedencia de activación, cancelación, movimiento reducido, foco y alcance. Sin hallazgos bloqueantes pendientes en lo comprobado.
 
 Límites: no se probaron Safari, Firefox, un teléfono físico, zoom nativo ni lectura con tecnología de asistencia. La altura del contenedor sigue cambiando instantáneamente. Esta verificación técnica no valida comprensión con usuarias ni acceso real a atención. El PR necesita revisión de otra persona antes de integrarse; GitHub Pages se actualizará después del merge y del despliegue.
+
+## Movimiento moderado durante el scroll · 18/10/2026
+
+Rama `feat/movimiento-scroll`, base local `71c6c95`. Se aplicaron `find-animation-opportunities`, `motion-design`, `animate`, `review-animations` y `revision-landing`. Se consultó `animate-expo`: no existe una app React Native/Expo en este repositorio y no se requiere migración ni gestos nuevos para la landing.
+
+Entradas únicas de la ilustración cuando comienza fuera de pantalla, una secuencia breve de los cuatro pasos y trazos en los bordes existentes de resultados/próximos pasos. Curva común, desplazamientos de 8–12 px y duración de 300–500 ms. El texto académico permanece estable; no cambian hechos ni fuentes. Todo está visible sin animación; teclado, anclas, impresión y preferencia reducida detienen el movimiento. Sin scroll artificial, listeners por fotograma, bibliotecas ni interacción por gesto obligatoria.
+
+Pasaron integridad, sintaxis JS, build y diff; seis casos del agendamiento en las dos páginas a 1440/390/320 px, texto ampliado y comprobaciones sin JS. Revisión específica de entradas, no repetición, reducción de movimiento en vivo, teclado, enlaces, impresión, fallback sin observer y deslizamiento táctil emulado. Capturas inspeccionadas y decisiones, medidas y límites en [revisión de movimiento](revision-2026-10-18/movimiento.md). Revisión local de animaciones aprobada dentro del alcance comprobado.
+
+Límites: Chromium local y móvil emulado; sin Safari, hardware físico, zoom nativo ni validación con usuarias. La URL pública no fue accesible desde las herramientas; se revisó el checkout. Sin push, PR, merge o publicación; continúa pendiente la revisión humana requerida por el proyecto.
+
+## Guía lineal con cuadro compartido y preparación de PR · 18/10/2026
+
+El usuario amplía el encargo: un cuadro que marque la lectura de Aprendizajes, Brechas y Próximos Pasos, e integración de los cambios en un PR. Autoriza push y creación del PR; el merge sigue pendiente de revisión humana.
+
+El fetch encontró `main` en `78c479b`, con relato S11, nueva paleta burdeo/rosados, comprobantes PDF y transiciones del prototipo. Se integró esa base en `feat/movimiento-scroll` y se resolvieron cruces de HTML e historial conservando el contenido reciente. Las entradas anteriores se adaptaron a los tres atributos de la propuesta vigente; se sustituyeron los trazos decorativos por la guía solicitada. Las capturas iniciales se reemplazan por el resultado integrado.
+
+La sección presenta tres bloques consecutivos en una sola columna. Un cuadro compartido marca el enlace del bloque leído y cambia de posición con transform en 250 ms; columna lateral en escritorio, barra superior en móvil y enlaces verticales sin sticky con texto ampliado en móvil. Los enlaces son anclas nativas, los destinos aceptan foco visible y toda la información permanece en el flujo normal. Con teclado o movimiento reducido, la señal se actualiza sin animación; el cuadro no altera el scroll. Se corrigieron la anchura de los encabezados del plan móvil y el margen que evita tapar enlaces al volver con Shift+Tab; se acotó un selector del test de progreso para distinguir la guía del agendamiento.
+
+Se conservan todos los párrafos y su orden frente a main, salvo una etiqueta de navegación. No cambian fuentes, evidencia, responsables ni semanas propuestas. Pasaron check/build/sintaxis/diff, los once casos de la guía (seis combinaciones, dos recorridos de foco y tres alternativas), seis casos de entradas únicas, seis casos del agendamiento con 78 PDFs y trece casos de transiciones del prototipo. Capturas, criterios, hallazgos corregidos y límites en [revisión integrada de movimiento](revision-2026-10-18/movimiento.md). Chromium local y móvil emulado; sin certificación de dispositivos físicos, Safari, zoom nativo o validación del servicio con usuarias.
