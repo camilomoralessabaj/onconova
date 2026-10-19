@@ -11,7 +11,20 @@ assert.deepEqual(project.chapters.map(chapter => chapter.id), expected, 'El rela
 const sources = new Set(project.sources.map(source => source.id));
 assert.equal(sources.size, project.sources.length, 'Los IDs de fuentes deben ser únicos');
 assert.equal(project.institution, null, 'No hay una institución piloto confirmada');
-assert.equal(project.prototype.status, 'conceptual-unvalidated', 'La maqueta no está validada');
+assert.equal(project.prototype.status, 'qualitative-behavioral-evaluation-reported', 'La evaluación es cualitativa y conductual reportada, no una certificación de efectividad');
+assert.equal(project.validation.status, 'reported-by-team', 'Distinguir reporte del equipo de verificación documental');
+assert.equal(project.prototype.evaluationSource, project.validation.source, 'El estado del prototipo debe apuntar al reporte de evaluación');
+const evaluationSource = project.sources.find(source => source.id === project.validation.source);
+assert.equal(evaluationSource?.type, 'team-reported-evaluation', 'La evaluación debe tener una fuente trazable del equipo');
+for (const field of ['quantitativeResults', 'clinicalEffectiveness', 'realCareAccess']) {
+  assert.equal(project.validation[field], null, `No inferir resultados de ${field}`);
+}
+assert.equal(project.validation.institutionalEvaluation, 'pending', 'Las pruebas con usuarias no acreditan evaluación operativa institucional');
+for (const id of ['S04', 'S05']) {
+  const document = project.sources.find(source => source.id === id);
+  assert.equal(document?.destinationConfirmedBy, evaluationSource.id, `El destino ${id} debe estar confirmado por el equipo`);
+  assert.equal(document.updatedTrialRecordsVerified, false, `No presentar ${id} como registro actualizado verificado`);
+}
 assert.equal(project.interviews.prototypeValidation, false, 'Las entrevistas exploran necesidades, no prueban la solución');
 for (const metric of project.metrics) {
   assert.equal(metric.status, 'proposed', 'Las métricas son propuestas');

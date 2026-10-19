@@ -4,14 +4,15 @@
   "course": "CD1201",
   "activity": "7.3",
   "team": "E7",
-  "updated": "2026-10-18",
+  "updated": "2026-10-19",
   "scope": "Servicio acotado de transición propuesto: exploración breve no diagnóstica, decisión voluntaria, una derivación prioritaria acompañada y confirmación de acceso compatible mediante canales institucionales existentes. La web solo simula la coordinación de una primera hora de apoyo psicológico; sin integración operativa ni atención real.",
   "institution": null,
   "prototype": {
-    "status": "conceptual-unvalidated",
+    "status": "qualitative-behavioral-evaluation-reported",
     "created": "2026-10-10",
     "description": "Prototipo navegable con nombre y contacto ficticios en memoria, mensaje personalizado por correo o WhatsApp, horarios alternativos según mañana/tarde y modalidad, confirmación y PDF simulados sin nombre ni contacto. Sin envíos, persistencia de solicitudes ni servicios reales.",
-    "updated": "2026-10-18"
+    "updated": "2026-10-19",
+    "evaluationSource": "S13"
   },
   "interviews": {
     "count": 5,
@@ -48,18 +49,25 @@
     },
     {
       "id": "S04",
-      "title": "RIA · Actividad 6.1",
+      "title": "Reporte de Indicadores de Avance (RIA) · Actividad 6.1",
       "type": "validation-plan",
       "url": "https://docs.google.com/spreadsheets/d/1s8qYCPpb1LY5ZjGtS_yyoC_rE9EYejjg/edit",
-      "note": "Umbrales preliminares del 80 %. Resultados sin completar."
+      "note": "Destino del RIA confirmado por el equipo el 19/10/2026 (S13). Texto consultado mediante Google Drive ese día: tres indicadores de OncoNova con umbrales preliminares del 80 % y resultados e interpretación vacíos. No corrobora resultados de las pruebas reportadas; se excluyen ejemplos de otros proyectos.",
+      "destinationConfirmedBy": "S13",
+      "reviewed": "2026-10-19",
+      "updatedTrialRecordsVerified": false
     },
     {
       "id": "S05",
-      "title": "Actividad 6.2 · Plan de experimento",
+      "title": "Registro de Pruebas · Actividad 6.2",
       "type": "validation-plan",
       "date": "2026-10-06",
       "url": "https://drive.google.com/file/d/1X-QvVD2cgPCfPf-KWQS4a2Lv-oVmvevY/view",
-      "note": "Prueba de conducta en papel propuesta; no realizada."
+      "note": "Destino del Registro de Pruebas confirmado por el equipo el 19/10/2026 (S13). Antecedente del 06/10: plan de prueba de conducta en papel. El texto consultado mediante Google Drive el 19/10 sigue siendo prospectivo y no corrobora registros actualizados de las cinco pruebas. El equipo confirmó mantener esta URL con esa aclaración; la realización se respalda en S13.",
+      "historicalTitle": "Actividad 6.2 · Plan de experimento",
+      "destinationConfirmedBy": "S13",
+      "reviewed": "2026-10-19",
+      "updatedTrialRecordsVerified": false
     },
     {
       "id": "S06",
@@ -80,7 +88,7 @@
       "title": "Alcance confirmado por el equipo",
       "type": "team-decision",
       "date": "2026-10-10",
-      "note": "Decisión histórica de derivación a distintos apoyos. Alcance sustituido por S10; siguen pendientes institución y pruebas con usuarias."
+      "note": "Decisión histórica del 10/10 de derivación a distintos apoyos, entonces sin pruebas. Alcance sustituido por S10; evaluación reportada posteriormente en S13. La institución sigue pendiente."
     },
     {
       "id": "S09",
@@ -88,7 +96,7 @@
       "type": "new-design",
       "date": "2026-10-10",
       "asset": "prototipo/index.html",
-      "note": "Diseño con IA, ampliado el 14/10 con agendamiento simulado. No validado con usuarias."
+      "note": "Diseño con IA, ampliado el 14/10 con agendamiento simulado. S13 reporta evaluación cualitativa y conductual del prototipo, sin identificar qué soporte o versión se aplicó ni demostrar efectividad."
     },
     {
       "id": "S10",
@@ -110,6 +118,13 @@
       "type": "team-decision",
       "date": "2026-10-18",
       "note": "Encargo de implementación del equipo: pedir nombre preferido y contacto según el canal, solo en memoria y con datos ficticios; ofrecer nuevos horarios según mañana/tarde y permitir cambiar videollamada/presencial hasta confirmar una cita simulada. El PDF omite nombre y contacto. No aporta validación con usuarias, cupos, instituciones ni contactos reales."
+    },
+    {
+      "id": "S13",
+      "title": "Confirmación del equipo · Cinco pruebas de validación",
+      "type": "team-reported-evaluation",
+      "date": "2026-10-19",
+      "note": "Encargo de actualización de #validacion recibido en esta fecha: el equipo confirma cinco pruebas de interacción conductual y entrevistas cualitativas con cuatro usuarias postratamiento y una profesional de oncología. Dimensiones: autonomía, comprensión del proceso y coincidencia entre preferencia declarada y elección realizada en exploración breve y simulación de derivación. Confirma los destinos existentes S05/S04 y, tras la consulta, mantenerlos aclarando que sus versiones accesibles aún no corroboran registros actualizados. Sin resultados numéricos, porcentajes, fecha de aplicación, soporte o versión identificados. No equivale a eficacia clínica, acceso real ni integración institucional. Las entrevistas históricas S01/S07 siguen separadas."
     }
   ],
   "chapters": [
@@ -142,7 +157,8 @@
       "sources": [
         "S03",
         "S09",
-        "S11"
+        "S11",
+        "S13"
       ],
       "kind": "proposal"
     },
@@ -153,7 +169,8 @@
         "S05",
         "S09",
         "S11",
-        "S12"
+        "S12",
+        "S13"
       ],
       "kind": "documented-plan-and-prototype"
     },
@@ -163,9 +180,10 @@
       "sources": [
         "S09",
         "S11",
-        "S12"
+        "S12",
+        "S13"
       ],
-      "kind": "conceptual-unvalidated"
+      "kind": "qualitative-behavioral-evaluation-reported"
     },
     {
       "id": "preguntas",
@@ -186,9 +204,10 @@
         "S04",
         "S05",
         "S07",
-        "S11"
+        "S11",
+        "S13"
       ],
-      "kind": "needs-evidence-and-pending-evaluation"
+      "kind": "team-reported-qualitative-behavioral-evaluation"
     },
     {
       "id": "aprendizajes",
@@ -200,7 +219,8 @@
         "S07",
         "S09",
         "S10",
-        "S11"
+        "S11",
+        "S13"
       ],
       "kind": "design-learning-and-plan"
     }
@@ -210,7 +230,7 @@
       "id": "reconocimiento",
       "label": "Reconocimiento de necesidades y decisión de apoyo",
       "definition": "Expresar una necesidad o su ausencia y elegir de acuerdo con la preferencia declarada, sin ayuda del evaluador.",
-      "scope": "Indicador propuesto en el RIA original. Instrumento y umbral por revisar antes de evaluar el servicio de transición. Una medición en simulación debe distinguirse del acceso real y no demuestra eficacia clínica.",
+      "scope": "Indicador propuesto en el RIA original. S13 reporta evaluación cualitativa y conductual sin aportar logros, denominadores ni porcentajes para este indicador. Instrumento y umbral por revisar para próximas mediciones. La simulación no demuestra acceso real ni eficacia clínica.",
       "status": "proposed",
       "threshold": 80,
       "unit": "%",
@@ -221,7 +241,7 @@
       "id": "avance",
       "label": "Avance acompañado en el proceso de acceso",
       "definition": "Completar el recorrido simulado, identificar la gestión del servicio y el siguiente contacto, sin ayuda adicional del evaluador.",
-      "scope": "Indicador propuesto en el RIA original. Instrumento y umbral por revisar antes de evaluar el servicio de transición. Una medición en simulación debe distinguirse del acceso real y no demuestra eficacia clínica.",
+      "scope": "Indicador propuesto en el RIA original. S13 reporta evaluación cualitativa y conductual sin aportar logros, denominadores ni porcentajes para este indicador. Instrumento y umbral por revisar para próximas mediciones. La simulación no demuestra acceso real ni eficacia clínica.",
       "status": "proposed",
       "threshold": 80,
       "unit": "%",
@@ -232,7 +252,7 @@
       "id": "compatibilidad",
       "label": "Compatibilidad del acceso con la usuaria",
       "definition": "Elegir una alternativa compatible con las restricciones del escenario o solicitar coordinación cuando ninguna sea viable.",
-      "scope": "Indicador propuesto en el RIA original. Instrumento y umbral por revisar antes de evaluar el servicio de transición. Una medición en simulación debe distinguirse del acceso real y no demuestra eficacia clínica.",
+      "scope": "Indicador propuesto en el RIA original. S13 reporta evaluación cualitativa y conductual sin aportar logros, denominadores ni porcentajes para este indicador. Instrumento y umbral por revisar para próximas mediciones. La simulación no demuestra acceso real ni eficacia clínica.",
       "status": "proposed",
       "threshold": 80,
       "unit": "%",
@@ -256,5 +276,29 @@
       "label": "Por ahora no lo necesito",
       "explanation": "La propuesta es respetar esta decisión, ofrecer información si la deseas y cerrar sin una derivación. No todas las mujeres necesitan el mismo apoyo."
     }
-  ]
+  ],
+  "validation": {
+    "status": "reported-by-team",
+    "source": "S13",
+    "reported": "2026-10-19",
+    "trialCount": 5,
+    "participants": {
+      "postTreatmentUsers": 4,
+      "oncologyProfessionals": 1
+    },
+    "methods": [
+      "behavioral-interaction",
+      "qualitative-interviews"
+    ],
+    "dimensions": [
+      "autonomy",
+      "process-comprehension",
+      "declared-preference-choice-agreement"
+    ],
+    "scope": "Exploración breve y simulación de derivación; perfil meta de mujeres de 50 a 59 años, FONASA/GES. Reporte del equipo, sin identificación de soporte, versión o fecha de aplicación. No se asumen registros idénticos a S01/S07 ni se suman muestras.",
+    "quantitativeResults": null,
+    "clinicalEffectiveness": null,
+    "realCareAccess": null,
+    "institutionalEvaluation": "pending"
+  }
 }

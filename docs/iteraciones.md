@@ -532,3 +532,92 @@ smoke original; las evidencias permanecen locales. Sintaxis JS, integridad,
 build y `git diff --check` se repiten y aprueban antes del commit.
 El workflow del PR ejecuta build; el despliegue requiere `refs/heads/main` y
 queda fuera de este encargo, al igual que el merge.
+
+## 19/10/2026 · Evidencia de validación reportada por el equipo (S13)
+
+Tarea: actualizar `#validacion` sobre `main` (`b18498a`), en la rama
+`fix/validacion-experimento`. Checkout inicialmente limpio, sin cambios ajenos.
+Se leyeron AGENTS, CONTRIBUTING, README, brief, evidencia, guía de revisión y
+manifiesto, y se aplicaron `onconova-storytelling`, `frontend-design`,
+`revision-landing` y `web-design-guidelines`. Las pautas web vigentes se
+consultaron desde su fuente pública antes de la revisión.
+
+Se sustituyen literalmente la introducción superior derecha, los cuatro textos
+de la tarjeta izquierda y el figcaption solicitados. El título completo es un
+único h3 con jerarquía principal dentro de la tarjeta, sin aislar el número 5;
+el subtexto usa strong. Dos enlaces descriptivos llevan a S05 (Registro de
+Pruebas, Actividad 6.2) y S04 (RIA). Se conservan composición, paleta, tipografía
+de sistema y SVG. El único ajuste CSS es el título, con tamaño adaptable y
+reflujo; el alt describe la ilustración conceptual sin identificar participantes.
+
+S13 registra el encargo recibido el 19/10: cinco pruebas de interacción
+conductual y entrevistas cualitativas con cuatro usuarias postratamiento y una
+profesional de oncología; autonomía, comprensión del proceso y coincidencia
+entre preferencia declarada y elección realizada. Se incorpora en fuentes
+visibles y en las secciones afectadas del manifiesto. El estado pasa a
+`qualitative-behavioral-evaluation-reported`; las entrevistas históricas S01/S07
+permanecen separadas. No se asumen registros idénticos ni se suman muestras.
+Se corrigen solo las negaciones vigentes de esas pruebas en la landing,
+README, brief y guion, conservando antecedentes y fechas.
+
+Se consultaron metadatos y texto legible de S05/S04 mediante Google Drive.
+S05 todavía muestra el plan del 06/10 y las columnas de resultados de OncoNova
+en S04 están vacías. El equipo confirmó **mantener las URLs con esa aclaración**
+tras recibir ese hallazgo. Se documenta la diferencia en el sitio, manifiesto
+y `docs/evidencia.md`: los destinos no corroboran registros actualizados; la
+realización y las dimensiones evaluadas proceden del reporte S13. No se copian
+originales privados ni se cambian permisos. Se excluyen los ejemplos de otro
+proyecto presentes en el texto extraído del RIA.
+
+`scripts/check.mjs` exige el nuevo estado y su fuente de reporte, distingue la
+confirmación del destino de la verificación de registros, y mantiene los
+controles de privacidad, institución nula, entrevistas de necesidades y metas
+sin resultados. Comprueba también que resultados cuantitativos, eficacia clínica
+y acceso real permanezcan nulos y que la evaluación institucional siga pendiente.
+No se añadieron dependencias ni tests que reproduzcan los textos de la sección.
+
+### Verificación ejecutada
+
+- `node scripts/check.mjs`: aprobado; 8 etapas, 13 fuentes, 3 metas sin resultados,
+  2 páginas y 15 archivos públicos. Enlaces locales, anclas e imágenes correctos.
+- `node scripts/build.mjs` y `git diff --check`: aprobados.
+- `node scripts/serve.mjs`: servidor local para la revisión en Chromium 154.
+- Revisión acotada de `#validacion` con Playwright local:
+  1440, 390 y 320 px, cada uno con texto normal y raíz al 200 %; seis
+  combinaciones sin overflow del documento o de los elementos de la sección.
+  Se comprobaron imagen cargada, jerarquía, negrita, Tab/Shift+Tab, foco visible
+  sin ocultación y activación de ambos enlaces con Enter. La navegación externa
+  se interceptó únicamente en el harness para comprobar la URL solicitada sin
+  descargar ni publicar originales. La consulta documental fue por el conector.
+- Zoom nativo de Chromium al 200 %: ventana de 1440 px, viewport CSS de 720 px,
+  DPR 2; reflujo y enlaces aprobados. También se comprobó lectura y enlaces sin
+  JavaScript a 320 px. Ocho escenarios funcionales en total; las métricas de
+  zoom se registran por separado.
+- Navegación por teclado a S13 a 1440/390/320 con movimiento normal: abre
+  las referencias y muestra la fuente sin ocultación ni overflow.
+- Inspección visual de capturas de los tres tamaños, texto ampliado, zoom y foco.
+  Sin recortes ni solapamientos detectados en la superficie modificada; consola,
+  errores de página y carga de recursos locales sin errores observados.
+- Revisión del diff en una segunda pasada separada de la edición: literalidad,
+  semántica, fuentes, límites, estados y privacidad. Se corrigió una frase para
+  no dar por hecho que las pruebas usaron un soporte digital. No se atribuye el
+  reporte a todas las iteraciones de la maqueta. La inspección estrecha al 200 %
+  detectó una palabra partida en el título; se redujo su tamaño mínimo de 1.8rem
+  a 1.5rem y se repitió la cobertura de reflujo, foco y enlaces.
+
+Harness, reporte y capturas permanecen en `.local/qa-validacion/`, ignorado por
+Git. La primera corrida del harness perdió la página local al abortar una
+navegación externa; se corrigió el harness para responder localmente y recargar
+la página entre destinos. La corrida completa posterior aprobó. No se cambió
+la UI para ocultar un fallo. Se seleccionó cobertura acotada a esta actualización;
+no se ejecutó el smoke histórico de la skill, cuyos selectores obsoletos ya están
+documentados, ni se repitieron las pruebas completas del agendamiento sin cambios.
+
+Límites: revisión en Chromium, sin dispositivos físicos, Safari, Firefox ni
+lector de pantalla escuchado. No se garantiza acceso anónimo a Drive. No se
+observaron las sesiones reportadas ni se recibieron fichas actualizadas, fechas
+de aplicación o versión concreta. Los resultados numéricos del RIA, logros,
+denominadores, porcentajes y cumplimiento del 80 % siguen pendientes; también
+la evaluación operativa con instituciones u operadores. No hay evidencia de
+eficacia clínica, acceso real, integración institucional, fotografía ni video.
+La segunda pasada de IA no sustituye la revisión humana previa al merge.
