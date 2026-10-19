@@ -181,15 +181,26 @@ function initReadingGuide() {
   let allowMotion = false;
   let tabNavigation = false;
   let pointer = null;
+  let panelMotion = null;
 
-  const settleMotion = () => cards.forEach(card => card.getAnimations().forEach(animation => animation.finish()));
-  const render = (index, motion = false) => {
+  const settleMotion = () => {
+    panelMotion?.cancel();
+    panelMotion = null;
+    panel.getAnimations({ subtree: true }).forEach(animation => animation.finish());
+  };
+  const render = (index, motion = false, follow = false, focus = false) => {
+    const animate = motion && !preference.matches && index !== current;
+    // Read the presentation position, including any interrupted movement, before
+    // changing the canonical layout. This also accounts for native scrolling.
+    const before = animate ? panel.getBoundingClientRect() : null;
+    const direction = index > current ? 1 : -1;
     // A focused link must never become hidden/inert. The persistent card button
     // is a safe destination, also when native scrolling changes the chapter.
     if (index !== current && stages[current].contains(document.activeElement)) {
       buttons[index].focus({ preventScroll: true });
     }
     current = index;
+    panel.dataset.direction = direction > 0 ? 'forward' : 'backward';
     const behind = cards.map((_, i) => i).filter(i => i !== index);
     cards.forEach((card, i) => {
       card.dataset.depth = String(i === index ? 2 : behind.indexOf(i));
@@ -204,9 +215,33 @@ function initReadingGuide() {
     panel.style.setProperty('--reading-card-height', `${heights[index]}px`);
     actions.style.top = `${128 + heights[index] + 24}px`;
     panel.style.height = `${128 + heights[index] + 24 + actions.offsetHeight}px`;
+    if (follow) reveal(index, focus);
+    panelMotion?.cancel();
+    panelMotion = null;
+    if (animate) {
+      const after = panel.getBoundingClientRect();
+      const delta = before.top - after.top;
+      // FLIP bridges the layout jump with a compositor transform. A deliberate
+      // selection rebases document scroll first, so the two offsets cancel.
+      // Only animate a deck that was on screen; distant anchors land directly.
+      if (Math.abs(delta) > 1 && before.bottom > clearance && before.top < innerHeight) {
+        const styles = getComputedStyle(panel);
+        const animation = panel.animate([
+          { transform: `translateY(${delta}px)` },
+          { transform: 'translateY(0)' }
+        ], {
+          duration: parseFloat(styles.getPropertyValue('--motion-story')),
+          easing: styles.getPropertyValue('--ease-out').trim()
+        });
+        panelMotion = animation;
+        animation.onfinish = () => {
+          if (panelMotion === animation) panelMotion = null;
+        };
+      }
+    }
     // CSS transitions retarget from their current presentation value, with no
     // queues, timers or disabled controls. Keyboard and reduced motion settle.
-    if (!motion || preference.matches) settleMotion();
+    if (!animate) settleMotion();
   };
   const reveal = (index, focus) => {
     window.scrollTo({ top: origin + offsets[index] - clearance, behavior: 'instant' });
@@ -216,10 +251,9 @@ function initReadingGuide() {
     if (index < 0 || index >= stages.length) return;
     if (updateHash && location.hash !== '#' + ids[index]) history.pushState(null, '', '#' + ids[index]);
     if (enhanced) {
-      render(index, !keyboard);
       // This explicit selection moves the document to the same canonical stop
       // that scroll uses. The next wheel event cannot restore the previous card.
-      reveal(index, keyboard);
+      render(index, !keyboard, true, keyboard);
     } else {
       current = index;
       stages[index].scrollIntoView({ block: 'start', behavior: 'instant' });

@@ -1,5 +1,25 @@
 # Iteraciones de la primera versión
 
+## Continuidad de las tarjetas al hacer scroll · 18/10/2026
+
+Rama `fix/aprendizajes-transiciones`, sobre `b2f3e44` (PR #12 integrado).
+Se corrige el salto visual del panel al cruzar los hitos de lectura mediante una
+compensación de posición animada con WAAPI. La selección directa sincroniza el
+documento antes de calcular esa compensación. El contenido entrante aparece con
+opacidad y desplazamiento breve, usando los tokens de movimiento existentes.
+Las interrupciones parten de la posición presentada y el teclado, movimiento
+reducido, reflujo e impresión recuperan el estado estático.
+
+Se conservan el contenido, los hitos de lectura y el scroll nativo. Sin nuevas
+dependencias. Se aplicaron las skills locales de diseño, relato, movimiento y
+revisión. Check, build, sintaxis JS y diff aprobados; 14 escenarios del recorrido
+y cinco de continuidad aprobados con Chromium. Se inspeccionaron capturas y
+cuadros de la grabación. Límites: móvil emulado, sin Safari/Firefox, dispositivo
+físico ni lector de pantalla escuchado; sin afirmación de rendimiento real.
+La entrega se prepara en una rama de tarea y un PR en borrador para revisión;
+la solicitud de corrección no incluye merge ni publicación.
+Detalles y resultados en [la revisión de movimiento](revision-2026-10-18/animacion-tarjetas.md).
+
 ## Paleta burdeo y rosados · 18/10/2026
 
 Rama `feat/paleta-burdeo-rosados`, creada desde `origin/main` en `e0a61bf` después de comprobar que el checkout inicial estaba limpio y actualizar las referencias remotas. Se aplican las skills locales `color-expert`, `frontend-design`, `onconova-storytelling`, `web-design-guidelines` y `revision-landing`; se consultó la guía web vigente de Vercel. La solicitud actual de paleta sustituye la instrucción histórica de conservar los colores del 17/10.
