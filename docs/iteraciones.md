@@ -377,3 +377,117 @@ Límites: Chromium 154 y tacto emulado, sin Safari/Firefox, teléfono físico ni
 ### Commit y PR autorizados para las tarjetas
 
 El usuario solicita subir el PR. Se autoriza guardar los cambios, subir `feat/aprendizajes-tarjetas` y abrir un PR hacia `main`; la integración y publicación siguen fuera de alcance. El fetch confirma `origin/main` en `51a8868`, coincidente con la base verificada, sin cambios que incorporar. Se añaden la [revisión y capturas completas de las seis vistas](revision-2026-10-18/aprendizajes-tarjetas.md) y los reportes de QA para que la evidencia se pueda revisar desde GitHub, sin depender de `work/`.
+
+## 19/10/2026 · Cápsula fluida del índice superior
+
+Implementación local en `feat/navegacion-capsula-fluida`, desde el checkout limpio
+`b40cdef4f461a009a4cb81dcce071abdf5f7d22f`. El fetch confirmó `origin/main` en ese
+mismo commit. Sin issue confirmado, commit, push, PR, merge ni publicación.
+Se inspeccionó el video adjunto `ScreenRecording_10-19-2026 13-22-52_1.MP4` y se
+aplicó la dirección ya autorizada de su barra clara con cápsula deslizante.
+
+El índice conserva las diez anclas, textos, orden, `<nav>` y
+`aria-current="location"`. La página continúa siendo un relato continuo; no se
+modifican contenido, agendamiento ni lógica del panel de Aprendizajes.
+Una superficie burdeo se recorta alrededor de la opción activa y se desplaza en
+200 ms con `--ease-out`, derivando la duración de `--motion-standard`. El recorte
+`clip-path: inset(... round 999px)` sigue la receta de indicador de `animate`:
+mueve fondo y texto claro juntos, sin interpolar colores ni escalar letras.
+La copia contiene exclusivamente spans decorativos, `aria-hidden`, `inert`, sin
+IDs ni interacción. No hay roles de pestañas ARIA, dependencias ni fuentes nuevas.
+No se animan dimensiones, offsets, texto ni `transition: all`. El recorte evita
+layout por fotograma; no se presupone aceleración GPU en todos los navegadores.
+
+Se conserva `current` como única selección, calculada desde las posiciones
+cacheadas del relato. Las medidas del índice se actualizan en cambios de layout;
+las transiciones CSS retoman su posición visual al interrumpirse. La primera
+colocación y los reajustes son inmediatos. Teclado y movimiento reducido detienen
+el movimiento, también al cambiar la preferencia durante una transición.
+La segunda pasada extendió esa respuesta a atajos con modificadores como Ctrl+Home.
+La exploración táctil suspende el centrado hasta interactuar fuera de la tira.
+Se mantienen hint móvil, offsets, alternativas de poca altura y lectura sin JS.
+
+Las etiquetas mantienen peso y dimensiones al cambiar la selección. El texto
+claro/burdeo y burdeo/fondo dan **5,90:1**; el contorno oscuro de foco sobre el
+fondo claro, **14,56:1**. Los controles mantienen al menos 44 × 44 px. La revisión
+reveló que el scroll nativo de foco podía recortar el contorno en un extremo:
+se añadió un ajuste mínimo del borde enfocado, sin centrarlo ni mover el foco.
+Los colores forzados conservan borde y subrayado del enlace actual.
+
+Skills aplicadas: `frontend-design`, `onconova-storytelling`, `animate` (receta
+de indicador), `review-animations` (segunda pasada), `web-design-guidelines` y
+`revision-landing`, además de la skill del entorno. Se leyeron las instrucciones,
+brief, evidencia, manifiesto, guía de revisión y revisión de navegación anterior.
+Las pautas públicas de Web Interface Guidelines se consultaron durante la tarea;
+no se editaron skills. El fallo inicial de red se resolvió mediante los permisos
+del entorno para utilizar el proxy configurado.
+
+### Verificación ejecutada
+
+- `node --check site/assets/app.js`, `node scripts/check.mjs`,
+  `node scripts/build.mjs` y `git diff --check`: aprobados. Integridad: 8 etapas,
+  12 fuentes, 3 metas sin resultados, 2 páginas y 15 archivos públicos.
+- `PYTHONDONTWRITEBYTECODE=1 python3 scripts/test-section-index.py --base-url http://127.0.0.1:4173 --output .local/qa-navegacion/indice`:
+  **10 escenarios aprobados**. Conserva historial, anclas y alias, foco, scroll
+  bidireccional, ausencia de JS y cero lecturas de cajas durante scroll dentro
+  de un capítulo. Añade alineación inicial/resize/orientación/texto/zoom,
+  interrupción desde la posición visual, clics rápidos, preferencia cambiada en
+  vuelo, teclado inmediato, contorno completo y gesto táctil de la tira.
+  El gesto movió scrollLeft de 0 a 647 px sin desplazar verticalmente el documento
+  y la selección automática respetó esa posición. Zoom nativo: outerWidth 1440,
+  innerWidth 720, DPR 2 y visualViewport.scale 1; no es CSS zoom ni pinch.
+- `PYTHONDONTWRITEBYTECODE=1 python3 scripts/test-reading-guide.py --base-url http://127.0.0.1:4173 --output .local/qa-navegacion/panel`:
+  **14 escenarios aprobados**, incluyendo normal/reducido, tacto, teclado,
+  fallbacks, enlaces profundos, impresión y zoom. Se ejecutó antes del ajuste
+  final acotado al foco dentro de `.chapter-links`; el índice completo se
+  repitió después de ese ajuste.
+- Smoke original de `revision-landing`, `/` y `/prototipo/`, 1440/390/320:
+  **0/6**, por los selectores históricos `[data-choice]` y `#support` ausentes.
+  Se comprobó su ausencia también en los HTML de HEAD, sin cambios en esta tarea;
+  es el defecto previo ya documentado en `revision-contenidos-navegacion.md`.
+  Reporte íntegro: `.local/qa-navegacion/smoke-original.json`.
+- Adaptador local `work/smoke-current.py`, con el mismo runner y comprobaciones
+  comunes y acciones del agendamiento vigente: **6/6**. Comprueba postergar,
+  rechazar, solicitud ficticia, mensaje, horario, confirmación y reinicio en
+  ambas rutas. No se sustituyó ni ocultó el resultado del smoke original.
+- `work/check-navigation-extra.py`: etiquetas sin cambios de layout, texto raíz
+  al 200 %, controles, colores forzados y consola, a 1440/390/320; aprobado.
+  Sin overflow del documento ni errores JS/consola observados en esos casos.
+- Inspección visual de capturas a 1440, 390, 320 y 844×390, además de 320×256,
+  texto ampliado, texto al 200 % y zoom real al 200 %. Se revisaron foco y
+  fotogramas de la grabación. Evidencias: `.local/qa-navegacion/visual/`,
+  `indice/` y `panel/`. Video local: `visual/navegacion.mp4`, capturado desde el
+  compositor con timestamps reales; detalle del índice: `visual/capsula-detalle.mp4`.
+
+Las corridas iniciales de la cobertura nueva detectaron una comparación exacta
+inadecuada de 199,99999999999997 ms frente a 200 ms, una expectativa de foco tras
+Enter (la navegación nativa lo lleva al destino) y el recorte real del contorno.
+Se corrigieron harness y UI según correspondía, y la corrida final del índice
+aprobó sin omitir las comprobaciones originales.
+
+Segunda revisión separada del diff: alcance, semántica, copia decorativa,
+continuidad, tiempos, movimiento reducido, caché, foco, contraste, historial,
+offsets y fallbacks. Sin regresiones confirmadas pendientes en lo revisado.
+La decisión de movimiento está justificada por orientación espacial y selección,
+con respuesta estática al usar teclado. La revisión local de IA no sustituye la
+aprobación de otra persona requerida por `CONTRIBUTING.md`.
+
+Límites: Chromium 154 y tacto emulado; sin dispositivo físico, Safari, Firefox,
+lector de pantalla escuchado ni validación con usuarias. El smoke de la skill
+sigue obsoleto y no se modifica por el alcance autorizado. El sistema impide
+crear `/codex/.../output` (raíz de solo lectura/permisos), incluso con la ejecución
+autorizada; capturas, video, reportes y borrador de PR permanecen locales.
+Borrador listo para revisión: `work/PR-navegacion-capsula.md`.
+
+### Commit y PR autorizados para la cápsula
+
+El usuario autoriza guardar los cambios, subir `feat/navegacion-capsula-fluida`
+y abrir un PR hacia `main`, pendiente de revisión humana de otra persona.
+El fetch previo a la subida confirma `origin/main` en `b40cdef`, coincidente con
+la base verificada. Se revisa el diff de los cuatro archivos y se excluyen
+`.local/`, `work/`, resultados generados y originales privados del commit.
+Se conservan los resultados y límites anteriores, incluido el fallo previo del
+smoke original; las evidencias permanecen locales. Sintaxis JS, integridad,
+build y `git diff --check` se repiten y aprueban antes del commit.
+El workflow del PR ejecuta build; el despliegue requiere `refs/heads/main` y
+queda fuera de este encargo, al igual que el merge.

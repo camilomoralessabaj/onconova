@@ -284,13 +284,15 @@ strong {
   padding:2px 48px;
 }
 .chapter-links {
+  position:relative;
   display:flex;
   gap:8px;
   overflow-x:auto;
   padding:6px;
   scroll-padding-inline:6px;
 }
-.chapter-links a {
+.chapter-links a,
+.chapter-indicator-label {
   display:inline-flex;
   flex:none;
   max-width:calc(100vw - 48px);
@@ -298,19 +300,54 @@ strong {
   min-height:44px;
   padding:8px 10px;
   border:2px solid transparent;
-  border-radius:8px;
+  border-radius:999px;
   font-size:1rem;
+  font-weight:600;
   line-height:1.4;
   text-decoration:none;
 }
 .chapter-links a[aria-current="location"] {
-  background:var(--surface);
-  border-color:var(--primary);
-  font-weight:650;
+  background:var(--primary);
+  color:var(--on-primary);
   text-decoration:underline;
 }
-.chapter-links a:hover { background:var(--surface); text-decoration:underline; }
-.chapter-links a:focus-visible { outline-offset:2px; }
+.chapter-links[data-capsule] a[aria-current="location"] {
+  background:transparent;
+  color:var(--primary);
+  text-decoration:none;
+}
+/* One clipped surface keeps light text and burgundy together throughout the
+   journey. Only the clip moves: labels never scale or change their layout. */
+.chapter-indicator {
+  position:absolute;
+  top:0;
+  left:0;
+  background:var(--primary);
+  color:var(--on-primary);
+  pointer-events:none;
+  user-select:none;
+  transition:clip-path calc(var(--motion-standard) * 2 / 3) var(--ease-out);
+}
+.chapter-indicator-label { position:absolute; }
+.chapter-links[data-instant] .chapter-indicator { transition:none; }
+@media (prefers-reduced-motion:reduce) {
+  .chapter-indicator { transition:none; }
+}
+@media (hover:hover) and (pointer:fine) {
+  .chapter-links a:hover { text-decoration:underline; }
+}
+.chapter-links a:focus-visible {
+  outline:3px solid var(--ink);
+  outline-offset:2px;
+}
+@media (forced-colors:active) {
+  .chapter-indicator { display:none; }
+  .chapter-links[data-capsule] a[aria-current="location"] {
+    color:LinkText;
+    border-color:LinkText;
+    text-decoration:underline;
+  }
+}
 .section-index-hint { display:none; font-size:1rem; line-height:1.5; }
 html[data-section-navigation] {
   --anchor-offset:calc(var(--sticky-header-height,0px) + var(--sticky-index-height,0px) + 24px);
