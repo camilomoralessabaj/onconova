@@ -46,11 +46,53 @@ function initSectionIndex() {
   let current = -1;
   let layoutTask = 0;
   let scrollTask = 0;
+  const preference = window.matchMedia('(prefers-reduced-motion: reduce)');
+  let linkBoxes = [];
+  let stripWidth = 0;
+  let stripHeight = 0;
+  let keyboardNavigation = false;
+  let exploringStrip = false;
+  // Decorative spans, never cloned anchors: no duplicate IDs, focus or names.
+  const indicator = document.createElement('div');
+  indicator.className = 'chapter-indicator';
+  indicator.setAttribute('aria-hidden', 'true');
+  indicator.inert = true;
+  const labels = links.map(link => {
+    const label = document.createElement('span');
+    label.className = 'chapter-indicator-label';
+    label.textContent = link.textContent;
+    indicator.append(label);
+    return label;
+  });
+  track.append(indicator);
+
+  const placeIndicator = (instant = false) => {
+    const box = linkBoxes[current];
+    if (!box) return;
+    indicator.style.clipPath = `inset(${box.y}px ${stripWidth - box.x - box.width}px ${stripHeight - box.y - box.height}px ${box.x}px round 999px)`;
+    // Layout changes settle once. Ordinary selection uses interruptible CSS
+    // transitions, retargeting the current presentation without a JS frame loop.
+    if (instant) indicator.getAnimations().forEach(animation => animation.finish());
+  };
+  const updateMotion = () => {
+    track.toggleAttribute('data-instant', keyboardNavigation || preference.matches);
+  };
 
   const showCurrentLink = () => {
-    if (current < 0 || track.contains(document.activeElement)) return;
-    const link = links[current];
-    track.scrollLeft = link.offsetLeft - track.offsetLeft - (track.clientWidth - link.offsetWidth) / 2;
+    if (current < 0 || exploringStrip || track.contains(document.activeElement)) return;
+    const box = linkBoxes[current];
+    track.scrollLeft = box.x - (track.clientWidth - box.width) / 2;
+  };
+  const showFocusedLink = () => {
+    const box = linkBoxes[links.indexOf(document.activeElement)];
+    if (!box) return;
+    // Native focus scrolling can leave the outline clipped at a strip edge.
+    // Reveal only the missing edge, without centering or moving document focus.
+    const left = track.scrollLeft;
+    if (box.x - 6 < left) track.scrollLeft = box.x - 6;
+    else if (box.x + box.width + 6 > left + track.clientWidth) {
+      track.scrollLeft = box.x + box.width + 6 - track.clientWidth;
+    }
   };
 
   const sync = () => {
@@ -64,8 +106,9 @@ function initSectionIndex() {
       if (i === next) link.setAttribute('aria-current', 'location');
       else link.removeAttribute('aria-current');
     });
-    // Only a chapter change reads the link's horizontal geometry. Scroll the
-    // native strip itself; scrollIntoView would also move the reading page.
+    placeIndicator();
+    // Scroll the native strip itself using cached link positions;
+    // scrollIntoView would also move the reading page.
     showCurrentLink();
   };
   const layout = () => {
@@ -82,7 +125,27 @@ function initSectionIndex() {
     root.toggleAttribute('data-index-static', staticIndex);
     root.style.setProperty('--sticky-header-height', `${headerHeight}px`);
     root.style.setProperty('--sticky-index-height', `${staticIndex ? 0 : indexHeight}px`);
+    linkBoxes = links.map(link => ({
+      x: link.offsetLeft, y: link.offsetTop,
+      width: link.offsetWidth, height: link.offsetHeight
+    }));
+    // Exclude the absolute decoration from intrinsic scroll dimensions.
+    stripWidth = Math.max(track.clientWidth, ...linkBoxes.map(box => box.x + box.width + 6));
+    stripHeight = track.clientHeight;
+    indicator.style.width = `${stripWidth}px`;
+    indicator.style.height = `${stripHeight}px`;
+    labels.forEach((label, i) => {
+      const box = linkBoxes[i];
+      Object.assign(label.style, {
+        left: `${box.x}px`, top: `${box.y}px`,
+        width: `${box.width}px`, height: `${box.height}px`
+      });
+    });
     sync();
+    placeIndicator(true);
+    track.setAttribute('data-capsule', '');
+    showCurrentLink();
+    showFocusedLink();
   };
   const scheduleLayout = () => {
     if (!layoutTask) layoutTask = requestAnimationFrame(layout);
@@ -96,9 +159,25 @@ function initSectionIndex() {
   window.addEventListener('hashchange', () => requestAnimationFrame(sync));
   window.addEventListener('pageshow', scheduleLayout);
   track.addEventListener('focusout', () => requestAnimationFrame(showCurrentLink));
+  track.addEventListener('focusin', () => requestAnimationFrame(showFocusedLink));
+  document.addEventListener('keydown', () => {
+    keyboardNavigation = true;
+    updateMotion();
+  });
+  const pointerInput = event => {
+    keyboardNavigation = false;
+    // Let a person explore the strip, including touch momentum, until they
+    // interact outside it. Automatic chapter updates must not pull it back.
+    exploringStrip = track.contains(event.target);
+    updateMotion();
+  };
+  document.addEventListener('pointerdown', pointerInput, { passive: true });
+  document.addEventListener('wheel', pointerInput, { passive: true });
+  preference.addEventListener('change', updateMotion);
+  updateMotion();
   if ('ResizeObserver' in window) {
     const observer = new ResizeObserver(scheduleLayout);
-    [header, index, document.querySelector('main')].forEach(element => observer.observe(element));
+    [header, index, track, ...links, document.querySelector('main')].forEach(element => observer.observe(element));
   }
   layout();
   // Native anchor positioning can precede JS's measured offsets on first load.
