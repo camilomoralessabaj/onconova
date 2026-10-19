@@ -1,5 +1,46 @@
 # Iteraciones de la primera versión
 
+## Ritmo y relevo del mazo de lectura · 19/10/2026
+
+Rama `fix/reading-card-motion`, actualizada desde `main` en `75eda91`.
+Se amplía el margen entre hitos de 96 px a `max(160 px, 0.3 × altura útil)`,
+conservando altura real, pestañas y controles para leer completas las tarjetas
+altas. Selección automática, botones y fragmentos siguen usando los mismos hitos.
+
+El panel FLIP y las tarjetas comparten 600 ms y
+`cubic-bezier(0.4,0,0.2,1)`, con tokens exclusivos del mazo. Las superficies opacas
+intercambian su orden de pintura durante el recorrido; el texto saliente se
+conserva en su superficie y se desvanece con el movimiento. La entrada del texto
+usa 200 ms y el `--ease-out` existente. Las interrupciones retoman la posición,
+profundidad y opacidad presentadas, sin colas ni temporizadores. Se preservan
+scroll, selección de texto y zoom nativos. Teclado, movimiento reducido, cambios
+de tamaño/texto e impresión cancelan los desplazamientos temporales. La impresión
+expone también toda la semántica de las tres secciones.
+
+Se aplicaron las skills locales solicitadas y las guías de accesibilidad. La
+segunda revisión del diff corrigió la limpieza de una llegada reemplazada sin
+pintar y los controles tapados por una superficie saliente alta; el rango de
+capas queda aislado por debajo del índice fijo. La altura de las tres superficies
+absolutas se interpola con el mazo para evitar un colapso tardío al ocultar texto,
+sin escalar la tipografía ni cambiar el flujo de la página. No cambian contenido, fuentes,
+paleta, tipografía, orden ni simulación; no se añaden dependencias.
+
+Check, build, sintaxis JS y diff aprobados. La prueba de lectura aprueba 22 casos;
+la de movimiento, 9 escenarios con muestreo de los seis pares de cambio en los
+cuatro tamaños; la del índice, 10 casos. Smoke de `/` y `/prototipo/` a 1440/390:
+cuatro casos aprobados. Incluye normal/reducido, tablet en ambas orientaciones,
+interrupciones, teclado, foco, pan/pinch emulados, fragmentos, lectura sin JS,
+modo lineal, texto ampliado, impresión y zoom nativo de Chromium al 200 %.
+Se inspeccionaron grabaciones normales y a un cuarto de velocidad, foco visible
+y el contenido de las tres tarjetas en el PDF de impresión.
+
+La [revisión con parámetros, mediciones e imágenes antes/después](revision-2026-10-19/reading-card-motion/revision.md)
+incluye resultados y límites. Chromium local, con móvil/tablet y gestos emulados;
+sin Safari, Firefox, dispositivos físicos ni sesión escuchada con lector de
+pantalla. La emulación y las comprobaciones técnicas no certifican compatibilidad
+en dispositivos reales ni validan el servicio. Entrega autorizada en commit,
+rama remota y PR hacia `main`, sin merge ni publicación.
+
 ## Continuidad de las tarjetas al hacer scroll · 18/10/2026
 
 Rama `fix/aprendizajes-transiciones`, sobre `b2f3e44` (PR #12 integrado).

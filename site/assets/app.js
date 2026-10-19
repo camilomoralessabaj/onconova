@@ -266,25 +266,31 @@ function initReadingGuide() {
     panelMotion?.cancel();
     panelMotion = null;
     panel.getAnimations({ subtree: true }).forEach(animation => animation.finish());
+    stages.forEach(stage => { stage.hidden = enhanced && stage.inert; });
   };
+  // Keep only the departing presentation until its fade completes. It becomes
+  // inaccessible immediately; a reversal can still retarget its visible opacity.
+  stages.forEach(stage => stage.addEventListener('transitionend', event => {
+    if (event.target === stage && event.propertyName === 'opacity' && stage.inert) stage.hidden = true;
+  }));
   const render = (index, motion = false, follow = false, focus = false) => {
     const animate = motion && !preference.matches && index !== current;
     // Read the presentation position, including any interrupted movement, before
     // changing the canonical layout. This also accounts for native scrolling.
     const before = animate ? panel.getBoundingClientRect() : null;
-    const direction = index > current ? 1 : -1;
     // A focused link must never become hidden/inert. The persistent card button
     // is a safe destination, also when native scrolling changes the chapter.
     if (index !== current && stages[current].contains(document.activeElement)) {
       buttons[index].focus({ preventScroll: true });
     }
     current = index;
-    panel.dataset.direction = direction > 0 ? 'forward' : 'backward';
     const behind = cards.map((_, i) => i).filter(i => i !== index);
     cards.forEach((card, i) => {
       card.dataset.depth = String(i === index ? 2 : behind.indexOf(i));
-      stages[i].hidden = i !== index;
+      if (i === index) stages[i].hidden = false;
       stages[i].inert = i !== index;
+      if (i === index) stages[i].removeAttribute('aria-hidden');
+      else stages[i].setAttribute('aria-hidden', 'true');
       buttons[i].setAttribute('aria-pressed', String(i === index));
       buttons[i].querySelector('.reading-card-state').textContent = i === index ? 'Leyendo' : 'Abrir';
     });
@@ -309,8 +315,8 @@ function initReadingGuide() {
           { transform: `translateY(${delta}px)` },
           { transform: 'translateY(0)' }
         ], {
-          duration: parseFloat(styles.getPropertyValue('--motion-story')),
-          easing: styles.getPropertyValue('--ease-out').trim()
+          duration: parseFloat(styles.getPropertyValue('--reading-motion')),
+          easing: styles.getPropertyValue('--reading-ease').trim()
         });
         panelMotion = animation;
         animation.onfinish = () => {
@@ -318,9 +324,14 @@ function initReadingGuide() {
         };
       }
     }
-    // CSS transitions retarget from their current presentation value, with no
-    // queues, timers or disabled controls. Keyboard and reduced motion settle.
+    // Card depth and content opacity retarget from their presentation values.
+    // No queues, timers or disabled controls. Keyboard and reduced motion settle.
     if (!animate) settleMotion();
+    else stages.forEach(stage => {
+      // A rapid third selection may replace a still-transparent arrival before
+      // it ever paints. No fade (and no transitionend) is needed in that case.
+      if (stage.inert && getComputedStyle(stage).opacity === '0' && !stage.getAnimations().length) stage.hidden = true;
+    });
   };
   const reveal = (index, focus) => {
     window.scrollTo({ top: origin + offsets[index] - clearance, behavior: 'instant' });
@@ -355,6 +366,7 @@ function initReadingGuide() {
   const layout = () => {
     geometryTask = 0;
     if (printing) return;
+    settleMotion();
     const wasEnhanced = enhanced;
     const focused = document.activeElement;
     const header = document.querySelector('.site-header');
@@ -371,8 +383,7 @@ function initReadingGuide() {
     actions.hidden = !enhanced;
     buttons.forEach(button => { button.hidden = !enhanced; });
     if (!enhanced) {
-      settleMotion();
-      stages.forEach(stage => { stage.hidden = false; stage.inert = false; });
+      stages.forEach(stage => { stage.hidden = false; stage.inert = false; stage.removeAttribute('aria-hidden'); });
       if (buttons.includes(focused) || actions.contains(focused)) stages[current].focus({ preventScroll: true });
       cards.forEach(card => card.removeAttribute('data-depth'));
       track.style.height = '';
@@ -387,10 +398,11 @@ function initReadingGuide() {
     heights = cards.map(card => card.offsetHeight);
     panel.classList.remove('reading-measure');
     offsets = [0];
-    // Include exposed tabs and footer controls. A 96px margin shows the whole
-    // end before the next card arrives, even when a card exceeds the viewport.
+    // Include exposed tabs and footer controls, then reserve reading distance
+    // after the complete card. Navigation and automatic selection share stops.
+    const readingDistance = Math.max(160, viewport * .3);
     const totals = heights.map(height => 128 + height + 24 + actions.offsetHeight);
-    totals.slice(0, -1).forEach((height, i) => offsets.push(offsets[i] + Math.max(96, height - viewport + 96)));
+    totals.slice(0, -1).forEach((height, i) => offsets.push(offsets[i] + Math.max(0, height - viewport) + readingDistance));
     track.style.height = `${Math.max(...totals.map((height, i) => height + offsets[i]))}px`;
     origin = track.getBoundingClientRect().top + window.scrollY;
     render(current);
@@ -472,7 +484,12 @@ function initReadingGuide() {
     if (Math.abs(dx) >= 48 && Math.abs(dx) >= Math.abs(dy) * 1.5) navigate(current + (dx > 0 ? 1 : -1));
   });
   panel.addEventListener('pointercancel', () => { pointer = null; });
-  window.addEventListener('beforeprint', () => { printing = true; settleMotion(); });
+  window.addEventListener('beforeprint', () => {
+    printing = true;
+    // Printing exposes the complete document, including its semantic content.
+    stages.forEach(stage => { stage.hidden = false; stage.inert = false; stage.removeAttribute('aria-hidden'); });
+    settleMotion();
+  });
   window.addEventListener('afterprint', () => { printing = false; scheduleLayout(); });
 }
 initReadingGuide();

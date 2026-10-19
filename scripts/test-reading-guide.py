@@ -40,8 +40,11 @@ def obstruction(page):
 
 
 def settled(page, index):
-    page.wait_for_timeout(360)
     if enhanced(page):
+        # Give native scroll/layout a frame, then wait for actual completion.
+        # Linear/no-JS mode needs no scheduled callback (disabled with JS).
+        page.evaluate('() => new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)))')
+        page.wait_for_function("document.querySelector('.reading-panel').getAnimations({subtree:true}).length === 0")
         check(selected(page) == STOPS[index], f'Wrong card: {selected(page)}, expected {STOPS[index]}')
         check(page.locator('[data-reading-stage]:not([hidden])').get_attribute('id') == STOPS[index], 'Visible content differs from selection')
         check(page.locator('[data-reading-card][data-depth="2"]').count() == 1, 'Deck has no unique front card')
@@ -81,7 +84,7 @@ def motion(page, index, reduced):
     if reduced:
         check(not state['animations'], 'Reduced motion animated')
     else:
-        check(state['animations'] and all(a['property']=='transform' and 0<a['duration']<=300 and a['easing']=='cubic-bezier(0.23, 1, 0.32, 1)' for a in state['animations']), f'Wrong deck transition: {state}')
+        check(state['animations'] and all(a['property'] in ('transform','z-index','height') and 0<a['duration']<=600 and a['easing']=='cubic-bezier(0.4, 0, 0.2, 1)' for a in state['animations']), f'Wrong deck transition: {state}')
         check(state['before']==state['after'], 'Motion jumped instead of starting at the presentation value')
     check(page.evaluate('document.documentElement.scrollWidth<=innerWidth+1'), 'Overflow during motion')
 
@@ -114,10 +117,10 @@ def touch(page, dx, dy=0):
 
 with sync_playwright() as p:
     browser=p.chromium.launch(executable_path=shutil.which('chromium'),args=['--no-sandbox'])
-    for width in (1440,390,320):
+    for width in (1440,390,768,1024,320):
         for reduced in (False,True):
-            context=browser.new_context(viewport={'width':width,'height':900 if width==1440 else 800},
-                reduced_motion='reduce' if reduced else 'no-preference',is_mobile=width<500,has_touch=width<500)
+            context=browser.new_context(viewport={'width':width,'height':900 if width==1440 else 1024 if width==768 else 768 if width==1024 else 800},
+                reduced_motion='reduce' if reduced else 'no-preference',is_mobile=width<=1024,has_touch=width<=1024)
             page=context.new_page()
             errors=[]
             page.on('pageerror',lambda e:errors.append(str(e)))
@@ -154,6 +157,13 @@ with sync_playwright() as p:
                 if not reduced:
                     capture(page,width,index)
             if enhanced(page):
+                # Stops reserve real reading distance beyond the entire card,
+                # exposed titles and footer controls, at every viewport size.
+                useful = page.viewport_size['height'] - positions[0]['clearance'] - 24
+                gap = max(160, useful * .3)
+                for i in range(2):
+                    expected = max(0, positions[i]['height'] - useful) + gap
+                    check(abs(positions[i+1]['top'] - positions[i]['top'] - expected) < 2, 'Reading distance differs from geometry')
                 choose(page,0)
                 # Every selection preserves canonical forward/backward boundaries.
                 for start in (0,1,2):
@@ -161,12 +171,12 @@ with sync_playwright() as p:
                     for index in range(start+1,3):
                         boundary=positions[index]['scroll']
                         page.evaluate('y=>scrollTo(0,y)',boundary-4)
-                        page.wait_for_timeout(80)
+                        settled(page,index-1)
                         check(selected(page)==STOPS[index-1],'Advanced before the complete card was readable')
                         box=page.locator('.reading-panel').bounding_box()
                         check(box['y']+box['height']<=page.viewport_size['height']-40,'End of card not readable before advance')
                         page.mouse.wheel(0,12)
-                        page.wait_for_timeout(90)
+                        page.wait_for_function('(id)=>document.querySelector("[data-reading-select][aria-pressed=true]").getAttribute("aria-controls")===id',arg=STOPS[index])
                         scroll=page.evaluate('scrollY')
                         settled(page,index)
                         check(abs(page.evaluate('scrollY')-scroll)<1,'Automatic card change moved the document')
@@ -180,7 +190,22 @@ with sync_playwright() as p:
                 page.locator('#fuentes-title').scroll_into_view_if_needed()
                 check(page.locator('#fuentes-title').bounding_box()['y']>=obstruction(page),'Section exit obscured')
                 choose(page,2)
+                # Footer controls use the same canonical stops as card titles.
+                choose(page,0)
+                for control,index in (('next',1),('next',2),('prev',1),('prev',0)):
+                    # Read to the footer using the smallest native displacement.
+                    # Locator auto-centering a tall offscreen card could cross a
+                    # later reading stop before the intended button activation.
+                    page.locator('[data-reading-'+control+']').evaluate('''b=>{
+                      const r=b.getBoundingClientRect();
+                      scrollBy({top:Math.max(0,r.bottom-innerHeight+24),behavior:'instant'});
+                    }''')
+                    page.evaluate('() => new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)))')
+                    page.locator('[data-reading-'+control+']').click()
+                    settled(page,index)
+                    check(abs(page.evaluate('scrollY')-positions[index]['scroll'])<1,'Footer navigation disagrees with stops')
                 # Forward/reverse transitions and last-input-wins interruptions.
+                choose(page,2)
                 motion(page,0,reduced)
                 settled(page,0)
                 motion(page,2,reduced)
@@ -227,7 +252,7 @@ with sync_playwright() as p:
             check(page.url.endswith('#prototipo'),'Return to demonstration failed')
             # Enlarged text returns all content to flow; final actions stay usable.
             page.locator('.text-size').click()
-            page.wait_for_timeout(100)
+            page.wait_for_function('!document.querySelector(".reading-enhanced")')
             check(not enhanced(page),'Enlarged text did not reflow')
             choose(page,2)
             if width<500:
@@ -248,7 +273,7 @@ with sync_playwright() as p:
             settled(page,2)
             # Browser-independent text enlargement to 200%, in addition to AA.
             page.add_style_tag(content=':root{font-size:200%!important}')
-            page.wait_for_timeout(120)
+            page.wait_for_function('!document.querySelector(".reading-enhanced")')
             check(not enhanced(page),'200% text did not reflow')
             check(page.evaluate('document.documentElement.scrollWidth<=innerWidth+1'),'200% text overflow')
             page.emulate_media(media='print')
@@ -259,35 +284,69 @@ with sync_playwright() as p:
             results.append(result)
             print(json.dumps(result),flush=True)
             context.close()
-    # Real Chromium touch events, including the existing optional swipe shortcut.
-    context=browser.new_context(viewport={'width':390,'height':800},is_mobile=True,has_touch=True)
-    page=context.new_page()
-    page.goto(BASE+'/#lectura-aprendizajes',wait_until='networkidle')
-    for index in (1,2,0):
-        page.locator('[data-reading-select]').nth(index).tap()
-        settled(page,index)
-    touch(page,130)
-    settled(page,1)
-    touch(page,-130)
-    settled(page,0)
-    touch(page,-130)
-    settled(page,0)
-    scroll=page.evaluate('scrollY')
-    touch(page,0,-75)
-    page.wait_for_timeout(150)
-    check(page.evaluate('scrollY')>scroll,'Vertical touch scroll blocked')
-    settled(page,0)
-    for kind in ('short','diagonal','cancel'):
-        page.locator('.reading-panel').evaluate('''(el,kind)=>{
-          const event=(type,x,y)=>el.dispatchEvent(new PointerEvent(type,{bubbles:true,pointerType:'touch',isPrimary:true,pointerId:9,clientX:x,clientY:y}));
-          event('pointerdown',80,250);event(kind==='cancel'?'pointercancel':'pointerup',kind==='short'?100:180,kind==='diagonal'?380:250);
-        }''',kind)
+    # Chromium touch emulation, including tablet in both orientations.
+    for width in (390,768,1024):
+        # Browser touch events, including the existing optional swipe shortcut.
+        context=browser.new_context(viewport={'width':width,'height':1024 if width==768 else 768 if width==1024 else 800},is_mobile=True,has_touch=True)
+        page=context.new_page()
+        page.goto(BASE+'/#lectura-aprendizajes',wait_until='networkidle')
+        for index in (1,2,0):
+            page.locator('[data-reading-select]').nth(index).tap()
+            settled(page,index)
+        touch(page,130)
+        settled(page,1)
+        touch(page,-130)
         settled(page,0)
-    choose(page,2)
-    touch(page,130)
-    settled(page,2)
-    results.append({'case':'touch selection, swipe, vertical scroll and cancellation','status':'passed'})
-    context.close()
+        touch(page,-130)
+        settled(page,0)
+        scroll=page.evaluate('scrollY')
+        touch(page,0,-75)
+        page.wait_for_timeout(150)
+        check(page.evaluate('scrollY')>scroll,'Vertical touch scroll blocked')
+        settled(page,0)
+        for kind in ('short','diagonal','cancel'):
+            page.locator('.reading-panel').evaluate('''(el,kind)=>{
+              const event=(type,x,y)=>el.dispatchEvent(new PointerEvent(type,{bubbles:true,pointerType:'touch',isPrimary:true,pointerId:9,clientX:x,clientY:y}));
+              event('pointerdown',80,250);event(kind==='cancel'?'pointercancel':'pointerup',kind==='short'?100:180,kind==='diagonal'?380:250);
+            }''',kind)
+            settled(page,0)
+        choose(page,2)
+        touch(page,130)
+        settled(page,2)
+        # A native vertical pan can interrupt a card transition. There is no input
+        # lock or wheel/touch handler imposing a step; pinch zoom stays browser-owned.
+        choose(page,0)
+        motion(page,1,False)
+        scroll=page.evaluate('scrollY')
+        page.evaluate('''() => {
+          window.readingPanComplete=false;
+          addEventListener('scroll',()=>{window.readingPanComplete=false},{passive:true});
+          addEventListener('scrollend',()=>{window.readingPanComplete=true});
+        }''')
+        cdp=context.new_cdp_session(page)
+        touch(page,0,-75)
+        page.wait_for_function('(y)=>scrollY>y+20',arg=scroll)
+        check(page.evaluate('scrollY')>scroll+20,'Native touch scroll blocked during motion')
+        settled(page,1)
+        # Let native momentum finish before starting a separate pinch gesture.
+        page.wait_for_function('window.readingPanComplete')
+        scale=page.evaluate('visualViewport.scale')
+        # Dispatch two touch contacts with enough travel to clear the browser's
+        # pinch recognition threshold at both phone and tablet viewport sizes.
+        def contacts(spread):
+            return [{'x':width/2-spread,'y':400,'id':1}, {'x':width/2+spread,'y':400,'id':2}]
+        cdp.send('Input.dispatchTouchEvent',{'type':'touchStart','touchPoints':contacts(40)})
+        for spread in (50,60,70,80,90,100,110,120):
+            cdp.send('Input.dispatchTouchEvent',{'type':'touchMove','touchPoints':contacts(spread)})
+            page.wait_for_timeout(20)
+        cdp.send('Input.dispatchTouchEvent',{'type':'touchEnd','touchPoints':[]})
+        page.wait_for_function('(scale)=>visualViewport.scale>scale+.1',arg=scale)
+        check(page.evaluate('visualViewport.scale')>scale+0.1,'Pinch zoom blocked')
+        cdp.detach()
+        result={'case':'touch selection, swipe, native pan during motion, pinch and cancellation','width':width,'status':'passed'}
+        results.append(result)
+        print(json.dumps(result),flush=True)
+        context.close()
     for fallback in ('no-js','no-observer','no-resize-observer'):
         context=browser.new_context(viewport={'width':390,'height':800},java_script_enabled=fallback!='no-js')
         if fallback=='no-observer':context.add_init_script('delete window.IntersectionObserver')
@@ -301,8 +360,8 @@ with sync_playwright() as p:
             check(page.url.endswith('#'+STOPS[index]),'Fallback anchor failed')
         results.append({'fallback':fallback,'status':'passed'})
         context.close()
-    for width in (1440,390,320):
-        page=browser.new_page(viewport={'width':width,'height':900 if width==1440 else 800})
+    for width in (1440,390,768,1024,320):
+        page=browser.new_page(viewport={'width':width,'height':900 if width==1440 else 1024 if width==768 else 768 if width==1024 else 800})
         for index,stop in enumerate(STOPS):
             page.goto(BASE+'/#'+stop,wait_until='networkidle')
             settled(page,index)

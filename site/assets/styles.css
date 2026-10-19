@@ -1013,7 +1013,13 @@ html[data-index-static] .section-index { position:static; }
   font-size:1rem;
 }
 .reading-hint { text-align:center; max-width:none; margin-bottom:28px; font-size:1rem; color:var(--muted); }
-.reading-panel { display:grid; gap:28px; }
+.reading-panel {
+  --reading-motion:600ms;
+  --reading-ease:cubic-bezier(0.4,0,0.2,1);
+  --reading-content-motion:200ms;
+  display:grid;
+  gap:28px;
+}
 .reading-card {
   min-width:0;
   border:1px solid var(--primary);
@@ -1035,19 +1041,26 @@ html[data-index-static] .section-index { position:static; }
   position:absolute;
   inset:0 20px auto;
   display:block;
+  /* Keep the deck's depth range below the page's sticky navigation. */
+  isolation:isolate;
   touch-action:pan-y pinch-zoom;
 }
 .reading-enhanced .reading-card {
   position:absolute;
   inset:0 0 auto;
-  min-height:var(--reading-card-height);
+  height:var(--reading-card-height);
+  overflow:clip;
   transform-origin:50% 0;
-  /* Opaque surfaces keep the arriving text legible throughout a reversal. */
-  transition:transform var(--motion-standard) var(--ease-out);
+  /* Interpolate a wide depth range on the same curve as vertical travel. The
+     opaque surfaces exchange order as they cross, rather than at selection.
+     Height also follows the measured destination: retaining departing text must
+     not make its surface collapse at transitionend. Only these three absolute
+     boxes resize; they never change document flow or scroll position. */
+  transition:transform var(--reading-motion) var(--reading-ease), z-index var(--reading-motion) var(--reading-ease), height var(--reading-motion) var(--reading-ease);
 }
-.reading-card[data-depth="0"] { z-index:1; background:var(--surface); transform:translate3d(-8px,0,0) rotate(-1.2deg) scale(.97); }
-.reading-card[data-depth="1"] { z-index:2; background:var(--page); transform:translate3d(8px,64px,0) rotate(.8deg) scale(.985); }
-.reading-card[data-depth="2"] { z-index:3; transform:translate3d(0,128px,0); box-shadow:var(--shadow-raised); }
+.reading-card[data-depth="0"] { z-index:0; background:var(--surface); transform:translate3d(-8px,0,0) rotate(-1.2deg) scale(.97); }
+.reading-card[data-depth="1"] { z-index:100; background:var(--page); transform:translate3d(8px,64px,0) rotate(.8deg) scale(.985); }
+.reading-card[data-depth="2"] { z-index:200; transform:translate3d(0,128px,0) rotate(0deg) scale(1); box-shadow:var(--shadow-raised); }
 .reading-card-select {
   width:100%;
   min-height:64px;
@@ -1074,19 +1087,20 @@ html[data-index-static] .section-index { position:static; }
 }
 .reading-card-select:active { background:var(--surface); }
 .reading-enhanced .reading-stage { padding-top:24px; }
-/* Content belongs to the arriving card instead of appearing in one frame.
-   Starting-style is progressive: older browsers keep fully visible content. */
-.reading-enhanced .reading-stage:not([hidden]) {
+.reading-enhanced .reading-stage:focus-visible { outline-offset:-3px; }
+/* The departing text fades on its own opaque surface. Inert removes it from
+   interaction/AT immediately; JS hides it after the interruptible fade. */
+.reading-enhanced .reading-stage {
   opacity:1;
-  transform:translateY(0);
-  transition:opacity var(--motion-standard) var(--ease-out), transform var(--motion-standard) var(--ease-out);
-  @starting-style {
-    opacity:0;
-    transform:translateY(16px);
-  }
+  transition:opacity var(--reading-content-motion) var(--ease-out);
+}
+.reading-enhanced .reading-stage[inert] {
+  opacity:0;
+  transition-duration:var(--reading-motion);
+  transition-timing-function:var(--reading-ease);
 }
 @starting-style {
-  .reading-enhanced .reading-panel[data-direction="backward"] .reading-stage:not([hidden]) { transform:translateY(-16px); }
+  .reading-enhanced .reading-stage:not([hidden]):not([inert]) { opacity:0; }
 }
 /* The card button supplies the visible title; retain the section heading for AT. */
 .reading-enhanced :is(#lectura-aprendizajes-title,#lectura-brechas-title) {
@@ -1100,13 +1114,14 @@ html[data-index-static] .section-index { position:static; }
   white-space:nowrap;
 }
 .reading-actions { display:flex; flex-wrap:wrap; justify-content:space-between; gap:16px; }
-.reading-enhanced .reading-actions { position:absolute; inset-inline:0; }
+/* A departing tall surface must not cover the new footer during interruption. */
+.reading-enhanced .reading-actions { position:absolute; inset-inline:0; z-index:201; }
 .reading-actions button { min-height:44px; }
 .reading-actions button:disabled { opacity:.5; cursor:default; }
 .has-section-index .reading-panel :is(a,button) { scroll-margin-block:0 24px; }
 /* Measure existing nodes at their real width, without exposing inactive links. */
 .reading-panel.reading-measure .reading-stage { display:block!important; visibility:hidden; }
-.reading-panel.reading-measure .reading-card { min-height:0; }
+.reading-panel.reading-measure .reading-card { height:auto; }
 @media (prefers-reduced-motion:reduce) {
   .reading-enhanced :is(.reading-card,.reading-stage) { transition:none; }
   .reading-card[data-depth="0"] { transform:none; }
@@ -1127,7 +1142,7 @@ html[data-index-static] .section-index { position:static; }
   .reading-guide,.reading-hint,.reading-card-select,.reading-actions { display:none!important; }
   .reading-enhanced .reading-stages { height:auto!important; }
   .reading-enhanced .reading-panel { position:static; display:grid; height:auto!important; transform:none!important; }
-  .reading-enhanced .reading-card { position:static; min-height:0; transform:none!important; transition:none; box-shadow:none; }
+  .reading-enhanced .reading-card { position:static; height:auto; overflow:visible; transform:none!important; transition:none; box-shadow:none; }
   .reading-enhanced .reading-stage { display:block!important; visibility:visible; opacity:1!important; transform:none!important; transition:none; }
   .reading-enhanced :is(#lectura-aprendizajes-title,#lectura-brechas-title) {
     position:static; width:auto; height:auto; margin:0 0 28px; overflow:visible; clip-path:none; white-space:normal;
