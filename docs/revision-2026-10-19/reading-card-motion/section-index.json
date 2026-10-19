@@ -1,0 +1,128 @@
+{
+  "status": "passed",
+  "results": [
+    {
+      "viewport": [
+        1440,
+        900
+      ],
+      "status": "passed",
+      "cases": [
+        "bidirectional",
+        "deep-link",
+        "aliases",
+        "back-forward",
+        "keyboard",
+        "no-focus-steal",
+        "large-text",
+        "orientation"
+      ],
+      "errors": []
+    },
+    {
+      "viewport": [
+        390,
+        800
+      ],
+      "status": "passed",
+      "cases": [
+        "bidirectional",
+        "deep-link",
+        "aliases",
+        "back-forward",
+        "keyboard",
+        "no-focus-steal",
+        "large-text",
+        "orientation"
+      ],
+      "errors": []
+    },
+    {
+      "viewport": [
+        320,
+        800
+      ],
+      "status": "passed",
+      "cases": [
+        "bidirectional",
+        "deep-link",
+        "aliases",
+        "back-forward",
+        "keyboard",
+        "no-focus-steal",
+        "large-text",
+        "orientation"
+      ],
+      "errors": []
+    },
+    {
+      "viewport": [
+        844,
+        390
+      ],
+      "status": "passed",
+      "cases": [
+        "bidirectional",
+        "deep-link",
+        "aliases",
+        "back-forward",
+        "keyboard",
+        "no-focus-steal",
+        "large-text",
+        "orientation"
+      ],
+      "errors": []
+    },
+    {
+      "viewport": [
+        320,
+        256
+      ],
+      "status": "passed",
+      "cases": [
+        "bidirectional",
+        "deep-link",
+        "aliases",
+        "back-forward",
+        "keyboard",
+        "no-focus-steal",
+        "large-text",
+        "orientation"
+      ],
+      "errors": []
+    },
+    {
+      "case": "no-js",
+      "status": "passed"
+    },
+    {
+      "case": "no-continuous-layout-and-reduced-motion",
+      "status": "passed"
+    },
+    {
+      "case": "capsule-interruption-preference-resize-keyboard",
+      "status": "passed",
+      "motion": {
+        "before": "inset(6px 892.681px 6px 233.239px round 999px)",
+        "from": "inset(6px 892.681px 6px 233.239px round 999px)",
+        "duration": 199.99999999999997,
+        "easing": "cubic-bezier(0.23, 1, 0.32, 1)"
+      }
+    },
+    {
+      "case": "touch-strip-keeps-user-position",
+      "status": "passed",
+      "scrollLeft": 647
+    },
+    {
+      "case": "native-zoom-200",
+      "status": "passed",
+      "metrics": {
+        "inner": 720,
+        "outer": 1440,
+        "dpr": 2,
+        "scale": 1
+      }
+    }
+  ]
+}

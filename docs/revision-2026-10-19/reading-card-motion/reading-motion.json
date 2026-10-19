@@ -1,0 +1,262 @@
+[
+  {
+    "width": 1440,
+    "reduced_motion": false,
+    "forward": {
+      "expected": -198.3125,
+      "actual": -198.3125,
+      "scroll": 8729,
+      "target": 8729,
+      "selected": "lectura-brechas",
+      "panelAnimations": 1,
+      "contentAnimations": [
+        "opacity"
+      ]
+    },
+    "interrupted_reverse": {
+      "expected": -166.06829833984375,
+      "actual": -166.06829833984375,
+      "scroll": 8717,
+      "target": 8717,
+      "selected": "lectura-aprendizajes",
+      "panelAnimations": 1,
+      "contentAnimations": [
+        "opacity"
+      ]
+    },
+    "direct": {
+      "before": 173.6875,
+      "after": 173.875,
+      "opacity": "0",
+      "properties": [
+        "opacity"
+      ]
+    },
+    "status": "passed"
+  },
+  {
+    "width": 1440,
+    "reduced_motion": true,
+    "forward": {
+      "expected": -198.3125,
+      "actual": 170.28125,
+      "scroll": 8729,
+      "target": 8729,
+      "selected": "lectura-brechas",
+      "panelAnimations": 0,
+      "contentAnimations": []
+    },
+    "interrupted_reverse": {
+      "expected": 182.28125,
+      "actual": -186.3125,
+      "scroll": 8717,
+      "target": 8717,
+      "selected": "lectura-aprendizajes",
+      "panelAnimations": 0,
+      "contentAnimations": []
+    },
+    "direct": {
+      "before": 173.6875,
+      "after": 173.875,
+      "opacity": "1",
+      "properties": []
+    },
+    "status": "passed"
+  },
+  {
+    "width": 390,
+    "reduced_motion": false,
+    "forward": {
+      "expected": -590.578125,
+      "actual": -590.578125,
+      "scroll": 14455,
+      "target": 14455,
+      "selected": "lectura-brechas",
+      "panelAnimations": 1,
+      "contentAnimations": [
+        "opacity"
+      ]
+    },
+    "interrupted_reverse": {
+      "expected": -539.9551391601562,
+      "actual": -539.9551391601562,
+      "scroll": 14443,
+      "target": 14443,
+      "selected": "lectura-aprendizajes",
+      "panelAnimations": 1,
+      "contentAnimations": [
+        "opacity"
+      ]
+    },
+    "direct": {
+      "before": 115.421875,
+      "after": 115.015625,
+      "opacity": "0",
+      "properties": [
+        "opacity"
+      ]
+    },
+    "status": "passed"
+  },
+  {
+    "width": 390,
+    "reduced_motion": true,
+    "forward": {
+      "expected": -590.578125,
+      "actual": 110.71875,
+      "scroll": 14455,
+      "target": 14455,
+      "selected": "lectura-brechas",
+      "panelAnimations": 0,
+      "contentAnimations": []
+    },
+    "interrupted_reverse": {
+      "expected": 122.71875,
+      "actual": -578.578125,
+      "scroll": 14443,
+      "target": 14443,
+      "selected": "lectura-aprendizajes",
+      "panelAnimations": 0,
+      "contentAnimations": []
+    },
+    "direct": {
+      "before": 115.421875,
+      "after": 115.015625,
+      "opacity": "1",
+      "properties": []
+    },
+    "status": "passed"
+  },
+  {
+    "width": 768,
+    "reduced_motion": false,
+    "forward": {
+      "expected": -155.625,
+      "actual": -155.625,
+      "scroll": 9551,
+      "target": 9551,
+      "selected": "lectura-brechas",
+      "panelAnimations": 1,
+      "contentAnimations": [
+        "opacity"
+      ]
+    },
+    "interrupted_reverse": {
+      "expected": -125.687255859375,
+      "actual": -125.687255859375,
+      "scroll": 9539,
+      "target": 9539,
+      "selected": "lectura-aprendizajes",
+      "panelAnimations": 1,
+      "contentAnimations": [
+        "opacity"
+      ]
+    },
+    "direct": {
+      "before": 174.375,
+      "after": 173.96875,
+      "opacity": "0",
+      "properties": [
+        "opacity"
+      ]
+    },
+    "status": "passed"
+  },
+  {
+    "width": 768,
+    "reduced_motion": true,
+    "forward": {
+      "expected": -155.625,
+      "actual": 170.171875,
+      "scroll": 9551,
+      "target": 9551,
+      "selected": "lectura-brechas",
+      "panelAnimations": 0,
+      "contentAnimations": []
+    },
+    "interrupted_reverse": {
+      "expected": 182.171875,
+      "actual": -143.625,
+      "scroll": 9539,
+      "target": 9539,
+      "selected": "lectura-aprendizajes",
+      "panelAnimations": 0,
+      "contentAnimations": []
+    },
+    "direct": {
+      "before": 174.375,
+      "after": 173.96875,
+      "opacity": "1",
+      "properties": []
+    },
+    "status": "passed"
+  },
+  {
+    "width": 1024,
+    "reduced_motion": false,
+    "forward": {
+      "expected": -291.046875,
+      "actual": -291.046875,
+      "scroll": 9033,
+      "target": 9033,
+      "selected": "lectura-brechas",
+      "panelAnimations": 1,
+      "contentAnimations": [
+        "opacity"
+      ]
+    },
+    "interrupted_reverse": {
+      "expected": -263.9111328125,
+      "actual": -263.9111328125,
+      "scroll": 9021,
+      "target": 9021,
+      "selected": "lectura-aprendizajes",
+      "panelAnimations": 1,
+      "contentAnimations": [
+        "opacity"
+      ]
+    },
+    "direct": {
+      "before": 173.953125,
+      "after": 173.953125,
+      "opacity": "0",
+      "properties": [
+        "opacity"
+      ]
+    },
+    "status": "passed"
+  },
+  {
+    "width": 1024,
+    "reduced_motion": true,
+    "forward": {
+      "expected": -291.046875,
+      "actual": 169.953125,
+      "scroll": 9033,
+      "target": 9033,
+      "selected": "lectura-brechas",
+      "panelAnimations": 0,
+      "contentAnimations": []
+    },
+    "interrupted_reverse": {
+      "expected": 181.953125,
+      "actual": -279.046875,
+      "scroll": 9021,
+      "target": 9021,
+      "selected": "lectura-aprendizajes",
+      "panelAnimations": 0,
+      "contentAnimations": []
+    },
+    "direct": {
+      "before": 173.953125,
+      "after": 173.953125,
+      "opacity": "1",
+      "properties": []
+    },
+    "status": "passed"
+  },
+  {
+    "case": "unsupported starting-style",
+    "status": "passed"
+  }
+]
