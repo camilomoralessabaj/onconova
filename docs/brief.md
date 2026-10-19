@@ -6,6 +6,12 @@ Primera landing de la Actividad 7.3, CD1201, FCFM, Universidad de Chile. Equipo 
 
 Una persona externa debe comprender en aproximadamente tres minutos el desafío, la propuesta, qué existe como prototipo, qué se validó, resultados, aprendizajes y próximos pasos. La lectura también debe ser cómoda para mujeres de 50–59 años.
 
+## Evaluación reportada · 19 de octubre de 2026 (S13)
+
+El equipo confirma cinco pruebas de interacción conductual y entrevistas cualitativas con cuatro usuarias postratamiento y una profesional de oncología. Se evaluaron autonomía, comprensión del proceso y coincidencia entre preferencia declarada y elección realizada en un prototipo de exploración breve y simulación de derivación. Esta confirmación sustituye las afirmaciones generales de evaluación pendiente dentro de ese alcance, sin identificar el soporte, la versión o las fechas de aplicación. S01/S07 conservan su carácter de entrevistas históricas de necesidades; no se asumen registros idénticos ni se suman muestras.
+
+Los valores numéricos del RIA y la evaluación operativa con instituciones u operadores siguen pendientes. No se acredita eficacia clínica, acceso real a atención ni integración institucional. Se conservan composición, paleta, tipografía e ilustración; la ilustración no es fotografía ni registro de las participantes. El equipo confirma mantener las URLs existentes S05/S04 con la aclaración de que sus versiones consultadas el 19/10 aún muestran el plan y las columnas de resultados de OncoNova vacías. Las secciones fechadas siguientes conservan el contexto de decisiones anteriores; S13 actualiza su estado de evaluación.
+
 ## Actualización visual · 18 de octubre de 2026
 
 El equipo solicita aplicar una paleta burdeo y rosada a la UI de la landing y del prototipo. Esta decisión sustituye la conservación de la paleta anterior indicada en el alcance del 17/10. Conserva la composición, tipografía y contenido existentes. Los roles, contrastes y tintas de apoyo se documentan en `docs/paleta-ui.md`.
@@ -20,7 +26,7 @@ Cuando ningún horario acomoda, la persona puede elegir mañana/tarde y mantener
 
 El equipo autoriza implementar `prompt.md` (S11): **servicio acotado de transición** que propone utilizar canales institucionales existentes, con exploración breve no diagnóstica, decisión voluntaria, una derivación prioritaria acompañada y confirmación de acceso compatible. El cambio desde una app integral multifunción está aprobado como decisión conceptual; no acredita una integración institucional construida.
 
-La web conserva la simulación de coordinación de una primera hora de apoyo psicológico. Esa simulación representa solo una parte del servicio propuesto: no realiza la exploración conversada completa, una derivación real ni una confirmación de acceso a atención. No hay institución piloto confirmada ni resultados de validación del prototipo.
+La web conserva la simulación de coordinación de una primera hora de apoyo psicológico. Esa simulación representa solo una parte del servicio propuesto: no realiza la exploración conversada completa, una derivación real ni una confirmación de acceso a atención. No hay institución piloto confirmada. El estado de evaluación pendiente del encargo del 17/10 queda actualizado por S13, sin resultados numéricos del RIA.
 
 Se conserva íntegra la portada, su paleta y tipografía. El recorrido vigente es Portada → Desafío → Historia y cambio conceptual → Propuesta → Prototipado e iteración → Demostración → Preguntas → Validación → Aprendizajes, brechas y próximos pasos. `resultados` y `proximos-pasos` conservan sus anclas dentro de las dos últimas secciones.
 

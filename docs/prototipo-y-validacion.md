@@ -21,11 +21,11 @@ Versión 18/10/2026. La landing contiene el prototipo completo; `/prototipo/` pe
 - **Error de selección:** intentar confirmar sin horario; indicar la corrección y llevar foco al primer horario.
 - **Privacidad:** recargar reinicia el escenario. Solo la preferencia de tamaño de texto puede persistir; el nombre y contacto ficticios no se guardan en URLs, cookies, almacenamiento, consola ni solicitudes de red. No hay mensajes enviados, backend, analítica ni registro de datos de salud.
 
-## Validación pendiente
+## Evaluación reportada y comprobaciones pendientes
 
-Observar con usuarias si pueden completar el recorrido sin ayuda, explicar quién debería contactar y distinguir solicitud, espera, cita y atención. La prueba debe registrar dificultades y errores reales. No completar resultados por estimación.
+El 19/10/2026 el equipo confirmó cinco pruebas de interacción conductual y entrevistas cualitativas con cuatro usuarias postratamiento y una profesional de oncología (S13). Se evaluaron autonomía, comprensión del proceso y coincidencia entre preferencia declarada y elección realizada en exploración breve y simulación de derivación. El reporte no identifica el soporte o la versión aplicada. No demuestra efectividad ni acceso real a atención.
 
-Las cinco entrevistas existentes exploran necesidades y no validan este prototipo. Las metas del RIA (80 %) siguen siendo propuestas; revisar instrumento y pertinencia antes de experimentar. Responsables, institución, costos, cobertura, capacidad de agenda y plazos deben definirse antes de un piloto real.
+Las entrevistas históricas S01/S07 exploran necesidades; no se asumen idénticas a estas pruebas ni se suman muestras. Los destinos S05/S04 se mantienen por confirmación del equipo con esta aclaración: el texto accesible de S05 sigue siendo un plan y las columnas de resultados de OncoNova en S04 están vacías. Los valores numéricos y el cumplimiento de las metas del RIA (80 %) siguen pendientes; no se infieren éxitos, denominadores ni porcentajes. Para próximas pruebas, registrar dificultades reales y distinguir solicitud, espera, cita y atención. La evaluación operativa institucional, responsables, costos, cobertura, capacidad y plazos siguen pendientes antes de un piloto real.
 
 ## Verificación técnica
 

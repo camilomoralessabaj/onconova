@@ -884,6 +884,14 @@ html[data-index-static] .section-index { position:static; }
   max-width:800px;
 }
 
+.validation-evidence-title {
+  margin-bottom:18px;
+  color:var(--primary);
+  font-size:clamp(1.5rem,2.8vw,2.5rem);
+  line-height:1.15;
+  overflow-wrap:anywhere;
+}
+
 .validation-media {
   margin-top:40px;
   border-left:4px solid var(--line);
