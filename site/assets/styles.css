@@ -1037,6 +1037,20 @@ html[data-index-static] .section-index { position:static; }
 }
 .reading-card-select:active { background:var(--surface); }
 .reading-enhanced .reading-stage { padding-top:24px; }
+/* Content belongs to the arriving card instead of appearing in one frame.
+   Starting-style is progressive: older browsers keep fully visible content. */
+.reading-enhanced .reading-stage:not([hidden]) {
+  opacity:1;
+  transform:translateY(0);
+  transition:opacity var(--motion-standard) var(--ease-out), transform var(--motion-standard) var(--ease-out);
+  @starting-style {
+    opacity:0;
+    transform:translateY(16px);
+  }
+}
+@starting-style {
+  .reading-enhanced .reading-panel[data-direction="backward"] .reading-stage:not([hidden]) { transform:translateY(-16px); }
+}
 /* The card button supplies the visible title; retain the section heading for AT. */
 .reading-enhanced :is(#lectura-aprendizajes-title,#lectura-brechas-title) {
   position:absolute;
@@ -1057,7 +1071,7 @@ html[data-index-static] .section-index { position:static; }
 .reading-panel.reading-measure .reading-stage { display:block!important; visibility:hidden; }
 .reading-panel.reading-measure .reading-card { min-height:0; }
 @media (prefers-reduced-motion:reduce) {
-  .reading-enhanced .reading-card { transition:none; }
+  .reading-enhanced :is(.reading-card,.reading-stage) { transition:none; }
   .reading-card[data-depth="0"] { transform:none; }
   .reading-card[data-depth="1"] { transform:translateY(64px); }
 }
@@ -1075,9 +1089,9 @@ html[data-index-static] .section-index { position:static; }
 @media print {
   .reading-guide,.reading-hint,.reading-card-select,.reading-actions { display:none!important; }
   .reading-enhanced .reading-stages { height:auto!important; }
-  .reading-enhanced .reading-panel { position:static; display:grid; height:auto!important; }
+  .reading-enhanced .reading-panel { position:static; display:grid; height:auto!important; transform:none!important; }
   .reading-enhanced .reading-card { position:static; min-height:0; transform:none!important; transition:none; box-shadow:none; }
-  .reading-enhanced .reading-stage { display:block!important; visibility:visible; }
+  .reading-enhanced .reading-stage { display:block!important; visibility:visible; opacity:1!important; transform:none!important; transition:none; }
   .reading-enhanced :is(#lectura-aprendizajes-title,#lectura-brechas-title) {
     position:static; width:auto; height:auto; margin:0 0 28px; overflow:visible; clip-path:none; white-space:normal;
   }

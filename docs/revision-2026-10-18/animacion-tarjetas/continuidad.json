@@ -1,0 +1,140 @@
+[
+  {
+    "width": 1440,
+    "reduced_motion": false,
+    "forward": {
+      "expected": -84.3125,
+      "actual": -84.3125,
+      "scroll": 8615,
+      "target": 8615,
+      "selected": "lectura-brechas",
+      "panelAnimations": 1,
+      "contentAnimations": [
+        "opacity",
+        "transform"
+      ]
+    },
+    "interrupted_reverse": {
+      "expected": 80.76895141601562,
+      "actual": 80.76895141601562,
+      "scroll": 8603,
+      "target": 8603,
+      "selected": "lectura-aprendizajes",
+      "panelAnimations": 1,
+      "contentAnimations": [
+        "opacity",
+        "transform"
+      ]
+    },
+    "direct": {
+      "before": 173.6875,
+      "after": 173.6875,
+      "opacity": "0",
+      "properties": [
+        "opacity",
+        "transform"
+      ]
+    },
+    "status": "passed"
+  },
+  {
+    "width": 1440,
+    "reduced_motion": true,
+    "forward": {
+      "expected": -84.3125,
+      "actual": 169.6875,
+      "scroll": 8615,
+      "target": 8615,
+      "selected": "lectura-brechas",
+      "panelAnimations": 0,
+      "contentAnimations": []
+    },
+    "interrupted_reverse": {
+      "expected": 181.6875,
+      "actual": -72.3125,
+      "scroll": 8603,
+      "target": 8603,
+      "selected": "lectura-aprendizajes",
+      "panelAnimations": 0,
+      "contentAnimations": []
+    },
+    "direct": {
+      "before": 173.6875,
+      "after": 173.6875,
+      "opacity": "1",
+      "properties": []
+    },
+    "status": "passed"
+  },
+  {
+    "width": 390,
+    "reduced_motion": false,
+    "forward": {
+      "expected": -487.578125,
+      "actual": -487.578125,
+      "scroll": 14352,
+      "target": 14352,
+      "selected": "lectura-brechas",
+      "panelAnimations": 1,
+      "contentAnimations": [
+        "opacity",
+        "transform"
+      ]
+    },
+    "interrupted_reverse": {
+      "expected": -114.73687744140625,
+      "actual": -114.73687744140625,
+      "scroll": 14340,
+      "target": 14340,
+      "selected": "lectura-aprendizajes",
+      "panelAnimations": 1,
+      "contentAnimations": [
+        "opacity",
+        "transform"
+      ]
+    },
+    "direct": {
+      "before": 115.421875,
+      "after": 115.421875,
+      "opacity": "0",
+      "properties": [
+        "opacity",
+        "transform"
+      ]
+    },
+    "status": "passed"
+  },
+  {
+    "width": 390,
+    "reduced_motion": true,
+    "forward": {
+      "expected": -487.578125,
+      "actual": 111.421875,
+      "scroll": 14352,
+      "target": 14352,
+      "selected": "lectura-brechas",
+      "panelAnimations": 0,
+      "contentAnimations": []
+    },
+    "interrupted_reverse": {
+      "expected": 123.421875,
+      "actual": -475.578125,
+      "scroll": 14340,
+      "target": 14340,
+      "selected": "lectura-aprendizajes",
+      "panelAnimations": 0,
+      "contentAnimations": []
+    },
+    "direct": {
+      "before": 115.421875,
+      "after": 115.421875,
+      "opacity": "1",
+      "properties": []
+    },
+    "status": "passed"
+  },
+  {
+    "case": "unsupported starting-style",
+    "status": "passed"
+  }
+]
