@@ -621,3 +621,49 @@ denominadores, porcentajes y cumplimiento del 80 % siguen pendientes; también
 la evaluación operativa con instituciones u operadores. No hay evidencia de
 eficacia clínica, acceso real, integración institucional, fotografía ni video.
 La segunda pasada de IA no sustituye la revisión humana previa al merge.
+
+## 20/10/2026 · Video en la experiencia de uso (S14)
+
+El equipo autoriza subir y mostrar el MP4 compartido por Drive. Se integra en
+`#experiencia-usuarias`, dentro de Evidencia y antes del RIA, porque muestra un
+recorrido del prototipo y una conversación posterior. Se mantiene el orden de
+capítulos y la paleta burdeo/rosada, tipografía de sistema y composición existentes.
+El bloque tiene título, reproductor 16:9 adaptable, pie de procedencia, enlace al
+archivo y alternativa textual desplegable. Conserva controles nativos, teclado,
+`playsinline` y `preload="none"`; no tiene autoplay ni dependencia de JavaScript.
+
+Se publica una copia H.264/AAC de 62,33 s, 1024×576, 4.204.865 bytes frente a
+13.066.352 bytes del original. Durante la demostración se centra la captura
+ampliada para excluir el teléfono físico y se ocultan las zonas de nombre,
+contacto y sugerencias del teclado; el audio se copia sin recodificar. La
+entrevista se conserva. El original queda fuera del sitio y del commit. La pista
+VTT y el texto visible se prepararon a partir de los subtítulos incrustados,
+verificados en fotogramas; no se contrastó por escucha el audio completo. Los
+cues se sitúan arriba para no superponerse a los subtítulos ya incrustados.
+
+S14 registra procedencia y autorización; solo se añade al capítulo de validación.
+Se corrige la ausencia vigente de video y el pie de la ilustración conceptual.
+No se infiere identidad, condición de salud, fecha de aplicación ni vinculación
+con el conjunto de cinco pruebas S13. El RIA continúa sin resultados numéricos.
+El servidor de desarrollo reconoce los MIME de MP4 y WebVTT y sirve rangos de bytes del MP4 para permitir la búsqueda.
+
+Verificación ejecutada:
+
+- `node scripts/check.mjs`, `node scripts/build.mjs` y `git diff --check`: aprobados;
+  8 etapas, 14 fuentes, 3 metas pendientes, 2 páginas y 18 archivos públicos.
+- Inspección visual del montaje preparado con una hoja de fotogramas cada 2 s,
+  además de fotogramas específicos del original para las zonas de datos.
+- Chromium 154 con Playwright: 1440, 390 y 320 px, texto normal y al 200 %, sin
+  overflow ni errores de página o recursos observados. Se comprobó ausencia de
+  solicitud MP4 antes de reproducir y apertura/cierre del texto por teclado.
+- Reproducción y pausa con Espacio, carga de VTT y búsqueda en la entrevista en
+  los tres tamaños normales; controles y texto disponibles sin JS a 320 px.
+- Segunda revisión estática por otro agente: estructura, fuentes y límites de
+  evidencia sin bloqueos; se atendió su recomendación de situar CC arriba y
+  describir el recorte final. Es revisión de IA, no aprobación humana del equipo.
+
+Harness y capturas quedan en `work/video/`, ignorado por Git. La comprobación inicial de búsqueda detectó que el servidor local no servía rangos de bytes; se corrigió y se repitió el recorrido afectado. La primera
+comprobación de navegador necesitó ejecutarse fuera del sandbox de procesos para
+iniciar Chromium; no se alteró la UI para ocultar fallos. Límites: Chromium local, sin Safari,
+Firefox, lector de pantalla o dispositivos físicos; el texto de la entrevista
+se verificó contra los subtítulos incrustados, no con escucha del audio completo.

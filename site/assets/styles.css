@@ -892,6 +892,60 @@ html[data-index-static] .section-index { position:static; }
   overflow-wrap:anywhere;
 }
 
+.validation-video {
+  margin-top:48px;
+  max-width:1024px;
+  scroll-margin-top:var(--anchor-offset);
+}
+
+.validation-video>p {
+  margin-top:16px;
+  color:var(--muted);
+  max-width:65ch;
+}
+
+.experience-film {
+  margin:24px 0;
+}
+
+.experience-film video {
+  display:block;
+  width:100%;
+  height:auto;
+  aspect-ratio:16 / 9;
+  background:#000;
+  border-radius:16px;
+}
+
+.experience-film figcaption {
+  margin-top:16px;
+  color:var(--muted);
+  font-size:.95rem;
+  max-width:75ch;
+}
+
+.video-description {
+  margin-bottom:16px;
+  border-block:1px solid var(--line);
+}
+
+.video-description summary {
+  min-height:44px;
+  padding-block:16px;
+  cursor:pointer;
+  color:var(--primary);
+  font-weight:650;
+}
+
+.video-description-copy {
+  max-width:70ch;
+  padding-bottom:20px;
+}
+
+.video-description-copy p+p {
+  margin-top:16px;
+}
+
 .validation-media {
   margin-top:40px;
   border-left:4px solid var(--line);

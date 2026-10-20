@@ -6,6 +6,14 @@ Primera landing de la Actividad 7.3, CD1201, FCFM, Universidad de Chile. Equipo 
 
 Una persona externa debe comprender en aproximadamente tres minutos el desafío, la propuesta, qué existe como prototipo, qué se validó, resultados, aprendizajes y próximos pasos. La lectura también debe ser cómoda para mujeres de 50–59 años.
 
+## Video compartido · 20 de octubre de 2026 (S14)
+
+El equipo autoriza publicar un registro de uso del prototipo y una conversación
+posterior. Se integra en Evidencia, antes de los indicadores, con controles,
+sin autoplay, copia con nombre/contacto ocultos y alternativa textual. No se
+infiere identidad, perfil o correspondencia con las cinco pruebas reportadas,
+ni se completan resultados numéricos o evidencia clínica/operativa.
+
 ## Evaluación reportada · 19 de octubre de 2026 (S13)
 
 El equipo confirma cinco pruebas de interacción conductual y entrevistas cualitativas con cuatro usuarias postratamiento y una profesional de oncología. Se evaluaron autonomía, comprensión del proceso y coincidencia entre preferencia declarada y elección realizada en un prototipo de exploración breve y simulación de derivación. Esta confirmación sustituye las afirmaciones generales de evaluación pendiente dentro de ese alcance, sin identificar el soporte, la versión o las fechas de aplicación. S01/S07 conservan su carácter de entrevistas históricas de necesidades; no se asumen registros idénticos ni se suman muestras.

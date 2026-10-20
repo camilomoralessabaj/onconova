@@ -4,7 +4,7 @@
   "course": "CD1201",
   "activity": "7.3",
   "team": "E7",
-  "updated": "2026-10-19",
+  "updated": "2026-10-20",
   "scope": "Servicio acotado de transición propuesto: exploración breve no diagnóstica, decisión voluntaria, una derivación prioritaria acompañada y confirmación de acceso compatible mediante canales institucionales existentes. La web solo simula la coordinación de una primera hora de apoyo psicológico; sin integración operativa ni atención real.",
   "institution": null,
   "prototype": {
@@ -125,6 +125,15 @@
       "type": "team-reported-evaluation",
       "date": "2026-10-19",
       "note": "Encargo de actualización de #validacion recibido en esta fecha: el equipo confirma cinco pruebas de interacción conductual y entrevistas cualitativas con cuatro usuarias postratamiento y una profesional de oncología. Dimensiones: autonomía, comprensión del proceso y coincidencia entre preferencia declarada y elección realizada en exploración breve y simulación de derivación. Confirma los destinos existentes S05/S04 y, tras la consulta, mantenerlos aclarando que sus versiones accesibles aún no corroboran registros actualizados. Sin resultados numéricos, porcentajes, fecha de aplicación, soporte o versión identificados. No equivale a eficacia clínica, acceso real ni integración institucional. Las entrevistas históricas S01/S07 siguen separadas."
+    },
+    {
+      "id": "S14",
+      "title": "Registro audiovisual de uso del prototipo",
+      "type": "audiovisual-record",
+      "date": "2026-10-20",
+      "asset": "assets/experiencia-usuarias.mp4",
+      "url": "https://drive.google.com/file/d/1oFUXOT3xRVQlD2x_BYwaCGhLLrWvtL0M/view",
+      "note": "Archivo compartido por el equipo con autorización de publicación. Registro de interacción con el prototipo y conversación posterior. Copia pública con nombre y contacto ocultos y diálogo accesible. No se infieren identidad, perfil, fecha de grabación ni correspondencia con el conjunto de cinco pruebas S13; no acredita resultados numéricos ni atención real."
     }
   ],
   "chapters": [
@@ -205,7 +214,8 @@
         "S05",
         "S07",
         "S11",
-        "S13"
+        "S13",
+        "S14"
       ],
       "kind": "team-reported-qualitative-behavioral-evaluation"
     },

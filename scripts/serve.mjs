@@ -11,7 +11,7 @@ if (!['site', 'dist'].includes(directory)) throw new Error('--dir debe ser site 
 const root = await realpath(resolve(project, directory));
 const port = Number(option('--port', '4173'));
 const host = option('--host', '127.0.0.1');
-const types = { '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.json': 'application/json; charset=utf-8', '.svg': 'image/svg+xml', '.png': 'image/png', '.jpg': 'image/jpeg', '.webp': 'image/webp' };
+const types = { '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.json': 'application/json; charset=utf-8', '.svg': 'image/svg+xml', '.png': 'image/png', '.jpg': 'image/jpeg', '.webp': 'image/webp', '.mp4': 'video/mp4', '.vtt': 'text/vtt; charset=utf-8' };
 const contained = path => {
   const rel = relative(root, path);
   return rel !== '..' && !rel.startsWith(`..${sep}`) && !isAbsolute(rel);
@@ -33,7 +33,23 @@ const server = createServer(async (request, response) => {
     path = await realpath(path);
     if (!contained(path)) { response.writeHead(403).end(); return; }
     const data = await readFile(path);
-    response.writeHead(200, { 'Content-Type': types[extname(path)] || 'application/octet-stream', 'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff' });
+    const headers = { 'Content-Type': types[extname(path)] || 'application/octet-stream', 'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff', 'Content-Length': data.length };
+    if (extname(path) === '.mp4') {
+      headers['Accept-Ranges'] = 'bytes';
+      if (request.headers.range) {
+        const range = /^bytes=(\d*)-(\d*)$/.exec(request.headers.range);
+        const start = range?.[1] ? Number(range[1]) : Math.max(0, data.length - Number(range?.[2]));
+        const end = range?.[1] && range[2] ? Math.min(Number(range[2]), data.length - 1) : data.length - 1;
+        if (!range || (!range[1] && !range[2]) || !Number.isSafeInteger(start) || !Number.isSafeInteger(end) || start > end || start >= data.length) {
+          response.writeHead(416, { 'Content-Range': `bytes */${data.length}` }).end();
+          return;
+        }
+        response.writeHead(206, { ...headers, 'Content-Range': `bytes ${start}-${end}/${data.length}`, 'Content-Length': end - start + 1 });
+        response.end(request.method === 'HEAD' ? undefined : data.subarray(start, end + 1));
+        return;
+      }
+    }
+    response.writeHead(200, headers);
     response.end(request.method === 'HEAD' ? undefined : data);
   } catch (error) {
     response.writeHead(error instanceof URIError ? 400 : 404, { 'Content-Type': 'text/plain; charset=utf-8' }).end('Página no disponible');

@@ -1,6 +1,6 @@
 # Evidencia y decisiones editoriales
 
-Revisión vigente: 19 de octubre de 2026. Se revisaron el repositorio, el encargo de actualización y su confirmación posterior de destinos (S13), y el texto legible de S05 y S04 mediante Google Drive. El inventario histórico corresponde a la carpeta «proyectos» de Drive, revisada en tareas anteriores; los demás originales no se volvieron a consultar. La revisión del 17/10 incluyó el adjunto `prompt.md`.
+Revisión vigente: 20 de octubre de 2026. Se incorpora el video S14, compartido con autorización de publicación; la consulta documental de S04/S05 que sigue corresponde al 19/10. Se revisaron el repositorio, el encargo de actualización y su confirmación posterior de destinos (S13), y el texto legible de S05 y S04 mediante Google Drive. El inventario histórico corresponde a la carpeta «proyectos» de Drive, revisada en tareas anteriores; los demás originales no se volvieron a consultar. La revisión del 17/10 incluyó el adjunto `prompt.md`.
 
 En el inventario histórico se registraron los archivos de las tres subcarpetas y de la raíz y se extrajo texto de 36 documentos legibles. Los ZIP de material docente y la imagen de calificaciones no son evidencia de validación del proyecto. La ubicación local registrada entonces fue `.local/fuentes-drive.json`, ignorada por Git.
 
@@ -21,6 +21,7 @@ En el inventario histórico se registraron los archivos de las tres subcarpetas 
 | S11 | Especificación `prompt.md`, implementación autorizada el 17/10/2026 | Confirma el servicio acotado de transición, la evolución desde app integral, requisitos, brechas, decisión ITERAR y planificación propuesta. No aporta datos de resultados, video, cuadro estratégico ni fotografía del papel. |
 | S12 | Encargo de contacto ficticio y alternativas, 18/10/2026 | Decisión de implementación del equipo: nombre/contacto en memoria y horarios nuevos con cambio de modalidad. Sin evidencia de validación con usuarias ni disponibilidad real. |
 | S13 | Confirmación del equipo, 19/10/2026 | Encargo recibido: cinco pruebas conductuales y entrevistas cualitativas, cuatro usuarias postratamiento y una profesional de oncología; autonomía, comprensión y coherencia entre preferencia y elección. Confirmación posterior: mantener destinos S05/S04 aclarando que aún no corroboran registros actualizados. Sin resultados numéricos ni evidencia clínica u operativa. |
+| S14 | Registro audiovisual compartido el 20/10/2026 | Interacción con el prototipo y conversación posterior. Copia pública con nombre/contacto ocultos; sin inferir identidad, perfil, fecha de grabación ni correspondencia con las cinco pruebas. |
 
 El sitio y `site/content/project.json` vinculan cada etapa con estas fuentes. Los enlaces a documentos académicos pueden requerir acceso a Drive. No se cambió la configuración de acceso de los originales.
 
@@ -43,7 +44,7 @@ La revisión histórica de S01/S07 abarcó cinco entrevistas reales: cuatro muje
 
 ## Qué falta
 
-Institución y responsable del piloto; protocolo de derivación; capacidad de atención; evaluación operativa con instituciones u operadores; resultados numéricos del RIA; costos y carga operativa. También faltan registros documentales actualizados que corroboren las pruebas reportadas, fechas de aplicación y soporte o versión evaluados. No se aportaron fotografías ni video. Los campos numéricos vacíos siguen pendientes.
+Institución y responsable del piloto; protocolo de derivación; capacidad de atención; evaluación operativa con instituciones u operadores; resultados numéricos del RIA; costos y carga operativa. También faltan registros documentales actualizados que corroboren las pruebas reportadas, fechas de aplicación y soporte o versión evaluados. S14 aporta ahora un video de uso y conversación posterior; no identifica por sí solo las cinco pruebas ni sustituye fichas, fechas o resultados. Sigue pendiente la fotografía del prototipo en papel. Los campos numéricos vacíos siguen pendientes.
 
 En la revisión del 17/10 se buscaron por nombres, extensiones y referencias los recursos en los archivos del repositorio y los adjuntos disponibles. No se encontraron equivalentes del cuadro estratégico ni del prototipo en papel, enlaces o archivos de video de validación, ni datos de logros y totales del RIA. El póster histórico sí existe, pero no sustituye estos recursos. El documento complementario aludido por `prompt.md` tampoco estaba adjunto. No se inventaron textos literales o énfasis de ese documento: requisitos y comparación se redactaron como síntesis atribuida a S03/S04/S09/S11; los indicadores conservan las definiciones de `project.json` y sus metas de al menos 80 %.
 
@@ -91,3 +92,26 @@ El equipo confirmó utilizar estos destinos y luego mantenerlos con la aclaraci�
 `prototype.status` pasa de `conceptual-unvalidated` a `qualitative-behavioral-evaluation-reported`. El bloque `validation` separa las cinco pruebas reportadas de `interviews`, conserva fuente S13 y deja resultados cuantitativos, eficacia clínica y acceso real como `null`. La evaluación operativa institucional permanece `pending`; participar una profesional de oncología no acredita una prueba con una institución u operador.
 
 Los tres indicadores del RIA mantienen `status: proposed`, `observed: null` y sus umbrales de diseño del 80 %. No se infieren éxitos, denominadores, porcentajes ni cumplimiento de metas a partir de cinco pruebas. La evaluación reportada tampoco certifica efectividad clínica, acceso a atención, integración con FONASA/GES, convenios ni disponibilidad de cupos. No se aportaron video o fotografías; el SVG conservado es una ilustración conceptual, con alt descriptivo y sin identidad de participantes.
+
+
+## Registro audiovisual compartido · 20/10/2026 (S14)
+
+El equipo solicita explícitamente subir al repositorio y mostrar en la landing el
+video de Drive `1oFUXOT3xRVQlD2x_BYwaCGhLLrWvtL0M`. Se consultaron metadatos y
+se descargó por el conector de Google Drive: MP4 H.264/AAC, 1024×576, 62,32 s,
+13.066.352 bytes. Se revisaron fotogramas del recorrido y de la conversación.
+No se infiere la identidad, condición de salud o rol de la persona, fecha de
+grabación ni correspondencia con las cinco pruebas reportadas en S13.
+
+Se coloca en `#experiencia-usuarias`, dentro de Evidencia y antes de los
+indicadores: el archivo muestra uso del prototipo y una conversación posterior.
+La publicación autorizada incluye una copia preparada para web que oculta el
+nombre y el contacto visibles, y una alternativa textual del contenido. El
+original descargado queda fuera de `site/` y del commit. Los permisos de Drive
+no cambian. Se conserva el audio; no se presentan números, eficacia clínica o
+atención real como resultados del video. La ilustración previa se identifica
+correctamente como conceptual.
+
+S14 documenta este registro audiovisual; no modifica el alcance reportado en
+S13, las muestras históricas ni los valores pendientes del RIA. Las frases
+anteriores sobre la ausencia de video describen su momento de revisión.
