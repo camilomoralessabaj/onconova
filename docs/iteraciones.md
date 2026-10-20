@@ -667,3 +667,25 @@ comprobación de navegador necesitó ejecutarse fuera del sandbox de procesos pa
 iniciar Chromium; no se alteró la UI para ocultar fallos. Límites: Chromium local, sin Safari,
 Firefox, lector de pantalla o dispositivos físicos; el texto de la entrevista
 se verificó contra los subtítulos incrustados, no con escucha del audio completo.
+
+
+## 20/10/2026 · Sustitución por el video original autorizado
+
+El usuario solicita retirar la censura y publicar el archivo tal como fue
+compartido; confirma que cuentan con autorización de la participante. Esta
+corrección sustituye la decisión de anonimización anterior. Se reemplaza la
+copia editada por `assets/experiencia-usuarias-original.mp4`, sin recorte,
+máscaras, cambios de audio ni recompresión. La ruta nueva evita reutilizar en
+caché el MP4 editado. Se conservan ubicación, controles, poster, subtítulos y
+alternativa textual, retirando de la interfaz, VTT, brief y S14 las afirmaciones
+vigentes de datos ocultos. El historial anterior describe la versión sustituida.
+
+Verificación: original y archivo público idénticos byte a byte (13.066.352 bytes;
+SHA-256 `59f9f317c78f3faba3a9a99efdea00e06c9338c99e783180b43d02743fd694a9`).
+`node scripts/check.mjs`, `node scripts/build.mjs` y `git diff --check` aprobados.
+Chromium 154: reproducción/pausa por teclado, búsqueda a 40 s, VTT y texto
+desplegable aprobados a 1440 y 390 px, sin overflow ni errores de página o
+recursos; el MP4 no se descarga antes de reproducir. Controles/texto disponibles
+sin JS a 320 px. Segunda revisión estática de IA sin hallazgos bloqueantes.
+Se mantiene la autorización del usuario para publicar este trabajo como
+excepción a la revisión de otra persona; no se modifican las reglas remotas.

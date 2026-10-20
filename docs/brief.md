@@ -10,7 +10,8 @@ Una persona externa debe comprender en aproximadamente tres minutos el desafío,
 
 El equipo autoriza publicar un registro de uso del prototipo y una conversación
 posterior. Se integra en Evidencia, antes de los indicadores, con controles,
-sin autoplay, copia con nombre/contacto ocultos y alternativa textual. No se
+sin autoplay, archivo original sin modificaciones y alternativa textual. El
+equipo confirma autorización de la participante para publicar el video. No se
 infiere identidad, perfil o correspondencia con las cinco pruebas reportadas,
 ni se completan resultados numéricos o evidencia clínica/operativa.
 
