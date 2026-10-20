@@ -21,7 +21,7 @@ En el inventario histórico se registraron los archivos de las tres subcarpetas 
 | S11 | Especificación `prompt.md`, implementación autorizada el 17/10/2026 | Confirma el servicio acotado de transición, la evolución desde app integral, requisitos, brechas, decisión ITERAR y planificación propuesta. No aporta datos de resultados, video, cuadro estratégico ni fotografía del papel. |
 | S12 | Encargo de contacto ficticio y alternativas, 18/10/2026 | Decisión de implementación del equipo: nombre/contacto en memoria y horarios nuevos con cambio de modalidad. Sin evidencia de validación con usuarias ni disponibilidad real. |
 | S13 | Confirmación del equipo, 19/10/2026 | Encargo recibido: cinco pruebas conductuales y entrevistas cualitativas, cuatro usuarias postratamiento y una profesional de oncología; autonomía, comprensión y coherencia entre preferencia y elección. Confirmación posterior: mantener destinos S05/S04 aclarando que aún no corroboran registros actualizados. Sin resultados numéricos ni evidencia clínica u operativa. |
-| S14 | Registro audiovisual compartido el 20/10/2026 | Interacción con el prototipo y conversación posterior. Copia pública con nombre/contacto ocultos; sin inferir identidad, perfil, fecha de grabación ni correspondencia con las cinco pruebas. |
+| S14 | Registro audiovisual compartido el 20/10/2026 | Interacción con el prototipo y conversación posterior. Archivo original sin modificaciones, con autorización de la participante confirmada por el equipo; sin inferir identidad, perfil, fecha de grabación ni correspondencia con las cinco pruebas. |
 
 El sitio y `site/content/project.json` vinculan cada etapa con estas fuentes. Los enlaces a documentos académicos pueden requerir acceso a Drive. No se cambió la configuración de acceso de los originales.
 
@@ -105,11 +105,15 @@ grabación ni correspondencia con las cinco pruebas reportadas en S13.
 
 Se coloca en `#experiencia-usuarias`, dentro de Evidencia y antes de los
 indicadores: el archivo muestra uso del prototipo y una conversación posterior.
-La publicación autorizada incluye una copia preparada para web que oculta el
-nombre y el contacto visibles, y una alternativa textual del contenido. El
-original descargado queda fuera de `site/` y del commit. Los permisos de Drive
-no cambian. Se conserva el audio; no se presentan números, eficacia clínica o
-atención real como resultados del video. La ilustración previa se identifica
+El equipo corrigió la primera publicación: solicitó el archivo original tal
+como fue compartido, sin censura, recortes ni recompresión, y confirmó contar
+con autorización de la participante. Esta indicación expresa sustituye la
+decisión anterior de ocultar nombre y contacto y autoriza publicar este original
+concreto como excepción a la regla general de originales privados. El MP4 de
+`site/assets/experiencia-usuarias-original.mp4` es idéntico byte a byte al archivo
+descargado de Drive. Se conserva la alternativa textual. Los permisos de Drive
+no cambian; no se presentan números, eficacia clínica o atención real como
+resultados del video. La ilustración previa se identifica
 correctamente como conceptual.
 
 S14 documenta este registro audiovisual; no modifica el alcance reportado en
