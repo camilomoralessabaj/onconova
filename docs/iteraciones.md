@@ -689,3 +689,48 @@ recursos; el MP4 no se descarga antes de reproducir. Controles/texto disponibles
 sin JS a 320 px. Segunda revisión estática de IA sin hallazgos bloqueantes.
 Se mantiene la autorización del usuario para publicar este trabajo como
 excepción a la revisión de otra persona; no se modifican las reglas remotas.
+
+## 22/11/2026 · Disponibilidad por días y franjas (S15)
+
+En `/` y `/prototipo/`, «Ninguno me acomoda» permite marcar uno o más días
+de lunes a viernes y combinar 09:00–12:00, 12:00–15:00 y 15:00–18:00 en hora
+de Santiago de Chile. Las franjas se aplican a todos los días seleccionados.
+Se mantiene la primera propuesta y la elección entre videollamada y presencial.
+La búsqueda compartida toma hasta tres opciones en los próximos 14 días
+calendario, desde mañana, con los 45 minutos completos dentro de cada franja.
+La agenda ficticia usa días de semana y omite feriados.
+
+Una nueva búsqueda excluye cada fecha y hora rechazada en el recorrido.
+Volver voluntariamente a la propuesta anterior permite elegir de nuevo.
+Rechazar, cambiar de propuesta o reprogramar limpia la selección y la
+confirmación anterior. Si faltan días o franjas, la interfaz indica el
+grupo a corregir y enfoca su primera casilla. Si se agotan las opciones,
+se pueden revisar las preferencias o salir pendiente. El PDF usa únicamente
+la cita confirmada. La fuente S15 registra la decisión de diseño en el
+manifiesto y Fuentes. El brief, el guion y las descripciones vigentes se
+actualizan junto con la nueva referencia.
+
+### Verificación
+
+- Aprobados `node scripts/check.mjs`, `node scripts/build.mjs` y `git diff --check`.
+- Con `node scripts/serve.mjs`, `scripts/test-booking.py` aprobó las dos rutas
+  a 1440, 390 y 320 px, con 90 archivos PDF verificados. Cubre selección vacía,
+  filtros múltiples, inicios y finales de franja, modalidad, exclusión de
+  rechazos, agenda agotada, retorno voluntario, salida pendiente, teclado
+  y foco. El reloj simula el 30 de diciembre en Santiago aunque ya sea 31
+  en UTC y verifica opciones de 2026 y 2027 con dos zonas de dispositivo.
+  La suite también comprueba consola, recursos, privacidad, lectura sin
+  JavaScript y acceso directo a las fuentes S10 y S15.
+- `scripts/test-step-motion.py` aprobó 13 casos de transiciones, teclado,
+  toque emulado, movimiento normal y reducido e interrupciones.
+- `scripts/test-reading-guide.py` aprobó 22 casos de regresión de la guía,
+  incluidos anclas, impresión y zoom nativo al 200 %.
+- Segunda pasada con `web-design-guidelines` y `revision-landing`. Se revisaron
+  el diff frente a `origin/main`, las capturas, los estados marcados y el foco.
+  Se ajustó el ancho de las franjas y la posición de entrada del formulario.
+  Los rangos se leyeron en una línea a 1440, 390 y 320 px, incluido texto ampliado.
+  El texto de ayuda tiene contraste 7,22:1 sobre el fondo de la reserva. El
+  anillo de foco tiene contraste de al menos 5,22:1 sobre los fondos de opción.
+
+Pruebas en Chromium de escritorio y móvil emulado. Safari, teléfonos
+físicos y lectores de pantalla quedaron fuera de esta verificación.

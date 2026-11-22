@@ -4,14 +4,15 @@
   "course": "CD1201",
   "activity": "7.3",
   "team": "E7",
-  "updated": "2026-10-20",
+  "updated": "2026-11-22",
   "scope": "Servicio acotado de transición propuesto: exploración breve no diagnóstica, decisión voluntaria, una derivación prioritaria acompañada y confirmación de acceso compatible mediante canales institucionales existentes. La web solo simula la coordinación de una primera hora de apoyo psicológico; sin integración operativa ni atención real.",
   "institution": null,
   "prototype": {
     "status": "qualitative-behavioral-evaluation-reported",
     "created": "2026-10-10",
-    "description": "Prototipo navegable con nombre y contacto ficticios en memoria, mensaje personalizado por correo o WhatsApp, horarios alternativos según mañana/tarde y modalidad, confirmación y PDF simulados sin nombre ni contacto. Sin envíos, persistencia de solicitudes ni servicios reales.",
-    "updated": "2026-10-19",
+    "description": "Prototipo navegable con nombre y contacto ficticios en memoria, mensaje personalizado por correo o WhatsApp, horarios alternativos según días de lunes a viernes, franjas de Santiago de Chile y modalidad, confirmación y PDF simulados sin nombre ni contacto. Sin envíos, persistencia de solicitudes ni servicios reales.",
+    "updated": "2026-11-22",
+    "availabilitySource": "S15",
     "evaluationSource": "S13"
   },
   "interviews": {
@@ -134,6 +135,13 @@
       "asset": "assets/experiencia-usuarias-original.mp4",
       "url": "https://drive.google.com/file/d/1oFUXOT3xRVQlD2x_BYwaCGhLLrWvtL0M/view",
       "note": "Archivo original compartido por el equipo, publicado sin modificaciones. El equipo confirma autorización de la participante para publicar este video. Registro de interacción con el prototipo y conversación posterior, con alternativa textual accesible. No se infieren identidad, perfil, fecha de grabación ni correspondencia con el conjunto de cinco pruebas S13; no acredita resultados numéricos ni atención real."
+    },
+    {
+      "id": "S15",
+      "title": "Disponibilidad por días y franjas",
+      "type": "team-decision",
+      "date": "2026-11-22",
+      "note": "Encargo de iteración de la maqueta. Al rechazar la primera propuesta se puede marcar más de un día de lunes a viernes y más de una franja de Santiago de Chile, y mantener o cambiar modalidad. Se muestran hasta tres horarios ficticios que admiten los 45 minutos completos, excluyendo los horarios rechazados. Si no hay coincidencias, se puede revisar preferencias o salir sin confirmar. Es una decisión de diseño de la simulación."
     }
   ],
   "chapters": [
@@ -179,7 +187,8 @@
         "S09",
         "S11",
         "S12",
-        "S13"
+        "S13",
+        "S15"
       ],
       "kind": "documented-plan-and-prototype"
     },
@@ -190,7 +199,8 @@
         "S09",
         "S11",
         "S12",
-        "S13"
+        "S13",
+        "S15"
       ],
       "kind": "qualitative-behavioral-evaluation-reported"
     },
@@ -201,7 +211,8 @@
         "S09",
         "S10",
         "S11",
-        "S12"
+        "S12",
+        "S15"
       ],
       "kind": "proposal-limits"
     },

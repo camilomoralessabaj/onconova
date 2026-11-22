@@ -1,6 +1,6 @@
 # Evidencia y decisiones editoriales
 
-Revisión vigente: 20 de octubre de 2026. Se incorpora el video S14, compartido con autorización de publicación; la consulta documental de S04/S05 que sigue corresponde al 19/10. Se revisaron el repositorio, el encargo de actualización y su confirmación posterior de destinos (S13), y el texto legible de S05 y S04 mediante Google Drive. El inventario histórico corresponde a la carpeta «proyectos» de Drive, revisada en tareas anteriores; los demás originales no se volvieron a consultar. La revisión del 17/10 incluyó el adjunto `prompt.md`.
+Revisión vigente: 22 de noviembre de 2026. S15 registra la nueva decisión de disponibilidad de la maqueta. El video S14 se incorporó el 20 de octubre con autorización de publicación. La revisión del 19 de octubre consultó el repositorio, el encargo de actualización y la confirmación posterior de destinos (S13), junto con el texto legible de S05 y S04 en Google Drive. El inventario histórico corresponde a la carpeta «proyectos» de Drive, revisada en tareas anteriores; los demás originales no se volvieron a consultar. La revisión del 17/10 incluyó el adjunto `prompt.md`.
 
 En el inventario histórico se registraron los archivos de las tres subcarpetas y de la raíz y se extrajo texto de 36 documentos legibles. Los ZIP de material docente y la imagen de calificaciones no son evidencia de validación del proyecto. La ubicación local registrada entonces fue `.local/fuentes-drive.json`, ignorada por Git.
 
@@ -22,6 +22,7 @@ En el inventario histórico se registraron los archivos de las tres subcarpetas 
 | S12 | Encargo de contacto ficticio y alternativas, 18/10/2026 | Decisión de implementación del equipo: nombre/contacto en memoria y horarios nuevos con cambio de modalidad. Sin evidencia de validación con usuarias ni disponibilidad real. |
 | S13 | Confirmación del equipo, 19/10/2026 | Encargo recibido: cinco pruebas conductuales y entrevistas cualitativas, cuatro usuarias postratamiento y una profesional de oncología; autonomía, comprensión y coherencia entre preferencia y elección. Confirmación posterior: mantener destinos S05/S04 aclarando que aún no corroboran registros actualizados. Sin resultados numéricos ni evidencia clínica u operativa. |
 | S14 | Registro audiovisual compartido el 20/10/2026 | Interacción con el prototipo y conversación posterior. Archivo original sin modificaciones, con autorización de la participante confirmada por el equipo; sin inferir identidad, perfil, fecha de grabación ni correspondencia con las cinco pruebas. |
+| S15 | Encargo de disponibilidad por días y franjas, 22/11/2026 | Decisión de diseño de la simulación: días de lunes a viernes, franjas de Santiago y modalidad, filtrados para sesiones completas de 45 minutos. |
 
 El sitio y `site/content/project.json` vinculan cada etapa con estas fuentes. Los enlaces a documentos académicos pueden requerir acceso a Drive. No se cambió la configuración de acceso de los originales.
 
@@ -119,3 +120,17 @@ correctamente como conceptual.
 S14 documenta este registro audiovisual; no modifica el alcance reportado en
 S13, las muestras históricas ni los valores pendientes del RIA. Las frases
 anteriores sobre la ausencia de video describen su momento de revisión.
+
+## Iteración del 22/11/2026 · Disponibilidad por días y franjas (S15)
+
+El encargo sustituye la preferencia de mañana/tarde de S12 por selección
+múltiple de días y franjas. Las franjas se aplican a cada día marcado. La
+búsqueda devuelve hasta tres horarios compatibles con la modalidad elegida
+en los próximos 14 días calendario de Santiago, a partir de mañana.
+La agenda ficticia usa días de lunes a viernes y omite el calendario de
+feriados. Excluye las fechas y horas ya rechazadas en nuevas búsquedas.
+Volver a la propuesta anterior es voluntario y permite elegir de nuevo.
+
+Si se agotan las coincidencias, se puede ajustar la búsqueda o salir
+pendiente. El comprobante corresponde a la cita confirmada. S15 registra un
+cambio de diseño y su alcance se limita a la simulación.

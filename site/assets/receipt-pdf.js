@@ -3,6 +3,7 @@
 const dateFormat = new Intl.DateTimeFormat('es-CL', {
   weekday: 'long', day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC'
 });
+export const SESSION_MINUTES = 45;
 
 export function appointmentDate(slot) {
   return dateFormat.format(new Date(Date.UTC(slot.year, slot.month - 1, slot.day, 12)));
@@ -69,7 +70,7 @@ export function createReceiptPdf({ slot, modality, channel }) {
   text('Modalidad', 68, 351, 11, 'F2', 'primary');
   text(modality, 68, 375, 14, 'F2');
   text('Duración de ejemplo', 329, 351, 11, 'F2', 'primary');
-  text('45 minutos', 329, 375, 14, 'F2');
+  text(`${SESSION_MINUTES} minutos`, 329, 375, 14, 'F2');
 
   text('Profesional', 48, 430, 11, 'F2', 'primary');
   text('Profesional de ejemplo, sin identidad asignada', 48, 451, 13);

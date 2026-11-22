@@ -1,4 +1,37 @@
-import { appointmentDate, createReceiptPdf, sessionInstructions } from './receipt-pdf.js';
+import { appointmentDate, createReceiptPdf, sessionInstructions, SESSION_MINUTES } from './receipt-pdf.js';
+
+const bands = {
+  morning: [9 * 60, 12 * 60],
+  midday: [12 * 60, 15 * 60],
+  afternoon: [15 * 60, 18 * 60]
+};
+// Some starts straddle band boundaries and only appear if the full session fits.
+const exampleStarts = {
+  Videollamada: ['09:00', '11:30', '12:00', '14:30', '15:00', '17:15'],
+  Presencial: ['11:15', '11:30', '14:15', '14:30', '15:30', '17:30']
+};
+const searchDays = 14;
+const maxSlots = 3;
+const slotKey = ({ year, month, day, time }) => [year, month, day, time].join('/');
+const dayFormat = new Intl.DateTimeFormat('en-CA', { year: 'numeric', month: '2-digit', day: '2-digit', timeZone: 'America/Santiago' });
+
+function* upcomingDays() {
+  // UTC noon represents a civil date in Santiago without device timezone or DST arithmetic.
+  const parts = Object.fromEntries(dayFormat.formatToParts(new Date()).map(part => [part.type, part.value]));
+  const date = new Date(Date.UTC(Number(parts.year), Number(parts.month) - 1, Number(parts.day), 12));
+  for (let offset = 0; offset < searchDays; offset++) {
+    date.setUTCDate(date.getUTCDate() + 1);
+    const weekday = date.getUTCDay();
+    if (weekday === 0 || weekday === 6) continue;
+    yield { weekday, year: date.getUTCFullYear(), month: date.getUTCMonth() + 1, day: date.getUTCDate() };
+  }
+}
+
+function fitsBand(time, [start, end]) {
+  const [hour, minute] = time.split(':').map(Number);
+  const startsAt = hour * 60 + minute;
+  return startsAt >= start && startsAt + SESSION_MINUTES <= end;
+}
 
 // Academic simulation. Contact fields stay in memory/DOM; no requests, URL state or storage.
 const booking = document.querySelector('[data-booking]');
@@ -14,10 +47,13 @@ if (booking) {
   let selected = null;
   let slots = [];
   let proposal = 'initial';
-  let proposedPeriod = null;
-  let lastProposalDay = null;
+  const rejectedSlots = new Set();
   let attempted = false;
-  const dayFormat = new Intl.DateTimeFormat('en-CA', { year: 'numeric', month: '2-digit', day: '2-digit', timeZone: 'America/Santiago' });
+  let attemptedAvailability = false;
+  const availabilityGroups = [
+    ['preferred-day', 'preferred-day-error', 'Marca al menos un día de la semana.'],
+    ['preferred-band', 'preferred-band-error', 'Marca al menos una franja horaria.']
+  ];
 
   let pointerSubmitActivation = null;
   const isPointerClick = event => event.isTrusted && event.detail > 0;
@@ -76,7 +112,10 @@ if (booking) {
     booking.querySelectorAll('[data-modality-copy]').forEach(element => {
       element.textContent = modality === 'Videollamada' ? 'por videollamada' : 'de forma presencial';
     });
-    find('[data-proposal-note]').textContent = proposedPeriod ? `Nueva propuesta: ${proposedPeriod}, ${modality.toLowerCase()}. Horarios ficticios distintos de la propuesta anterior.` : 'Primera propuesta de horarios ficticios.';
+    find('[data-proposal-note]').textContent = proposal === 'initial'
+      ? 'Primera propuesta de horarios ficticios.'
+      : `Horarios de ejemplo según tus preferencias · ${modality}`;
+    find('[data-action="adjust-availability"]').hidden = proposal === 'initial';
     find('[data-message-name]').textContent = requestForm.elements['preferred-name'].value.trim();
     find('[data-message-channel]').textContent = `${channel} para ${contactValue()}`;
     find('[data-message-subject]').textContent = channel === 'Correo' ? 'Asunto: elige tu primera hora de apoyo psicológico' : 'Tu solicitud tiene un siguiente paso';
@@ -88,6 +127,19 @@ if (booking) {
     error.hidden = !message;
     if (message) input.setAttribute('aria-invalid', 'true');
     else input.removeAttribute('aria-invalid');
+  }
+  function checkedValues(name) {
+    return Array.from(waitForm.elements[name]).filter(input => input.checked).map(input => input.value);
+  }
+  function validateAvailability() {
+    let firstInvalid;
+    for (const [name, id, message] of availabilityGroups) {
+      const firstInput = waitForm.elements[name][0];
+      const missing = !checkedValues(name).length;
+      setError(firstInput, id, missing ? message : '');
+      if (missing) firstInvalid ??= firstInput;
+    }
+    return firstInvalid;
   }
   function validateRequest({ focus = false } = {}) {
     const name = requestForm.elements['preferred-name'];
@@ -131,24 +183,29 @@ if (booking) {
     clearConfirmation(); clearMessage(); scheduleForm.reset();
     find('[data-slot-error]').hidden = true;
   }
-  function createSlots({ period = null } = {}) {
-    // Santiago calendar day at UTC noon, avoiding the device timezone and DST shifts.
-    const parts = Object.fromEntries(dayFormat.formatToParts(new Date()).map(part => [part.type, part.value]));
-    const today = new Date(Date.UTC(Number(parts.year), Number(parts.month) - 1, Number(parts.day), 12));
-    // Each new proposal starts beyond the previous one, so rejected dates never recur.
-    const day = new Date(period && lastProposalDay > today ? lastProposalDay : today);
-    proposal = period ? 'alternative' : 'initial';
-    proposedPeriod = period;
-    invalidate();
-    slots = [];
-    const times = period === 'la mañana' ? ['09:00', '10:30', '11:30'] : period === 'la tarde' ? ['14:00', '16:00', '17:30'] : ['10:00', '15:30', '11:00'];
-    while (slots.length < 3) {
-      day.setUTCDate(day.getUTCDate() + 1);
-      if (![0, 6].includes(day.getUTCDay())) {
-        slots.push({ year: day.getUTCFullYear(), month: day.getUTCMonth() + 1, day: day.getUTCDate(), time: times[slots.length] });
+  function initialSlots() {
+    return [...upcomingDays()].slice(0, maxSlots).map((day, index) => ({
+      ...day, time: ['10:00', '15:30', '11:00'][index]
+    }));
+  }
+  function alternativeSlots(days, preferredBands, preferredModality) {
+    const times = exampleStarts[preferredModality].filter(time => preferredBands.some(band => fitsBand(time, band)));
+    const matches = [];
+    for (const day of upcomingDays()) {
+      if (!days.includes(day.weekday)) continue;
+      for (const time of times) {
+        const slot = { ...day, time };
+        if (rejectedSlots.has(slotKey(slot))) continue;
+        matches.push(slot);
+        if (matches.length === maxSlots) return matches;
       }
     }
-    lastProposalDay = new Date(day);
+    return matches;
+  }
+  function setProposal(kind, nextSlots) {
+    invalidate();
+    proposal = kind;
+    slots = nextSlots;
     find('[data-slots]').replaceChildren(...slots.map((slot, index) => {
       const label = document.createElement('label');
       label.className = 'slot';
@@ -161,16 +218,22 @@ if (booking) {
       return label;
     }));
   }
+  function showPending(reason, animate) {
+    find('[data-pending-reason]').textContent = reason;
+    show('pending', { animate });
+  }
   function clearJourney() {
     requestForm.reset(); scheduleForm.reset(); waitForm.reset();
     attempted = false;
-    lastProposalDay = null;
+    attemptedAvailability = false;
+    rejectedSlots.clear();
+    for (const [name, id] of availabilityGroups) setError(waitForm.elements[name][0], id, '');
     syncContactFields();
     requestForm.querySelectorAll('[aria-invalid]').forEach(input => input.removeAttribute('aria-invalid'));
     requestForm.querySelectorAll('.field-error').forEach(error => { error.hidden = true; error.textContent = ''; });
     channel = requestForm.elements.channel.value;
     modality = requestForm.elements.modality.value;
-    createSlots(); updatePreferences(); clearMessage();
+    setProposal('initial', initialSlots()); updatePreferences(); clearMessage();
   }
   function reset({ animate = false } = {}) {
     clearJourney(); show('start', { animate });
@@ -189,7 +252,8 @@ if (booking) {
     if (current !== 'start') return;
     attempted = true;
     if (!validateRequest({ focus: true })) return;
-    createSlots(); updatePreferences(); show('message', { animate });
+    waitForm.elements['alternative-modality'].value = requestForm.elements.modality.value;
+    setProposal('initial', initialSlots()); updatePreferences(); show('message', { animate });
   });
   scheduleForm.addEventListener('submit', event => {
     const animate = consumePointerSubmit(event);
@@ -215,15 +279,28 @@ if (booking) {
     const animate = consumePointerSubmit(event);
     event.preventDefault();
     if (current !== 'waiting') return;
-    modality = waitForm.elements['alternative-modality'].value;
-    requestForm.elements.modality.value = modality;
-    createSlots({ period: waitForm.elements['preferred-time'].value });
+    attemptedAvailability = true;
+    const firstInvalid = validateAvailability();
+    if (firstInvalid) {
+      find('[data-screen="waiting"]').removeAttribute('data-step-entry');
+      firstInvalid.focus();
+      return;
+    }
+    const days = checkedValues('preferred-day').map(Number);
+    const preferredBands = checkedValues('preferred-band').map(value => bands[value]);
+    const preferredModality = waitForm.elements['alternative-modality'].value;
+    const matches = alternativeSlots(days, preferredBands, preferredModality);
+    if (!matches.length) {
+      invalidate();
+      showPending('No quedan horarios ficticios que coincidan con los días, las franjas y la modalidad que elegiste.', animate);
+      return;
+    }
+    requestForm.elements.modality.value = preferredModality;
+    setProposal('alternative', matches);
     updatePreferences(); show('schedule', { animate });
   });
   waitForm.addEventListener('change', () => {
-    invalidate();
-    modality = waitForm.elements['alternative-modality'].value;
-    requestForm.elements.modality.value = modality;
+    if (attemptedAvailability) validateAvailability();
   });
   booking.addEventListener('click', event => {
     const action = event.target.closest('[data-action]')?.dataset.action;
@@ -235,9 +312,12 @@ if (booking) {
     if (action === 'schedules' && ['message', 'waiting'].includes(current)) { updatePreferences(); show('schedule', { animate }); }
     if (action === 'reschedule' && current === 'confirmed') { clearConfirmation(); scheduleForm.reset(); show('schedule', { animate }); }
     if (action === 'unavailable' && current === 'schedule') {
-      invalidate(); waitForm.elements['alternative-modality'].value = modality;
-      show(proposal === 'initial' ? 'waiting' : 'pending', { animate });
+      invalidate();
+      slots.forEach(slot => rejectedSlots.add(slotKey(slot)));
+      if (proposal === 'initial') show('waiting', { animate });
+      else showPending('Tampoco te acomodaron los horarios de la nueva propuesta.', animate);
     }
+    if (action === 'adjust-availability' && current === 'schedule') { invalidate(); show('waiting', { animate }); }
     if (action === 'review-alternatives' && current === 'pending') show('waiting', { animate });
     if (action === 'leave-pending' && ['waiting', 'pending'].includes(current)) {
       clearJourney();

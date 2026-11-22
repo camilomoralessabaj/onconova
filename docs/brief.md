@@ -6,6 +6,16 @@ Primera landing de la Actividad 7.3, CD1201, FCFM, Universidad de Chile. Equipo 
 
 Una persona externa debe comprender en aproximadamente tres minutos el desafío, la propuesta, qué existe como prototipo, qué se validó, resultados, aprendizajes y próximos pasos. La lectura también debe ser cómoda para mujeres de 50–59 años.
 
+## Disponibilidad por días y franjas · 22 de noviembre de 2026 (S15)
+
+Al elegir «Ninguno me acomoda», la persona puede marcar varios días de lunes a
+viernes y una o más franjas de Santiago de Chile (09:00–12:00, 12:00–15:00 y
+15:00–18:00). Las franjas se aplican a cada día elegido. Se conserva la primera
+propuesta y se puede mantener o cambiar entre videollamada y presencial.
+La maqueta busca hasta tres horarios futuros que admitan los 45 minutos
+completos y excluye los horarios rechazados en el recorrido. Si no hay
+coincidencias, se pueden ajustar las preferencias o salir sin confirmar.
+
 ## Video compartido · 20 de octubre de 2026 (S14)
 
 El equipo autoriza publicar un registro de uso del prototipo y una conversación

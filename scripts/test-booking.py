@@ -46,6 +46,10 @@ def submit_request(page, channel='WhatsApp', modality='Videollamada', name=NAME,
     no_receipt(page)
     page.get_by_role('button', name='Ver horarios de ejemplo', exact=False).click()
 
+def proposal_slots(page):
+    return list(zip(page.locator('.slot>span').all_text_contents(), page.locator('.slot>strong').all_text_contents()))
+
+
 def no_receipt(page):
     check(page.locator('[data-action="download"]').is_hidden(), 'Download exposed without confirmation')
     before = page.evaluate('window.receiptQA.created.length')
@@ -128,7 +132,7 @@ with sync_playwright() as p:
     for route in (() if args.auxiliary_only else ('/', '/prototipo/')):
         for width in (1440, 390, 320):
             pdf_downloads = 0
-            context = browser.new_context(viewport={'width': width, 'height': 900}, reduced_motion='reduce', accept_downloads=True, timezone_id='Pacific/Kiritimati' if width == 1440 else 'America/Los_Angeles')
+            context = browser.new_context(viewport={'width': width, 'height': 900}, reduced_motion='reduce', accept_downloads=True, is_mobile=width != 1440, has_touch=width != 1440, timezone_id='Pacific/Kiritimati' if width == 1440 else 'America/Los_Angeles')
             context.add_init_script("""
                 window.receiptQA = {created: [], revoked: [], fail: ''};
                 window.Blob = new Proxy(Blob, {construct(target, args) {
@@ -266,56 +270,128 @@ with sync_playwright() as p:
                 download_pdf(page, 'Correo', 'Videollamada', f'large-{route.strip("/") or "home"}-{width}', render=True)
                 page.get_by_role('button', name='Volver a empezar', exact=True).click()
                 page.locator('.text-size').click()
-                # Each preference and modality produces a new proposal, not the rejected dates.
-                for channel in ('WhatsApp', 'Correo'):
-                    for initial_modality in ('Videollamada', 'Presencial'):
-                        for period in ('la mañana', 'la tarde'):
-                            submit_request(page, channel, initial_modality)
-                            rejected = page.locator('.slot>span').all_text_contents()
-                            page.locator('[name=slot]').first.check()
-                            page.get_by_role('button', name='Ninguno me acomoda', exact=True).click()
-                            no_receipt(page)
-                            check(page.locator('[name=slot]:checked').count() == 0, 'Rejected selection retained')
-                            check(page.locator('[name=alternative-modality]:checked').input_value() == initial_modality, 'Alternative modality not preserved')
-                            page.locator(f'[name=preferred-time][value="{period}"]').check()
-                            modality = 'Presencial' if initial_modality == 'Videollamada' else 'Videollamada'
-                            page.locator(f'[name=alternative-modality][value="{modality}"]').check()
-                            page.get_by_role('button', name='Ver nuevos horarios de ejemplo').click()
-                            check(page.locator('[data-screen=schedule]').is_visible(), 'Alternatives do not continue')
-                            new_dates = page.locator('.slot>span').all_text_contents()
-                            check(len(new_dates) == 3 and not set(new_dates) & set(rejected), 'Rejected dates repeated')
-                            check(new_dates == ['martes, 5 de enero de 2027', 'miércoles, 6 de enero de 2027', 'jueves, 7 de enero de 2027'], 'Alternative dates/calendar mismatch')
-                            hours = [int(value.split(':')[0]) for value in page.locator('.slot>strong').all_text_contents()]
-                            check(all((h < 12 if period == 'la mañana' else h >= 12) for h in hours), 'Wrong period')
-                            check(modality.lower() in page.locator('[data-proposal-note]').inner_text() and period in page.locator('[data-proposal-note]').inner_text(), 'Preference summary mismatch')
-                            check(page.locator('[name=slot]:checked').count() == 0, 'Stale alternative selection')
-                            page.locator('[name=slot]').last.check()
-                            page.get_by_role('button', name='Confirmar hora de ejemplo', exact=True).click()
-                            check(modality.lower() in page.locator('[data-appointment-modality]').inner_text().lower(), 'Alternative modality mismatch')
-                            alt_key = f'alt-{route.strip("/") or "home"}-{width}-{channel}-{modality}-{period}'
-                            pdf_text = download_pdf(page, channel, modality, alt_key, render=channel == 'Correo' and period == 'la tarde')
-                            check(all(value not in pdf_text for value in rejected), 'Rejected date in PDF')
-                            # Reprogram, reject again, review preferences and regenerate beyond that proposal.
-                            page.get_by_role('button', name='Cambiar horario', exact=True).click()
-                            no_receipt(page)
-                            page.get_by_role('button', name='Ninguno me acomoda', exact=True).click()
-                            check(page.locator('[data-screen=pending]').is_visible(), 'Second rejection should explain pending state')
-                            no_receipt(page)
-                            page.get_by_role('button', name='Revisar preferencias de horarios').click()
-                            # Return is voluntary, and never restores a selected or confirmed slot.
-                            page.get_by_role('button', name='Volver a la propuesta anterior').click()
-                            check(page.locator('[name=slot]:checked').count() == 0, 'Back restored selection')
-                            page.get_by_role('button', name='Ninguno me acomoda', exact=True).click()
-                            page.get_by_role('button', name='Revisar preferencias de horarios').click()
-                            page.get_by_role('button', name='Ver nuevos horarios de ejemplo').click()
-                            check(modality.lower() in page.locator('[data-proposal-note]').inner_text(), 'Maintained modality lost')
-                            check(not set(page.locator('.slot>span').all_text_contents()) & set(rejected + new_dates), 'Regenerated proposal reused rejected dates')
-                            page.get_by_role('button', name='Ninguno me acomoda', exact=True).click()
-                            page.get_by_role('button', name='Dejar pendiente y salir').click()
-                            check(page.locator('[data-screen=paused]').is_visible(), 'Pending exit missing')
-                            check(page.locator('#preferred-name').input_value() == '', 'Pending exit retained contact')
-                            no_receipt(page)
-                            page.get_by_role('button', name='Volver al inicio de la demostración').click()
+                # Reject the initial proposal, validate both groups, and fill them using the keyboard.
+                submit_request(page, 'Correo', 'Videollamada')
+                original_slots = proposal_slots(page)
+                page.locator('[name=slot]').first.check()
+                page.locator('[data-action=unavailable]').press('Enter')
+                check(page.locator('[data-screen=waiting] h3').evaluate('el => el === document.activeElement'), 'Availability heading focus')
+                no_receipt(page)
+                check(page.locator('[name=slot]:checked').count() == 0, 'Rejected selection retained')
+                check(page.locator('[name=alternative-modality]:checked').input_value() == 'Videollamada', 'Alternative modality not preserved')
+                search = page.locator('[data-wait-form] [type=submit]')
+                search.press('Enter')
+                days = page.locator('[name=preferred-day]')
+                bands = page.locator('[name=preferred-band]')
+                check(page.locator('#preferred-day-error').is_visible() and page.locator('#preferred-band-error').is_visible(), 'Missing empty-group errors')
+                check(days.first.evaluate('el => el === document.activeElement && el.matches(":focus-visible")'), 'Day error focus')
+                page.keyboard.press('Tab')
+                page.keyboard.press('Space')
+                page.keyboard.press('Tab')
+                page.keyboard.press('Tab')
+                page.keyboard.press('Space')
+                check(page.locator('[name=preferred-day]:checked').evaluate_all('els => els.map(el => el.value)') == ['2', '4'], 'Keyboard selected wrong weekdays')
+                check(page.locator('#preferred-day-error').is_hidden(), 'Day error does not clear immediately')
+                search.press('Enter')
+                check(bands.first.evaluate('el => el === document.activeElement && el.matches(":focus-visible")'), 'Band error focus')
+                page.keyboard.press('Space')
+                page.keyboard.press('Tab')
+                page.keyboard.press('Space')
+                check(page.locator('#preferred-band-error').is_hidden(), 'Band error does not clear immediately')
+                page.keyboard.press('Tab')
+                page.keyboard.press('Tab')
+                page.keyboard.press('ArrowRight')
+                check(page.locator('[name=alternative-modality]:checked').input_value() == 'Presencial', 'Keyboard modality selection')
+                page.locator('.text-size').click()
+                fits(page)
+                check(all(el['height'] >= 44 for el in page.locator('.availability-grid .option').evaluate_all('els => els.map(el => ({height: el.getBoundingClientRect().height}))')), 'Availability target smaller than 44px')
+                search.press('Enter')
+                new_slots = proposal_slots(page)
+                check(new_slots == [
+                    ('jueves, 31 de diciembre de 2026', '11:15 h'),
+                    ('jueves, 31 de diciembre de 2026', '14:15 h'),
+                    ('martes, 5 de enero de 2027', '11:15 h'),
+                ], 'Availability did not match multiple days/bands, modality, full duration or Santiago calendar')
+                check(set(original_slots).isdisjoint(new_slots), 'Rejected initial time repeated')
+                check('Presencial' in page.locator('[data-proposal-note]').inner_text(), 'Preference summary mismatch')
+                no_receipt(page)
+                fits(page)
+                page.locator('[name=slot]').last.check()
+                page.get_by_role('button', name='Confirmar hora de ejemplo').press('Enter')
+                check(page.locator('[data-appointment-date]').inner_text() == 'martes, 5 de enero de 2027, 11:15 h (Santiago de Chile)', 'Wrong alternative confirmed')
+                key = f'{route.strip("/") or "home"}-{width}'
+                pdf_text = download_pdf(page, 'Correo', 'Presencial', f'alt-{key}', render=True)
+                check('jueves, 31 de diciembre de 2026' not in pdf_text and '14:15 h' not in pdf_text, 'Unconfirmed alternative in PDF')
+                check(all(date not in pdf_text for date, _ in original_slots), 'Rejected date in alternative PDF')
+                page.locator('.text-size').click()
+
+                # Returning restores displayed slots, even after a draft modality change.
+                page.get_by_role('button', name='Cambiar horario', exact=True).click()
+                check(page.locator('[name=slot]:checked').count() == 0, 'Reschedule retained selection')
+                page.locator('[name=slot]').first.check()
+                page.locator('[data-action=adjust-availability]').click()
+                page.locator('[name=alternative-modality][value=Videollamada]').check()
+                page.get_by_role('button', name='Volver a la propuesta anterior').press('Enter')
+                check(proposal_slots(page) == new_slots and 'Presencial' in page.locator('[data-proposal-note]').inner_text(), 'Draft modality changed previous proposal')
+                check(page.locator('[name=slot]:checked').count() == 0, 'Return retained selection')
+                no_receipt(page)
+
+                # Reject again, then preserve the filters and exclude all rejected date+time pairs.
+                page.locator('[name=slot]').first.check()
+                page.locator('[data-action=unavailable]').press('Enter')
+                check(page.locator('[data-screen=pending]').is_visible(), 'Second rejection should explain pending state')
+                check(page.locator('[name=slot]:checked').count() == 0, 'Second rejection retained selection')
+                no_receipt(page)
+                page.locator('[data-action=review-alternatives]').press('Enter')
+                check(page.locator('[name=preferred-day]:checked').count() == 2 and page.locator('[name=preferred-band]:checked').count() == 2, 'Review lost availability')
+                page.locator('[name=alternative-modality][value=Presencial]').check()
+                search.press('Enter')
+                check(set(proposal_slots(page)).isdisjoint(original_slots + new_slots), 'Regeneration reused a rejected date+time')
+                page.locator('[data-action=adjust-availability]').press('Enter')
+                for day in (days.nth(1), days.nth(3)):
+                    day.uncheck()
+                check(page.locator('#preferred-day-error').is_visible() and page.locator('#preferred-band-error').is_hidden(), 'Missing-day error targets wrong group')
+                days.last.check()
+                bands.nth(0).uncheck()
+                bands.nth(1).uncheck()
+                bands.nth(2).check()
+                search.press('Enter')
+                check(proposal_slots(page) == [('viernes, 8 de enero de 2027', '15:30 h')], 'Rejected Friday time or a 17:30 start slipped into a shorter proposal')
+                page.locator('[data-action=unavailable]').press('Enter')
+                page.locator('[data-action=review-alternatives]').press('Enter')
+                search.press('Enter')
+                check(page.locator('[data-pending-reason]').inner_text().startswith('No quedan horarios'), 'Empty calendar missing')
+                check(page.locator('[data-screen=pending] h3').evaluate('el => el === document.activeElement'), 'Empty calendar heading focus')
+                no_receipt(page)
+                page.locator('[data-action=review-alternatives]').press('Enter')
+                page.locator('[name=alternative-modality][value=Videollamada]').check()
+                search.press('Enter')
+                check(proposal_slots(page) == [
+                    ('viernes, 1 de enero de 2027', '15:00 h'),
+                    ('viernes, 1 de enero de 2027', '17:15 h'),
+                    ('viernes, 8 de enero de 2027', '15:00 h'),
+                ], 'Changing modality should recover an empty calendar, including an exact 18:00 finish')
+                page.locator('[data-action=adjust-availability]').press('Enter')
+                page.locator('[name=alternative-modality][value=Presencial]').check()
+                search.press('Enter')
+                check(page.locator('[data-pending-reason]').inner_text().startswith('No quedan horarios'), 'Return to exhausted calendar')
+                page.locator('[data-screen=pending] [data-action=leave-pending]').press('Enter')
+                check(page.locator('[data-screen=paused]').is_visible(), 'Pending exit missing')
+                check(page.locator('#preferred-name').input_value() == '', 'Pending exit retained contact')
+                check(page.locator('[name=preferred-day]:checked, [name=preferred-band]:checked').count() == 0, 'Pending exit retained availability')
+                no_receipt(page)
+                page.get_by_role('button', name='Volver al inicio de la demostración').press('Enter')
+                # An early voluntary return leaves the original proposal and permits a fresh selection.
+                submit_request(page, 'WhatsApp', 'Videollamada')
+                page.locator('[data-action=unavailable]').press('Enter')
+                page.locator('[data-screen=waiting] h3').focus()
+                page.keyboard.press('Tab')
+                check(days.first.evaluate('el => el === document.activeElement && el.matches(":focus-visible")'), 'First availability checkbox missing from tab order')
+                page.screenshot(path=str(args.output / f'availability-focus-{key}.png'))
+                page.get_by_role('button', name='Volver a la propuesta anterior').press('Enter')
+                check(proposal_slots(page) == original_slots and page.locator('[name=slot]:checked').count() == 0, 'Initial return changed proposal or restored selection')
+                no_receipt(page)
+                page.locator('[data-action=reset]').first.press('Enter')
                 # Edit confirmed details, change channel, invalidate summaries and generate a fresh PDF.
                 submit_request(page, 'WhatsApp', 'Presencial')
                 page.locator('[name=slot]').first.check()
@@ -381,8 +457,9 @@ with sync_playwright() as p:
     context.close()
     # Source anchors open their containing details, including on direct page load.
     page=browser.new_page(viewport={'width':390,'height':900})
-    page.goto(args.base_url.rstrip('/')+'/#fuente-S10')
-    check(page.locator('#fuente-S10').is_visible(), 'Source deep link hidden')
+    for source in ('S10', 'S15'):
+        page.goto(args.base_url.rstrip('/') + '/#fuente-' + source)
+        check(page.locator('#fuente-' + source).is_visible(), 'Source deep link hidden')
     results.append({'case':'source deep link','status':'passed'})
     browser.close()
 (args.output/'report.json').write_text(json.dumps(results,ensure_ascii=False,indent=2)+'\n')
