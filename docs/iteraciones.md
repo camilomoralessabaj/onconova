@@ -870,3 +870,30 @@ por previsión. Las cinco pruebas siguen atribuidas al equipo mediante S13.
 Los resultados y capturas quedan en `work/qa-integrada/`, fuera del sitio.
 Se comprobó Chromium en escritorio y móvil emulado. Safari, dispositivos
 físicos y lectores de pantalla quedaron fuera de esta verificación.
+
+## 22/11/2026 · Smoke de revision-landing
+
+Rama local `fix/revision-landing-smoke`, basada en `origin/main` (`6385e5e`)
+tras actualizar la referencia remota. El smoke original terminó con seis
+fallos. Playwright agotó 30 segundos por caso buscando `[data-choice]` en la
+portada o `#support` en el prototipo.
+
+El smoke actualizado usa el enlace de la portada y la cuenta de ejemplo.
+En ambas rutas comprueba pausa y rechazo, consentimiento, mensaje, horarios
+alternativos y estado pendiente, confirmación, pago con boleta de ejemplo,
+orientación Fonasa, borrador Isapre y reinicio. Conserva las aserciones de
+HTTP, encabezado principal, teclado, ampliación de texto, desbordamiento y
+errores del navegador.
+
+| Ancho | `/` antes → después | `/prototipo/` antes → después |
+| --- | --- | --- |
+| 320 px | Falló → Aprobó | Falló → Aprobó |
+| 390 px | Falló → Aprobó | Falló → Aprobó |
+| 1440 px | Falló → Aprobó | Falló → Aprobó |
+
+Pasaron `node scripts/check.mjs`, `node scripts/build.mjs`,
+`node scripts/check-skills.mjs` y `git diff --check`.
+`scripts/test-booking.py` también aprobó los seis casos y verificó 90 PDFs.
+Los reportes y capturas locales están en `.local/revision-landing/antes/`,
+`.local/revision-landing/` y `.local/revision-landing/booking/`.
+El smoke se ejecutó en Chromium, con movimiento reducido y anchuras emuladas.

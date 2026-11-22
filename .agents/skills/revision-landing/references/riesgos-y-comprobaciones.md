@@ -4,7 +4,7 @@
 | --- | --- | --- |
 | Afirmación, cifra o testimonio | Fuente primaria y manifiesto del proyecto | Respaldo trazable o estado pendiente explícito; ninguna validación inventada. |
 | Enlace o navegación | HTTP, ancla y teclado; probar montaje local bajo `/onconova/` si cambian rutas | Destino correcto y navegación sin rutas absolutas rotas en Pages. |
-| Estado de la maqueta | Acepta/posterga/rechaza, apoyo, recibida/sin-cupo/atendida y reinicio | Los estados expresan simulación y respetan decisiones, sin contactar servicios reales. |
+| Estado de la maqueta | Cuenta de ejemplo, consentimiento, postergación o rechazo, solicitud, propuesta de horarios, estado pendiente, confirmación, pago, documentos por previsión y reinicio | El recorrido respeta las decisiones y refleja la cita y la previsión elegidas. El reinicio restaura los valores iniciales y limpia la cita y sus documentos. |
 | Tipografía o composición | Móvil estrecho, texto ampliado, zoom y capturas | Contenido legible, controles utilizables y sin desbordamiento del documento. |
 | Color | Pares reales de primer plano/fondo, AA, estados de foco | Texto y componentes distinguibles; la información no depende solo del color. |
 | Animación | Movimiento normal/reducido y contenido sin JS | La transición no bloquea lectura, navegación ni acción. |
