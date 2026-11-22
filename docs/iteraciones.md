@@ -734,3 +734,54 @@ actualizan junto con la nueva referencia.
 
 Pruebas en Chromium de escritorio y móvil emulado. Safari, teléfonos
 físicos y lectores de pantalla quedaron fuera de esta verificación.
+
+## 22/11/2026 · Cuenta, pago y documentos por previsión (S16/S17)
+
+La landing sigue pública. En `/` y `/prototipo/`, la reserva comienza con
+una cuenta de ejemplo sin contraseña. Un perfil fijo precarga nombre,
+correo y teléfono. Se elige Fonasa o Isapre al entrar y se conserva la
+elección entre correo y WhatsApp para el contacto. Los horarios alternativos
+por días y franjas siguen disponibles desde el cambio local `034b6f7`.
+
+Después de confirmar la reserva se puede descargar el comprobante PDF de
+agendamiento, que omite nombre y contacto, o simular el inicio de la
+sesión. El pago ilustrativo de $20.000 CLP habilita una boleta en pantalla,
+sin validez tributaria y con una referencia ficticia vinculada a la cita.
+Al simular el término de la atención se presenta orientación Fonasa sobre
+modalidades y Libre Elección, o un borrador Isapre con los datos de ejemplo,
+un plan ficticio y la referencia de la boleta. El borrador solo se puede
+revisar. S16 registra el diseño y S17 aporta la orientación oficial. Se
+mantienen el público original y el reporte de cinco pruebas atribuido al
+equipo en S13.
+
+La cuenta activa, la cita y sus documentos viven en memoria. Reprogramar
+invalida el pago, la boleta y el borrador. Cancelar la cita, salir
+pendiente, cerrar sesión, reiniciar o recargar limpia el recorrido.
+Volver de la pantalla de pago conserva la cita. Volver a la boleta
+después de terminar muestra la misma referencia.
+
+### Verificación
+
+- `node scripts/check.mjs`, `node scripts/build.mjs` y `git diff --check` con
+  revisión del diff de esta iteración y del acumulado frente a `origin/main`.
+  Las dos páginas comparten el mismo marcado de reserva, el mismo CSS y
+  la misma lógica.
+- `scripts/test-booking.py` con el servidor local. Ambas rutas a 1440, 390
+  y 320 px, con 90 PDFs de agendamiento verificados. Incluye una cita
+  alternativa con Isapre, orientación Fonasa, cambio a una nueva cita,
+  revisión de la boleta, cancelación, repetición de acciones, cierre de
+  sesión y recarga. También comprueba teclado, foco, texto ampliado,
+  consola, enlaces de fuentes y ausencia de peticiones externas.
+  Solo la preferencia de tamaño de texto queda en almacenamiento local.
+- `scripts/test-step-motion.py` aprobó 13 casos de movimiento normal y
+  reducido, toque emulado, foco y la alternativa sin `@starting-style`.
+- `scripts/test-reading-guide.py` aprobó 22 casos de regresión de la guía,
+  incluidos anclas, impresión y zoom nativo al 200 %.
+- Segunda pasada con `web-design-guidelines` y `revision-landing`. Se revisaron
+  las capturas, la distinción visual de los documentos y el foco visible
+  bajo la navegación fija. Se corrigió la visibilidad de **Volver a empezar**
+  dentro de la cuenta activa. La guía antigua de la skill cubre otra
+  versión de la maqueta. Se usó la suite específica vigente.
+
+Chromium de escritorio y móvil con toque emulado. Safari, dispositivos
+físicos y lectores de pantalla quedaron fuera de la verificación.

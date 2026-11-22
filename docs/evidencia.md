@@ -1,6 +1,6 @@
 # Evidencia y decisiones editoriales
 
-Revisión vigente: 22 de noviembre de 2026. S15 registra la nueva decisión de disponibilidad de la maqueta. El video S14 se incorporó el 20 de octubre con autorización de publicación. La revisión del 19 de octubre consultó el repositorio, el encargo de actualización y la confirmación posterior de destinos (S13), junto con el texto legible de S05 y S04 en Google Drive. El inventario histórico corresponde a la carpeta «proyectos» de Drive, revisada en tareas anteriores; los demás originales no se volvieron a consultar. La revisión del 17/10 incluyó el adjunto `prompt.md`.
+Revisión vigente: 22 de noviembre de 2026. S15 registra la disponibilidad por días y franjas. S16 incorpora la simulación de cuenta, pago y documentos con S17 como referencia de orientación. El video S14 se incorporó el 20 de octubre con autorización de publicación. La revisión del 19 de octubre consultó el repositorio, el encargo de actualización y la confirmación posterior de destinos (S13), junto con el texto legible de S05 y S04 en Google Drive. El inventario histórico corresponde a la carpeta «proyectos» de Drive, revisada en tareas anteriores; los demás originales no se volvieron a consultar. La revisión del 17/10 incluyó el adjunto `prompt.md`.
 
 En el inventario histórico se registraron los archivos de las tres subcarpetas y de la raíz y se extrajo texto de 36 documentos legibles. Los ZIP de material docente y la imagen de calificaciones no son evidencia de validación del proyecto. La ubicación local registrada entonces fue `.local/fuentes-drive.json`, ignorada por Git.
 
@@ -23,6 +23,8 @@ En el inventario histórico se registraron los archivos de las tres subcarpetas 
 | S13 | Confirmación del equipo, 19/10/2026 | Encargo recibido: cinco pruebas conductuales y entrevistas cualitativas, cuatro usuarias postratamiento y una profesional de oncología; autonomía, comprensión y coherencia entre preferencia y elección. Confirmación posterior: mantener destinos S05/S04 aclarando que aún no corroboran registros actualizados. Sin resultados numéricos ni evidencia clínica u operativa. |
 | S14 | Registro audiovisual compartido el 20/10/2026 | Interacción con el prototipo y conversación posterior. Archivo original sin modificaciones, con autorización de la participante confirmada por el equipo; sin inferir identidad, perfil, fecha de grabación ni correspondencia con las cinco pruebas. |
 | S15 | Encargo de disponibilidad por días y franjas, 22/11/2026 | Decisión de diseño de la simulación: días de lunes a viernes, franjas de Santiago y modalidad, filtrados para sesiones completas de 45 minutos. |
+| S16 | Encargo de cuenta, pago y documentos, 22/11/2026 | Decisión de diseño de la maqueta, con una boleta sin validez tributaria y un borrador Isapre sin envío. |
+| S17 | Superintendencia de Salud, ¿FONASA o Isapre? | Referencia oficial de orientación sobre modalidades y bonos Fonasa y planes de Isapre. No acredita elegibilidad ni cobertura para esta prestación. |
 
 El sitio y `site/content/project.json` vinculan cada etapa con estas fuentes. Los enlaces a documentos académicos pueden requerir acceso a Drive. No se cambió la configuración de acceso de los originales.
 
@@ -134,3 +136,21 @@ Volver a la propuesta anterior es voluntario y permite elegir de nuevo.
 Si se agotan las coincidencias, se puede ajustar la búsqueda o salir
 pendiente. El comprobante corresponde a la cita confirmada. S15 registra un
 cambio de diseño y su alcance se limita a la simulación.
+
+
+## Iteración del 22/11/2026 · Cuenta, pago y documentos (S16/S17)
+
+En ambas rutas, S16 sustituye la entrada manual de nombre y contacto de S12
+por un perfil fijo de ejemplo. Los datos precargados alimentan el mensaje
+y, para Isapre, el borrador de solicitud. El contacto sigue siendo una
+elección entre correo y WhatsApp. El PDF de agendamiento omite nombre y
+contacto. La boleta se muestra en pantalla tras simular el pago de $20.000
+CLP. Es un ejemplo sin validez tributaria. La cita y sus documentos quedan
+en memoria hasta cambiar o cancelar la reserva o limpiar el recorrido.
+
+S17 explica las modalidades de Fonasa, los bonos que pueden corresponder
+en Libre Elección y que las Isapres operan con cobertura pactada en un
+plan. La maqueta usa una orientación general y un plan ficticio, sin
+indicar cobertura de una prestación ni estructurar un trámite oficial.
+El público original y la atribución de las cinco pruebas reportadas en
+S13 se conservan. [Orientación de la Superintendencia de Salud](https://www.superdesalud.gob.cl/orientacion-en-salud/fonasa-o-isapre/)
