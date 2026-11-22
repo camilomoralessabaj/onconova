@@ -42,7 +42,11 @@ PYTHONDONTWRITEBYTECODE=1 python3 .agents/skills/revision-landing/scripts/smoke.
   --screenshots .local/revision-landing/capturas
 ```
 
-El script prueba las dos páginas a 1440, 390 y 320 px, teclado básico, ampliación de texto, controles de la portada y estados de la maqueta. Registra errores de consola, páginas y recursos; los contextos separados evitan mezclar preferencias guardadas. Usa `--width` para acotar tamaños cuando el alcance lo permita. También admite `/onconova/` en una URL base local para comprobar rutas de un montaje equivalente a Pages.
+El script prueba `/` y `/prototipo/` a 1440, 390 y 320 px. Comprueba HTTP 200, un encabezado principal único, el primer foco por teclado y la ausencia de desbordamiento antes de ampliar el texto, con texto ampliado y al terminar el recorrido. Registra errores de consola, página y recursos. Cada caso usa un contexto independiente y movimiento reducido.
+
+En la portada comprueba que «Probar mi primera hora» lleva a la demostración. En ambas rutas recorre la cuenta de ejemplo, las decisiones de postergar o rechazar, el consentimiento, el mensaje simulado, los horarios alternativos y el estado pendiente, la confirmación de cita, el pago con boleta de ejemplo, la orientación Fonasa, el borrador Isapre y el reinicio. Para validar los PDFs y ampliar las combinaciones y los escenarios de reserva, usa [scripts/test-booking.py](../../../scripts/test-booking.py).
+
+Usa `--width` para acotar tamaños cuando el alcance lo permita. También admite `/onconova/` en una URL base local para comprobar rutas de un montaje equivalente a Pages.
 
 Inspecciona las capturas y las interacciones afectadas. El script no demuestra foco visual correcto, contraste de toda la página, comprensión, funcionamiento en Safari o accesibilidad completa. Para esos aspectos utiliza `web-design-guidelines`, `color-expert` o comprobaciones manuales pertinentes. Para movimiento prueba también el estado normal y `prefers-reduced-motion`; con JS desactivado el relato y los enlaces esenciales deben seguir disponibles.
 
