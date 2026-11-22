@@ -689,3 +689,184 @@ recursos; el MP4 no se descarga antes de reproducir. Controles/texto disponibles
 sin JS a 320 px. Segunda revisión estática de IA sin hallazgos bloqueantes.
 Se mantiene la autorización del usuario para publicar este trabajo como
 excepción a la revisión de otra persona; no se modifican las reglas remotas.
+
+## 22/11/2026 · «Prefiero pensarlo» en la demostración
+
+Se dio más presencia a la opción de postergar para que sea fácil encontrarla
+y tocarla en la maqueta de `/` y de `/prototipo/`. El CSS compartido aplica
+solo a este botón nativo dentro de las acciones alternativas. La altura mínima
+subió de 44 a 48 px y el texto de 0.95 a 1.0625 rem con peso 600. El borde
+burdeo y el fondo transparente conservan la jerarquía secundaria frente a
+«Simular mi solicitud», que tiene fondo relleno. Se reutilizan los tokens del
+borde, el fondo al pasar el puntero y el anillo global de foco. La pausa y el
+regreso al inicio siguen disponibles con las mismas acciones.
+
+### Verificación
+
+- `node scripts/check.mjs`, `node scripts/build.mjs` y `git diff --check` aprobados.
+- Con `node scripts/serve.mjs` y Chromium 154, se aprobaron 18 casos que
+  combinaron las dos rutas, anchos de 320, 390 y 1440 px, texto normal, el
+  control «Texto más grande» y una prueba con el tamaño raíz al 200 %. El área
+  del botón pasó de unos 116 × 44 px a 174 × 48 px con texto normal. Al 200 %,
+  la etiqueta se distribuyó en dos líneas en móvil, sin recortes ni
+  desplazamiento horizontal del documento. Se inspeccionaron capturas del foco
+  y no se observaron errores de consola, página ni carga.
+- Tab y Mayús+Tab recorrieron los botones en orden. Enter, Espacio, toque
+  emulado en móvil y clic en escritorio abrieron la pausa. Se comprobó el
+  foco de entrada a la pausa y de regreso al inicio, el rechazo con «Ahora no
+  lo necesito» y la solicitud de ejemplo con datos ficticios. El texto, el
+  borde y el anillo de foco midieron 5,90:1 sobre el fondo. El texto al pasar
+  el puntero midió 12,88:1.
+- La prueba de regresión `scripts/test-booking.py` aprobó seis combinaciones
+  de ruta y ancho, además de las comprobaciones de lectura sin JavaScript
+  y acceso directo a una fuente.
+- Segunda pasada del diff con `web-design-guidelines` y `revision-landing`.
+  Se revisaron la semántica nativa, el foco visible, el contraste, el reflujo
+  y el alcance del selector. En escritorio con texto al 200 %, Tab podía
+  dejar el borde inferior del anillo fuera de la ventana. Se añadieron
+  8 px de margen de desplazamiento inferior y se repitió la prueba de foco.
+  La comparación con `origin/main` confirmó que el HTML, JavaScript, las
+  afirmaciones y las fuentes de validación conservan sus versiones anteriores.
+
+La prueba específica y sus capturas quedaron en `.local/qa-prefiero-pensarlo/`.
+La cobertura de navegador fue local y se limitó a Chromium, con toque emulado.
+
+## 22/11/2026 · Disponibilidad por días y franjas (S15)
+
+En `/` y `/prototipo/`, «Ninguno me acomoda» permite marcar uno o más días
+de lunes a viernes y combinar 09:00–12:00, 12:00–15:00 y 15:00–18:00 en hora
+de Santiago de Chile. Las franjas se aplican a todos los días seleccionados.
+Se mantiene la primera propuesta y la elección entre videollamada y presencial.
+La búsqueda compartida toma hasta tres opciones en los próximos 14 días
+calendario, desde mañana, con los 45 minutos completos dentro de cada franja.
+La agenda ficticia usa días de semana y omite feriados.
+
+Una nueva búsqueda excluye cada fecha y hora rechazada en el recorrido.
+Volver voluntariamente a la propuesta anterior permite elegir de nuevo.
+Rechazar, cambiar de propuesta o reprogramar limpia la selección y la
+confirmación anterior. Si faltan días o franjas, la interfaz indica el
+grupo a corregir y enfoca su primera casilla. Si se agotan las opciones,
+se pueden revisar las preferencias o salir pendiente. El PDF usa únicamente
+la cita confirmada. La fuente S15 registra la decisión de diseño en el
+manifiesto y Fuentes. El brief, el guion y las descripciones vigentes se
+actualizan junto con la nueva referencia.
+
+### Verificación
+
+- Aprobados `node scripts/check.mjs`, `node scripts/build.mjs` y `git diff --check`.
+- Con `node scripts/serve.mjs`, `scripts/test-booking.py` aprobó las dos rutas
+  a 1440, 390 y 320 px, con 90 archivos PDF verificados. Cubre selección vacía,
+  filtros múltiples, inicios y finales de franja, modalidad, exclusión de
+  rechazos, agenda agotada, retorno voluntario, salida pendiente, teclado
+  y foco. El reloj simula el 30 de diciembre en Santiago aunque ya sea 31
+  en UTC y verifica opciones de 2026 y 2027 con dos zonas de dispositivo.
+  La suite también comprueba consola, recursos, privacidad, lectura sin
+  JavaScript y acceso directo a las fuentes S10 y S15.
+- `scripts/test-step-motion.py` aprobó 13 casos de transiciones, teclado,
+  toque emulado, movimiento normal y reducido e interrupciones.
+- `scripts/test-reading-guide.py` aprobó 22 casos de regresión de la guía,
+  incluidos anclas, impresión y zoom nativo al 200 %.
+- Segunda pasada con `web-design-guidelines` y `revision-landing`. Se revisaron
+  el diff frente a `origin/main`, las capturas, los estados marcados y el foco.
+  Se ajustó el ancho de las franjas y la posición de entrada del formulario.
+  Los rangos se leyeron en una línea a 1440, 390 y 320 px, incluido texto ampliado.
+  El texto de ayuda tiene contraste 7,22:1 sobre el fondo de la reserva. El
+  anillo de foco tiene contraste de al menos 5,22:1 sobre los fondos de opción.
+
+Pruebas en Chromium de escritorio y móvil emulado. Safari, teléfonos
+físicos y lectores de pantalla quedaron fuera de esta verificación.
+
+## 22/11/2026 · Cuenta, pago y documentos por previsión (S16/S17)
+
+La landing sigue pública. En `/` y `/prototipo/`, la reserva comienza con
+una cuenta de ejemplo sin contraseña. Un perfil fijo precarga nombre,
+correo y teléfono. Se elige Fonasa o Isapre al entrar y se conserva la
+elección entre correo y WhatsApp para el contacto. Los horarios alternativos
+por días y franjas siguen disponibles desde el cambio local `034b6f7`.
+
+Después de confirmar la reserva se puede descargar el comprobante PDF de
+agendamiento, que omite nombre y contacto, o simular el inicio de la
+sesión. El pago ilustrativo de $20.000 CLP habilita una boleta en pantalla,
+sin validez tributaria y con una referencia ficticia vinculada a la cita.
+Al simular el término de la atención se presenta orientación Fonasa sobre
+modalidades y Libre Elección, o un borrador Isapre con los datos de ejemplo,
+un plan ficticio y la referencia de la boleta. El borrador solo se puede
+revisar. S16 registra el diseño y S17 aporta la orientación oficial. Se
+mantienen el público original y el reporte de cinco pruebas atribuido al
+equipo en S13.
+
+La cuenta activa, la cita y sus documentos viven en memoria. Reprogramar
+invalida el pago, la boleta y el borrador. Cancelar la cita, salir
+pendiente, cerrar sesión, reiniciar o recargar limpia el recorrido.
+Volver de la pantalla de pago conserva la cita. Volver a la boleta
+después de terminar muestra la misma referencia.
+
+### Verificación
+
+- `node scripts/check.mjs`, `node scripts/build.mjs` y `git diff --check` con
+  revisión del diff de esta iteración y del acumulado frente a `origin/main`.
+  Las dos páginas comparten el mismo marcado de reserva, el mismo CSS y
+  la misma lógica.
+- `scripts/test-booking.py` con el servidor local. Ambas rutas a 1440, 390
+  y 320 px, con 90 PDFs de agendamiento verificados. Incluye una cita
+  alternativa con Isapre, orientación Fonasa, cambio a una nueva cita,
+  revisión de la boleta, cancelación, repetición de acciones, cierre de
+  sesión y recarga. También comprueba teclado, foco, texto ampliado,
+  consola, enlaces de fuentes y ausencia de peticiones externas.
+  Solo la preferencia de tamaño de texto queda en almacenamiento local.
+- `scripts/test-step-motion.py` aprobó 13 casos de movimiento normal y
+  reducido, toque emulado, foco y la alternativa sin `@starting-style`.
+- `scripts/test-reading-guide.py` aprobó 22 casos de regresión de la guía,
+  incluidos anclas, impresión y zoom nativo al 200 %.
+- Segunda pasada con `web-design-guidelines` y `revision-landing`. Se revisaron
+  las capturas, la distinción visual de los documentos y el foco visible
+  bajo la navegación fija. Se corrigió la visibilidad de **Volver a empezar**
+  dentro de la cuenta activa. La guía antigua de la skill cubre otra
+  versión de la maqueta. Se usó la suite específica vigente.
+
+Chromium de escritorio y móvil con toque emulado. Safari, dispositivos
+físicos y lectores de pantalla quedaron fuera de la verificación.
+
+## 22/11/2026 · Revisión del recorrido integrado
+
+Se recuperó el diff final de «Prefiero pensarlo» del registro del trabajo
+original y se integraron sus cambios de CSS y documentación en
+`feat/cuenta-pago-prevision`. Se revisó el diff acumulado frente a
+`origin/main` (`99442e6`) y el ajuste del botón frente a `4802c60`. Las dos
+rutas comparten el mismo marcado de reserva, CSS y lógica. Las fuentes S15,
+S16 y S17 respaldan la disponibilidad, la sesión simulada y la orientación
+por previsión. Las cinco pruebas siguen atribuidas al equipo mediante S13.
+
+### Verificación local
+
+- `node scripts/check.mjs`, `node scripts/build.mjs` y `git diff --check`
+  aprobaron. Se revisaron 17 fuentes y 3 metas, con anclas y archivos coherentes.
+- La verificación específica de «Prefiero pensarlo» aprobó 18 casos en `/` y
+  `/prototipo/`, a 320, 390 y 1440 px, con texto normal, ampliado por el
+  sitio y tamaño raíz al 200 %. El botón mantuvo 48 px de altura pulsable
+  como mínimo y contraste 5,90:1 en texto, borde y anillo. Tab y Mayús+Tab
+  conservaron el orden y el foco visible. Enter, Espacio y toque emulado
+  abrieron la pausa. El retorno enfoca la cuenta de ejemplo y la acción
+  «Ahora no lo necesito» sigue disponible.
+- `scripts/test-booking.py` aprobó las seis combinaciones de ruta y ancho
+  y verificó 90 PDFs, además de la lectura sin JavaScript y las anclas de
+  fuentes. Cubre reserva directa y alternativa, Fonasa e Isapre, pago y
+  cambio de cita con descarte de documentación anterior, cierre de sesión
+  y recarga. También comprobó la consola, el reflujo, la ausencia de
+  peticiones externas y que solo persiste la preferencia de tamaño de texto.
+- `scripts/test-step-motion.py` aprobó 13 casos en movimiento normal y
+  reducido, incluidas transiciones por teclado e interrupciones.
+- El smoke original de `revision-landing` terminó con seis fallos por
+  selectores de una maqueta retirada. Espera `[data-choice]` en `/` y
+  `#support` en `/prototipo/`. Ambos selectores ya faltan en
+  `origin/main`. La suite de reserva vigente y la comprobación de pausa
+  cubrieron las interacciones en las dos rutas.
+- Se usaron `revision-landing`, `web-design-guidelines` y
+  `onconova-storytelling` en la segunda pasada. Se cotejaron el estado de
+  la cuenta, modalidad y fecha, el PDF de agendamiento sin nombre ni
+  contacto, el rótulo «Sin validez tributaria» de la boleta y la diferencia
+  entre orientación Fonasa y borrador Isapre sin envío.
+
+Los resultados y capturas quedan en `work/qa-integrada/`, fuera del sitio.
+Se comprobó Chromium en escritorio y móvil emulado. Safari, dispositivos
+físicos y lectores de pantalla quedaron fuera de esta verificación.

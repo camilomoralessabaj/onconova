@@ -19,6 +19,12 @@
   background:var(--surface);
 }
 
+.booking-top-actions {
+  display:flex;
+  flex-wrap:wrap;
+  column-gap:20px;
+}
+
 .demo-label {
   font-size:.85rem;
   color:var(--primary);
@@ -114,6 +120,10 @@
   outline-offset:6px;
 }
 
+.booking-screen:is([data-screen="account"], [data-screen="payment"], [data-screen="paid"], [data-screen="documents"], [data-screen="waiting"], [data-screen="pending"]) .screen-intro h3 {
+  scroll-margin-block-start:4rem;
+}
+
 .simulation-note {
   margin:24px 30px 0;
   padding:16px 20px;
@@ -122,50 +132,6 @@
   color:var(--ink);
   font-size:.95rem;
   line-height:1.6;
-}
-
-.contact-field {
-  margin-bottom:26px;
-}
-
-.contact-field label {
-  display:block;
-  font-size:1.08rem;
-  font-weight:600;
-  margin-bottom:10px;
-}
-
-.contact-field label span {
-  font-weight:400;
-  color:var(--muted);
-}
-
-.contact-field input {
-  display:block;
-  width:100%;
-  min-width:0;
-  min-height:52px;
-  border:1px solid var(--control-border);
-  border-radius:12px;
-  padding:12px 14px;
-  background:var(--page);
-  color:var(--ink);
-  font:inherit;
-}
-
-.contact-field input[aria-invalid=true] {
-  border-width:2px;
-}
-
-.contact-field .field-help {
-  font-size:.9rem;
-  line-height:1.6;
-  color:var(--muted);
-  margin-top:8px;
-}
-
-.contact-field .field-error {
-  margin:8px 0 0;
 }
 
 .proposal-note {
@@ -194,24 +160,11 @@
 }
 
 .example-person {
-  display:flex;
-  gap:15px;
-  align-items:center;
+  overflow-wrap:anywhere;
   padding:17px 20px;
   background:var(--surface);
   border-radius:12px;
   margin-bottom:28px;
-}
-
-.person-icon {
-  display:grid;
-  place-items:center;
-  width:44px;
-  height:44px;
-  border-radius:50%;
-  background:var(--accent-medium);
-  color:var(--ink);
-  font-size:1.05rem;
 }
 
 .example-person strong {
@@ -287,6 +240,7 @@ input[type=radio],input[type=checkbox] {
   color:var(--muted);
   font-size:.8rem;
   line-height:1.5;
+  overflow-wrap:anywhere;
   margin-top:3px;
 }
 
@@ -318,9 +272,42 @@ input[type=radio],input[type=checkbox] {
   line-height:1.5;
 }
 
+.availability-hint {
+  color:var(--muted);
+  margin:0 0 12px;
+}
+
+.option-grid.availability-grid {
+  grid-template-columns:repeat(auto-fit, minmax(min(100%, var(--availability-option-width, 8.5rem)), 1fr));
+}
+
+.availability-bands {
+  --availability-option-width:9.5rem;
+}
+
+.availability-grid .option {
+  min-height:52px;
+  padding:12px;
+}
+
 .plain-button:hover {
   color:var(--ink);
   text-decoration-thickness:2px;
+}
+
+.alternative-actions [data-action="later"] {
+  min-height:48px;
+  padding:10px 16px;
+  border:1px solid var(--control-border);
+  border-radius:100px;
+  scroll-margin-bottom:8px;
+  font-size:1.0625rem;
+  font-weight:600;
+  text-decoration:none;
+}
+
+.alternative-actions [data-action="later"]:hover {
+  background:var(--surface);
 }
 
 .alternative-actions {
@@ -514,6 +501,28 @@ input[type=radio],input[type=checkbox] {
   overflow-wrap:anywhere;
 }
 
+.sample-bill {
+  border-top:4px solid var(--status);
+  background:var(--page);
+}
+
+.sample-bill h4 {
+  margin-top:0;
+}
+
+.bill-validity {
+  color:var(--status);
+  font-weight:650;
+  margin-top:6px;
+}
+
+.notice .payment-amount {
+  font-size:1.7rem;
+  font-weight:650;
+  font-variant-numeric:tabular-nums;
+  color:var(--ink);
+}
+
 .next-help {
   margin-top:25px;
 }
@@ -661,8 +670,5 @@ input[type=radio],input[type=checkbox] {
   }
   .large-text .booking-screen {
     padding-inline:17px;
-  }
-  .large-text .example-person {
-    align-items:start;
   }
 }

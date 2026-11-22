@@ -4,15 +4,17 @@
   "course": "CD1201",
   "activity": "7.3",
   "team": "E7",
-  "updated": "2026-10-20",
-  "scope": "Servicio acotado de transición propuesto: exploración breve no diagnóstica, decisión voluntaria, una derivación prioritaria acompañada y confirmación de acceso compatible mediante canales institucionales existentes. La web solo simula la coordinación de una primera hora de apoyo psicológico; sin integración operativa ni atención real.",
+  "updated": "2026-11-22",
+  "scope": "Servicio acotado de transición propuesto: exploración breve no diagnóstica, decisión voluntaria, una derivación prioritaria acompañada y confirmación de acceso compatible mediante canales institucionales existentes. La web simula la reserva y una primera sesión de apoyo psicológico, junto con un pago ilustrativo y documentación por previsión, sin integración operativa ni atención real.",
   "institution": null,
   "prototype": {
     "status": "qualitative-behavioral-evaluation-reported",
     "created": "2026-10-10",
-    "description": "Prototipo navegable con nombre y contacto ficticios en memoria, mensaje personalizado por correo o WhatsApp, horarios alternativos según mañana/tarde y modalidad, confirmación y PDF simulados sin nombre ni contacto. Sin envíos, persistencia de solicitudes ni servicios reales.",
-    "updated": "2026-10-19",
-    "evaluationSource": "S13"
+    "description": "Cuenta sin contraseña con nombre, contacto y previsión ficticios en memoria; reserva con elección de canal, modalidad y horarios alternativos por días y franjas de Santiago; comprobante de agendamiento PDF sin nombre ni contacto. Incluye sesión y pago ilustrativos, boleta sin validez tributaria y orientación Fonasa o borrador Isapre sin envío.",
+    "updated": "2026-11-22",
+    "availabilitySource": "S15",
+    "evaluationSource": "S13",
+    "sessionDemoSource": "S16"
   },
   "interviews": {
     "count": 5,
@@ -134,6 +136,28 @@
       "asset": "assets/experiencia-usuarias-original.mp4",
       "url": "https://drive.google.com/file/d/1oFUXOT3xRVQlD2x_BYwaCGhLLrWvtL0M/view",
       "note": "Archivo original compartido por el equipo, publicado sin modificaciones. El equipo confirma autorización de la participante para publicar este video. Registro de interacción con el prototipo y conversación posterior, con alternativa textual accesible. No se infieren identidad, perfil, fecha de grabación ni correspondencia con el conjunto de cinco pruebas S13; no acredita resultados numéricos ni atención real."
+    },
+    {
+      "id": "S15",
+      "title": "Disponibilidad por días y franjas",
+      "type": "team-decision",
+      "date": "2026-11-22",
+      "note": "Encargo de iteración de la maqueta. Al rechazar la primera propuesta se puede marcar más de un día de lunes a viernes y más de una franja de Santiago de Chile, y mantener o cambiar modalidad. Se muestran hasta tres horarios ficticios que admiten los 45 minutos completos, excluyendo los horarios rechazados. Si no hay coincidencias, se puede revisar preferencias o salir sin confirmar. Es una decisión de diseño de la simulación."
+    },
+    {
+      "id": "S16",
+      "title": "Cuenta, pago y documentos de ejemplo",
+      "type": "team-decision",
+      "date": "2026-11-22",
+      "note": "El encargo extiende la maqueta con una cuenta ficticia sin contraseña, elección de Fonasa o Isapre y confirmación con PDF de agendamiento. La sesión simulada incluye un pago ilustrativo de $20.000 CLP y una boleta sin validez tributaria. Tras el término simulado se muestra orientación Fonasa o un borrador ilustrativo para Isapre sin envío. El cambio no amplía la población objetivo ni aporta evidencia sobre cobertura, validación o integración."
+    },
+    {
+      "id": "S17",
+      "title": "¿FONASA o Isapre? · Superintendencia de Salud",
+      "type": "official-health-orientation",
+      "url": "https://www.superdesalud.gob.cl/orientacion-en-salud/fonasa-o-isapre/",
+      "reviewed": "2026-11-22",
+      "note": "Referencia de orientación sobre diferencias entre ambos sistemas, modalidades de Fonasa, bonos en Libre Elección y cobertura pactada en un plan de Isapre. El borrador de la maqueta es ilustrativo y no deriva de un formulario oficial. La fuente no acredita cobertura para esta prestación ni aval del proyecto."
     }
   ],
   "chapters": [
@@ -167,7 +191,8 @@
         "S03",
         "S09",
         "S11",
-        "S13"
+        "S13",
+        "S16"
       ],
       "kind": "proposal"
     },
@@ -179,7 +204,9 @@
         "S09",
         "S11",
         "S12",
-        "S13"
+        "S13",
+        "S15",
+        "S16"
       ],
       "kind": "documented-plan-and-prototype"
     },
@@ -190,7 +217,10 @@
         "S09",
         "S11",
         "S12",
-        "S13"
+        "S13",
+        "S15",
+        "S16",
+        "S17"
       ],
       "kind": "qualitative-behavioral-evaluation-reported"
     },
@@ -201,7 +231,10 @@
         "S09",
         "S10",
         "S11",
-        "S12"
+        "S12",
+        "S15",
+        "S16",
+        "S17"
       ],
       "kind": "proposal-limits"
     },

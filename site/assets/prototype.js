@@ -1,23 +1,75 @@
-import { appointmentDate, createReceiptPdf, sessionInstructions } from './receipt-pdf.js';
+import { appointmentDate, createReceiptPdf, sessionInstructions, SESSION_MINUTES } from './receipt-pdf.js';
+
+const exampleProfile = {
+  name: 'María José O’Neill',
+  email: 'maria.jose@example.com',
+  phone: '+56 9 0000 0000',
+  plan: 'Plan Horizonte (ficticio)'
+};
+const exampleAmount = `${new Intl.NumberFormat('es-CL', {
+  style: 'currency', currency: 'CLP'
+}).format(20000)} CLP`;
+
+const bands = {
+  morning: [9 * 60, 12 * 60],
+  midday: [12 * 60, 15 * 60],
+  afternoon: [15 * 60, 18 * 60]
+};
+// Some starts straddle band boundaries and only appear if the full session fits.
+const exampleStarts = {
+  Videollamada: ['09:00', '11:30', '12:00', '14:30', '15:00', '17:15'],
+  Presencial: ['11:15', '11:30', '14:15', '14:30', '15:30', '17:30']
+};
+const searchDays = 14;
+const maxSlots = 3;
+const slotKey = ({ year, month, day, time }) => [year, month, day, time].join('/');
+const dayFormat = new Intl.DateTimeFormat('en-CA', { year: 'numeric', month: '2-digit', day: '2-digit', timeZone: 'America/Santiago' });
+
+function* upcomingDays() {
+  // UTC noon represents a civil date in Santiago without device timezone or DST arithmetic.
+  const parts = Object.fromEntries(dayFormat.formatToParts(new Date()).map(part => [part.type, part.value]));
+  const date = new Date(Date.UTC(Number(parts.year), Number(parts.month) - 1, Number(parts.day), 12));
+  for (let offset = 0; offset < searchDays; offset++) {
+    date.setUTCDate(date.getUTCDate() + 1);
+    const weekday = date.getUTCDay();
+    if (weekday === 0 || weekday === 6) continue;
+    yield { weekday, year: date.getUTCFullYear(), month: date.getUTCMonth() + 1, day: date.getUTCDate() };
+  }
+}
+
+function fitsBand(time, [start, end]) {
+  const [hour, minute] = time.split(':').map(Number);
+  const startsAt = hour * 60 + minute;
+  return startsAt >= start && startsAt + SESSION_MINUTES <= end;
+}
 
 // Academic simulation. Contact fields stay in memory/DOM; no requests, URL state or storage.
 const booking = document.querySelector('[data-booking]');
 if (booking) {
   const find = selector => booking.querySelector(selector);
+  const accountForm = find('[data-account-form]');
   const requestForm = find('[data-request-form]');
+  const consent = requestForm.elements['demo-consent'];
   const scheduleForm = find('[data-schedule-form]');
   const waitForm = find('[data-wait-form]');
-  const steps = { start: 0, message: 1, schedule: 2, waiting: 2, pending: 2, confirmed: 3, paused: 0 };
-  let current = 'start';
+  const steps = {
+    account: 0, start: 1, message: 1, schedule: 1, waiting: 1, pending: 1, confirmed: 1,
+    payment: 2, paid: 2, documents: 3
+  };
+  let current = 'account';
+  let insurance = null;
+  let session = null;
   let channel = 'WhatsApp';
   let modality = 'Videollamada';
   let selected = null;
   let slots = [];
   let proposal = 'initial';
-  let proposedPeriod = null;
-  let lastProposalDay = null;
-  let attempted = false;
-  const dayFormat = new Intl.DateTimeFormat('en-CA', { year: 'numeric', month: '2-digit', day: '2-digit', timeZone: 'America/Santiago' });
+  const rejectedSlots = new Set();
+  let attemptedAvailability = false;
+  const availabilityGroups = [
+    ['preferred-day', 'preferred-day-error', 'Marca al menos un día de la semana.'],
+    ['preferred-band', 'preferred-band-error', 'Marca al menos una franja horaria.']
+  ];
 
   let pointerSubmitActivation = null;
   const isPointerClick = event => event.isTrusted && event.detail > 0;
@@ -43,7 +95,7 @@ if (booking) {
     return Boolean(event.isTrusted && activation && event.submitter === activation.submitter);
   }
 
-  function show(screen, { animate = false } = {}) {
+  function show(screen, { animate = false, focus = true } = {}) {
     const shouldAnimate = animate && screen !== current &&
       window.matchMedia('(prefers-reduced-motion: no-preference)').matches;
     find('[data-booking-status]').textContent = '';
@@ -59,7 +111,8 @@ if (booking) {
       if (step === steps[screen]) element.setAttribute('aria-current', 'step');
       else element.removeAttribute('aria-current');
     });
-    find('[data-action="reset"]').hidden = screen === 'start';
+    find('[data-account-actions]').hidden = !insurance;
+    if (!focus) return;
     const heading = find(`[data-screen="${screen}"] h3`);
     heading.focus({ preventScroll: true });
     heading.scrollIntoView({ block: 'start', behavior: 'instant' });
@@ -68,7 +121,7 @@ if (booking) {
     ['name', 'channel', 'subject'].forEach(key => { find(`[data-message-${key}]`).textContent = ''; });
   }
   function contactValue() {
-    return requestForm.elements[channel === 'Correo' ? 'contact-email' : 'contact-phone'].value.trim();
+    return channel === 'Correo' ? exampleProfile.email : exampleProfile.phone;
   }
   function updatePreferences() {
     channel = requestForm.elements.channel.value;
@@ -76,8 +129,11 @@ if (booking) {
     booking.querySelectorAll('[data-modality-copy]').forEach(element => {
       element.textContent = modality === 'Videollamada' ? 'por videollamada' : 'de forma presencial';
     });
-    find('[data-proposal-note]').textContent = proposedPeriod ? `Nueva propuesta: ${proposedPeriod}, ${modality.toLowerCase()}. Horarios ficticios distintos de la propuesta anterior.` : 'Primera propuesta de horarios ficticios.';
-    find('[data-message-name]').textContent = requestForm.elements['preferred-name'].value.trim();
+    find('[data-proposal-note]').textContent = proposal === 'initial'
+      ? 'Primera propuesta de horarios ficticios.'
+      : `Horarios de ejemplo según tus preferencias · ${modality}`;
+    find('[data-action="adjust-availability"]').hidden = proposal === 'initial';
+    find('[data-message-name]').textContent = exampleProfile.name;
     find('[data-message-channel]').textContent = `${channel} para ${contactValue()}`;
     find('[data-message-subject]').textContent = channel === 'Correo' ? 'Asunto: elige tu primera hora de apoyo psicológico' : 'Tu solicitud tiene un siguiente paso';
   }
@@ -89,41 +145,27 @@ if (booking) {
     if (message) input.setAttribute('aria-invalid', 'true');
     else input.removeAttribute('aria-invalid');
   }
-  function validateRequest({ focus = false } = {}) {
-    const name = requestForm.elements['preferred-name'];
-    const phone = requestForm.elements['contact-phone'];
-    const email = requestForm.elements['contact-email'];
-    const consent = requestForm.elements['demo-consent'];
-    const phoneValue = phone.value.trim();
-    const digits = phoneValue.replace(/\D/g, '').length;
-    const errors = [
-      [name, 'name-error', !name.value.trim() ? 'Escribe un nombre ficticio para continuar.' : name.value.length > 80 ? 'Usa un nombre de hasta 80 caracteres.' : ''],
-      [phone, 'phone-error', phone.disabled ? '' : !phoneValue ? 'Escribe un teléfono ficticio para WhatsApp.' : !/^\+?[\d ()-]+$/.test(phoneValue) || digits < 8 || digits > 15 || phone.value.length > 30 ? 'Revisa el formato: usa de 8 a 15 dígitos, con +, espacios, guiones o paréntesis si lo necesitas.' : ''],
-      [email, 'email-error', email.disabled ? '' : !email.value.trim() ? 'Escribe un correo ficticio para continuar.' : email.validity.typeMismatch || email.value.length > 254 ? 'Revisa el formato del correo, por ejemplo nombre@example.com (hasta 254 caracteres).' : ''],
-      [consent, 'consent-error', !consent.checked ? 'Marca que entiendes la simulación antes de continuar.' : '']
-    ];
-    errors.forEach(([input, id, message]) => setError(input, id, message));
-    const first = errors.find(([, , message]) => message);
-    if (first && focus) {
-      find('[data-screen="start"]').removeAttribute('data-step-entry');
-      first[0].focus();
-    }
-    return !first;
+  function checkedValues(name) {
+    return Array.from(waitForm.elements[name]).filter(input => input.checked).map(input => input.value);
   }
-  function syncContactFields() {
-    channel = requestForm.elements.channel.value;
-    booking.querySelectorAll('[data-contact-field]').forEach(field => {
-      const active = field.dataset.contactField === channel;
-      const input = field.querySelector('input');
-      field.hidden = !active;
-      input.disabled = !active;
-      input.required = active;
-      if (!active) input.value = '';
-    });
+  function validateAvailability() {
+    let firstInvalid;
+    for (const [name, id, message] of availabilityGroups) {
+      const firstInput = waitForm.elements[name][0];
+      const missing = !checkedValues(name).length;
+      setError(firstInput, id, missing ? message : '');
+      if (missing) firstInvalid ??= firstInput;
+    }
+    return firstInvalid;
   }
   function clearConfirmation() {
     selected = null;
+    session = null;
     ['name', 'date', 'modality', 'channel'].forEach(key => { find(`[data-appointment-${key}]`).textContent = ''; });
+    booking.querySelectorAll('[data-payment-date], [data-bill-reference], [data-bill-date], [data-bill-amount], [data-isapre-draft] dd')
+      .forEach(field => { field.textContent = ''; });
+    find('[data-isapre-draft]').hidden = true;
+    find('[data-fonasa-guidance]').hidden = true;
     find('[data-before-session]').textContent = '';
     find('[data-booking-status]').textContent = '';
   }
@@ -131,24 +173,29 @@ if (booking) {
     clearConfirmation(); clearMessage(); scheduleForm.reset();
     find('[data-slot-error]').hidden = true;
   }
-  function createSlots({ period = null } = {}) {
-    // Santiago calendar day at UTC noon, avoiding the device timezone and DST shifts.
-    const parts = Object.fromEntries(dayFormat.formatToParts(new Date()).map(part => [part.type, part.value]));
-    const today = new Date(Date.UTC(Number(parts.year), Number(parts.month) - 1, Number(parts.day), 12));
-    // Each new proposal starts beyond the previous one, so rejected dates never recur.
-    const day = new Date(period && lastProposalDay > today ? lastProposalDay : today);
-    proposal = period ? 'alternative' : 'initial';
-    proposedPeriod = period;
-    invalidate();
-    slots = [];
-    const times = period === 'la mañana' ? ['09:00', '10:30', '11:30'] : period === 'la tarde' ? ['14:00', '16:00', '17:30'] : ['10:00', '15:30', '11:00'];
-    while (slots.length < 3) {
-      day.setUTCDate(day.getUTCDate() + 1);
-      if (![0, 6].includes(day.getUTCDay())) {
-        slots.push({ year: day.getUTCFullYear(), month: day.getUTCMonth() + 1, day: day.getUTCDate(), time: times[slots.length] });
+  function initialSlots() {
+    return [...upcomingDays()].slice(0, maxSlots).map((day, index) => ({
+      ...day, time: ['10:00', '15:30', '11:00'][index]
+    }));
+  }
+  function alternativeSlots(days, preferredBands, preferredModality) {
+    const times = exampleStarts[preferredModality].filter(time => preferredBands.some(band => fitsBand(time, band)));
+    const matches = [];
+    for (const day of upcomingDays()) {
+      if (!days.includes(day.weekday)) continue;
+      for (const time of times) {
+        const slot = { ...day, time };
+        if (rejectedSlots.has(slotKey(slot))) continue;
+        matches.push(slot);
+        if (matches.length === maxSlots) return matches;
       }
     }
-    lastProposalDay = new Date(day);
+    return matches;
+  }
+  function setProposal(kind, nextSlots) {
+    invalidate();
+    proposal = kind;
+    slots = nextSlots;
     find('[data-slots]').replaceChildren(...slots.map((slot, index) => {
       const label = document.createElement('label');
       label.className = 'slot';
@@ -161,35 +208,95 @@ if (booking) {
       return label;
     }));
   }
+  function showPending(reason, animate) {
+    find('[data-pending-reason]').textContent = reason;
+    show('pending', { animate });
+  }
+  function appointmentTime(slot) {
+    return `${appointmentDate(slot)}, ${slot.time} h (Santiago de Chile)`;
+  }
+  function confirmPayment() {
+    const date = String(selected.year) + String(selected.month).padStart(2, '0') + String(selected.day).padStart(2, '0');
+    session = {
+      reference: `EJ-${date}-${selected.time.replace(':', '')}-${modality[0]}`,
+      finished: false
+    };
+    find('[data-bill-reference]').textContent = session.reference;
+    find('[data-bill-date]').textContent = appointmentTime(selected);
+    find('[data-bill-amount]').textContent = exampleAmount;
+  }
+  function finishSession() {
+    const isIsapre = insurance === 'Isapre';
+    if (isIsapre) {
+      const draft = {
+        name: exampleProfile.name,
+        email: exampleProfile.email,
+        insurance,
+        plan: exampleProfile.plan,
+        date: `${appointmentTime(selected)} · ${modality}`,
+        reference: session.reference,
+        amount: exampleAmount
+      };
+      Object.entries(draft).forEach(([key, value]) => {
+        find(`[data-draft-${key}]`).textContent = value;
+      });
+    }
+    find('[data-isapre-draft]').hidden = !isIsapre;
+    find('[data-fonasa-guidance]').hidden = isIsapre;
+    session.finished = true;
+  }
+  function showBill(animate) {
+    const { finished } = session;
+    find('[data-paid-title]').textContent = finished ? 'Revisa tu boleta de ejemplo' : 'Pago simulado confirmado';
+    find('[data-action="end-session"]').textContent = finished ? 'Volver a la orientación por previsión' : 'Simular término de la atención';
+    show('paid', { animate });
+  }
   function clearJourney() {
+    accountForm.reset();
     requestForm.reset(); scheduleForm.reset(); waitForm.reset();
-    attempted = false;
-    lastProposalDay = null;
-    syncContactFields();
-    requestForm.querySelectorAll('[aria-invalid]').forEach(input => input.removeAttribute('aria-invalid'));
-    requestForm.querySelectorAll('.field-error').forEach(error => { error.hidden = true; error.textContent = ''; });
+    insurance = null;
+    attemptedAvailability = false;
+    rejectedSlots.clear();
+    for (const [name, id] of availabilityGroups) setError(waitForm.elements[name][0], id, '');
+    setError(consent, 'consent-error', '');
     channel = requestForm.elements.channel.value;
     modality = requestForm.elements.modality.value;
-    createSlots(); updatePreferences(); clearMessage();
+    setProposal('initial', initialSlots());
+    find('[data-pending-reason]').textContent = '';
+    find('[data-pause-title]').textContent = '';
+    find('[data-pause-copy]').textContent = '';
   }
   function reset({ animate = false } = {}) {
-    clearJourney(); show('start', { animate });
+    clearJourney(); show('account', { animate });
   }
-  requestForm.addEventListener('input', () => {
-    invalidate(); syncContactFields();
-    if (attempted) validateRequest();
+  function pause(title, copy, animate) {
+    clearJourney();
+    find('[data-pause-title]').textContent = title;
+    find('[data-pause-copy]').textContent = copy;
+    show('paused', { animate });
+  }
+  accountForm.addEventListener('submit', event => {
+    const animate = consumePointerSubmit(event);
+    event.preventDefault();
+    if (current !== 'account') return;
+    insurance = accountForm.elements.insurance.value;
+    show('start', { animate });
   });
-  requestForm.addEventListener('change', () => {
-    invalidate(); syncContactFields();
-    if (attempted) validateRequest();
+  consent.addEventListener('change', () => {
+    if (consent.checked) setError(consent, 'consent-error', '');
   });
   requestForm.addEventListener('submit', event => {
     const animate = consumePointerSubmit(event);
     event.preventDefault();
     if (current !== 'start') return;
-    attempted = true;
-    if (!validateRequest({ focus: true })) return;
-    createSlots(); updatePreferences(); show('message', { animate });
+    if (!consent.checked) {
+      setError(consent, 'consent-error', 'Marca que entiendes la simulación antes de continuar.');
+      find('[data-screen="start"]').removeAttribute('data-step-entry');
+      consent.focus();
+      return;
+    }
+    waitForm.elements['alternative-modality'].value = requestForm.elements.modality.value;
+    setProposal('initial', initialSlots()); updatePreferences(); show('message', { animate });
   });
   scheduleForm.addEventListener('submit', event => {
     const animate = consumePointerSubmit(event);
@@ -203,8 +310,8 @@ if (booking) {
     }
     selected = slots[Number(input.value)];
     find('[data-slot-error]').hidden = true;
-    find('[data-appointment-name]').textContent = requestForm.elements['preferred-name'].value.trim();
-    find('[data-appointment-date]').textContent = `${appointmentDate(selected)}, ${selected.time} h (Santiago de Chile)`;
+    find('[data-appointment-name]').textContent = exampleProfile.name;
+    find('[data-appointment-date]').textContent = appointmentTime(selected);
     find('[data-appointment-modality]').textContent = modality === 'Videollamada' ? 'Videollamada de ejemplo' : 'Consulta presencial de ejemplo';
     find('[data-appointment-channel]').textContent = `${channel} para ${contactValue()} · Mensaje no enviado`;
     find('[data-before-session]').textContent = sessionInstructions(modality).join(' ');
@@ -215,40 +322,78 @@ if (booking) {
     const animate = consumePointerSubmit(event);
     event.preventDefault();
     if (current !== 'waiting') return;
-    modality = waitForm.elements['alternative-modality'].value;
-    requestForm.elements.modality.value = modality;
-    createSlots({ period: waitForm.elements['preferred-time'].value });
+    attemptedAvailability = true;
+    const firstInvalid = validateAvailability();
+    if (firstInvalid) {
+      find('[data-screen="waiting"]').removeAttribute('data-step-entry');
+      firstInvalid.focus();
+      return;
+    }
+    const days = checkedValues('preferred-day').map(Number);
+    const preferredBands = checkedValues('preferred-band').map(value => bands[value]);
+    const preferredModality = waitForm.elements['alternative-modality'].value;
+    const matches = alternativeSlots(days, preferredBands, preferredModality);
+    if (!matches.length) {
+      invalidate();
+      showPending('No quedan horarios ficticios que coincidan con los días, las franjas y la modalidad que elegiste.', animate);
+      return;
+    }
+    requestForm.elements.modality.value = preferredModality;
+    setProposal('alternative', matches);
     updatePreferences(); show('schedule', { animate });
   });
   waitForm.addEventListener('change', () => {
-    invalidate();
-    modality = waitForm.elements['alternative-modality'].value;
-    requestForm.elements.modality.value = modality;
+    if (attemptedAvailability) validateAvailability();
   });
   booking.addEventListener('click', event => {
     const action = event.target.closest('[data-action]')?.dataset.action;
     if (!action) return;
     const animate = isPointerClick(event);
-    if (action === 'reset') reset({ animate });
+    if (action === 'reset' || (action === 'logout' && insurance)) reset({ animate });
     if (action === 'edit' && ['message', 'confirmed', 'pending'].includes(current)) { invalidate(); show('start', { animate }); }
     if (action === 'message' && current === 'schedule') { invalidate(); updatePreferences(); show('message', { animate }); }
     if (action === 'schedules' && ['message', 'waiting'].includes(current)) { updatePreferences(); show('schedule', { animate }); }
-    if (action === 'reschedule' && current === 'confirmed') { clearConfirmation(); scheduleForm.reset(); show('schedule', { animate }); }
-    if (action === 'unavailable' && current === 'schedule') {
-      invalidate(); waitForm.elements['alternative-modality'].value = modality;
-      show(proposal === 'initial' ? 'waiting' : 'pending', { animate });
+    if (action === 'reschedule' && ['confirmed', 'paid', 'documents'].includes(current)) {
+      clearConfirmation();
+      scheduleForm.reset();
+      show('schedule', { animate });
     }
+    if (action === 'start-session' && current === 'confirmed' && selected) {
+      find('[data-payment-date]').textContent = appointmentTime(selected);
+      show('payment', { animate });
+    }
+    if (action === 'return-to-booking' && current === 'payment') {
+      find('[data-payment-date]').textContent = '';
+      show('confirmed', { animate });
+    }
+    if (action === 'pay' && current === 'payment' && selected && !session) {
+      confirmPayment();
+      showBill(animate);
+    }
+    if (action === 'end-session' && current === 'paid' && session) {
+      if (!session.finished) finishSession();
+      show('documents', { animate });
+    }
+    if (action === 'review-bill' && current === 'documents' && session?.finished) showBill(animate);
+    if (action === 'cancel-booking' && ['confirmed', 'paid', 'documents'].includes(current)) {
+      pause('Cancelaste la cita de ejemplo', 'Se borraron la reserva y sus documentos de la simulación. Puedes empezar otro recorrido cuando quieras.', animate);
+    }
+    if (action === 'unavailable' && current === 'schedule') {
+      invalidate();
+      slots.forEach(slot => rejectedSlots.add(slotKey(slot)));
+      if (proposal === 'initial') show('waiting', { animate });
+      else showPending('Tampoco te acomodaron los horarios de la nueva propuesta.', animate);
+    }
+    if (action === 'adjust-availability' && current === 'schedule') { invalidate(); show('waiting', { animate }); }
     if (action === 'review-alternatives' && current === 'pending') show('waiting', { animate });
     if (action === 'leave-pending' && ['waiting', 'pending'].includes(current)) {
-      clearJourney();
-      find('[data-pause-title]').textContent = 'Tu recorrido quedó pendiente.';
-      find('[data-pause-copy]').textContent = 'Saliste sin confirmar una hora. Se eliminaron los datos de la demostración; no se envió una solicitud ni habrá un contacto real. Puedes volver al inicio si deseas explorar de nuevo.';
-      show('paused', { animate });
+      pause('Tu recorrido quedó pendiente.', 'Saliste sin confirmar una hora. Se eliminaron los datos de la demostración. Puedes volver al inicio si deseas explorar de nuevo.', animate);
     }
     if (['later', 'decline'].includes(action) && current === 'start') {
-      find('[data-pause-title]').textContent = action === 'later' ? 'Puedes darte un tiempo.' : 'Tu decisión también cuenta.';
-      find('[data-pause-copy]').textContent = action === 'later' ? 'No se ha iniciado una solicitud, ni siquiera dentro de la simulación. Puedes conocer la propuesta y volver cuando quieras.' : 'No se inicia una solicitud ni un contacto de seguimiento. Puedes volver a explorar el recorrido si cambias de opinión.';
-      show('paused', { animate });
+      const later = action === 'later';
+      pause(later ? 'Puedes darte un tiempo.' : 'Tu decisión también cuenta.',
+        later ? 'Puedes conocer la propuesta y volver cuando quieras.' : 'Puedes volver a explorar el recorrido si cambias de opinión.',
+        animate);
     }
     if (action === 'download' && current === 'confirmed' && selected) {
       const status = find('[data-booking-status]');
@@ -276,6 +421,11 @@ if (booking) {
   });
   // Explicitly clear browser-restored fields on load, reload and back/forward cache.
   clearJourney();
-  find('[data-screen="start"]').hidden = false;
+  find('[data-example-name]').textContent = exampleProfile.name;
+  find('[data-example-email]').textContent = exampleProfile.email;
+  find('[data-contact-example="Correo"]').textContent = exampleProfile.email;
+  find('[data-contact-example="WhatsApp"]').textContent = exampleProfile.phone;
+  find('[data-payment-amount]').textContent = exampleAmount;
+  show('account', { focus: false });
   window.addEventListener('pageshow', event => { if (event.persisted) reset(); });
 }

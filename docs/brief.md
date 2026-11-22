@@ -6,6 +6,32 @@ Primera landing de la Actividad 7.3, CD1201, FCFM, Universidad de Chile. Equipo 
 
 Una persona externa debe comprender en aproximadamente tres minutos el desafío, la propuesta, qué existe como prototipo, qué se validó, resultados, aprendizajes y próximos pasos. La lectura también debe ser cómoda para mujeres de 50–59 años.
 
+## Cuenta, pago y documentos de ejemplo · 22 de noviembre de 2026 (S16/S17)
+
+La landing permanece pública. La reserva comienza con una cuenta ficticia
+sin contraseña. La cuenta aporta el nombre y los contactos. La persona elige
+Fonasa o Isapre y mantiene la elección de canal y modalidad al reservar.
+El pago simulado de $20.000 CLP es ilustrativo. Su boleta de ejemplo se ve
+en pantalla, carece de validez tributaria y se distingue del PDF de la cita.
+Al terminar la atención simulada, la maqueta muestra orientación Fonasa
+sobre modalidades y bonos en Libre Elección, o un borrador Isapre con
+plan ficticio y referencia de la boleta. La referencia para la orientación
+es la Superintendencia de Salud (S17).
+
+El público de diseño sigue siendo el definido en el brief. Probar la rama
+Isapre ilustra el recorrido documental. La simulación carece de integración
+operativa y el reporte S13 carece de identificación de la versión probada.
+
+## Disponibilidad por días y franjas · 22 de noviembre de 2026 (S15)
+
+Al elegir «Ninguno me acomoda», la persona puede marcar varios días de lunes a
+viernes y una o más franjas de Santiago de Chile (09:00–12:00, 12:00–15:00 y
+15:00–18:00). Las franjas se aplican a cada día elegido. Se conserva la primera
+propuesta y se puede mantener o cambiar entre videollamada y presencial.
+La maqueta busca hasta tres horarios futuros que admitan los 45 minutos
+completos y excluye los horarios rechazados en el recorrido. Si no hay
+coincidencias, se pueden ajustar las preferencias o salir sin confirmar.
+
 ## Video compartido · 20 de octubre de 2026 (S14)
 
 El equipo autoriza publicar un registro de uso del prototipo y una conversación
@@ -35,7 +61,7 @@ Cuando ningún horario acomoda, la persona puede elegir mañana/tarde y mantener
 
 El equipo autoriza implementar `prompt.md` (S11): **servicio acotado de transición** que propone utilizar canales institucionales existentes, con exploración breve no diagnóstica, decisión voluntaria, una derivación prioritaria acompañada y confirmación de acceso compatible. El cambio desde una app integral multifunción está aprobado como decisión conceptual; no acredita una integración institucional construida.
 
-La web conserva la simulación de coordinación de una primera hora de apoyo psicológico. Esa simulación representa solo una parte del servicio propuesto: no realiza la exploración conversada completa, una derivación real ni una confirmación de acceso a atención. No hay institución piloto confirmada. El estado de evaluación pendiente del encargo del 17/10 queda actualizado por S13, sin resultados numéricos del RIA.
+En el alcance del 17 de octubre, la web conservaba la simulación de coordinación de una primera hora. La maqueta representa una parte del servicio propuesto, con la ampliación documental descrita en S16. No realiza la exploración conversada completa, una derivación real ni una confirmación de acceso a atención. No hay institución piloto confirmada. El estado de evaluación pendiente del encargo del 17/10 queda actualizado por S13, sin resultados numéricos del RIA.
 
 Se conserva íntegra la portada, su paleta y tipografía. El recorrido vigente es Portada → Desafío → Historia y cambio conceptual → Propuesta → Prototipado e iteración → Demostración → Preguntas → Validación → Aprendizajes, brechas y próximos pasos. `resultados` y `proximos-pasos` conservan sus anclas dentro de las dos últimas secciones.
 
