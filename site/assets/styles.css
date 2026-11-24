@@ -962,6 +962,85 @@ html[data-index-static] .section-index { position:static; }
   margin-top:48px;
 }
 
+.scenario-review {
+  max-width:1024px;
+  margin-top:48px;
+}
+
+.scenario-review .metrics-intro,.scenario-finding p {
+  max-width:70ch;
+}
+
+.scenario-finding {
+  padding:clamp(20px,4vw,36px);
+  border-radius:24px;
+  background:var(--surface);
+}
+
+.scenario-finding p+p {
+  margin-top:16px;
+}
+
+.scenario-count {
+  display:block;
+  color:var(--primary);
+  font-size:clamp(3rem,6vw,5rem);
+  letter-spacing:-.05em;
+  line-height:1.1;
+}
+
+.scenario-table {
+  font-variant-numeric:tabular-nums;
+}
+
+@media(min-width:721px) {
+  .scenario-table :is(th,td) {
+    padding:12px 18px;
+  }
+
+  .scenario-table thead th:not(:first-child) {
+    width:26%;
+  }
+}
+
+.scenario-method {
+  margin-top:20px;
+  border-block:1px solid var(--line);
+}
+
+.scenario-method summary {
+  color:var(--primary);
+  font-weight:650;
+}
+
+.scenario-method > summary::after {
+  content:"";
+  width:.65em;
+  height:.65em;
+  margin-inline-end:.3em;
+  border:solid currentColor;
+  border-width:0 2px 2px 0;
+  transform:rotate(45deg);
+}
+
+.scenario-method[open] > summary::after {
+  content:"";
+  transform:rotate(225deg);
+}
+
+@media(prefers-reduced-motion:no-preference) {
+  .scenario-method > summary::after {
+    transition:transform 180ms var(--ease-out);
+  }
+}
+
+.scenario-links {
+  display:flex;
+  flex-wrap:wrap;
+  gap:0 24px;
+  margin-top:12px;
+}
+
 .metrics-intro {
   margin-bottom:26px;
 }
@@ -1282,6 +1361,14 @@ html[data-index-static] .section-index { position:static; }
   .iteration-table tbody td {
     margin-top:16px;
   }
+  .scenario-table tbody tr {
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    column-gap:12px;
+    padding:12px 16px;
+  }
+  .scenario-table tbody th:first-child { width:auto; grid-column:1 / -1; }
+  .scenario-table tbody td { margin-top:6px; }
+
   .mobile-cell-label {
     display:block;
     color:var(--muted);

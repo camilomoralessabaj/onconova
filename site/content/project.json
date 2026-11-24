@@ -4,7 +4,7 @@
   "course": "CD1201",
   "activity": "7.3",
   "team": "E7",
-  "updated": "2026-11-22",
+  "updated": "2026-11-24",
   "scope": "Servicio acotado de transición propuesto: exploración breve no diagnóstica, decisión voluntaria, una derivación prioritaria acompañada y confirmación de acceso compatible mediante canales institucionales existentes. La web simula la reserva y una primera sesión de apoyo psicológico, junto con un pago ilustrativo y documentación por previsión, sin integración operativa ni atención real.",
   "institution": null,
   "prototype": {
@@ -158,6 +158,18 @@
       "url": "https://www.superdesalud.gob.cl/orientacion-en-salud/fonasa-o-isapre/",
       "reviewed": "2026-11-22",
       "note": "Referencia de orientación sobre diferencias entre ambos sistemas, modalidades de Fonasa, bonos en Libre Elección y cobertura pactada en un plan de Isapre. El borrador de la maqueta es ilustrativo y no deriva de un formulario oficial. La fuente no acredita cobertura para esta prestación ni aval del proyecto."
+    },
+    {
+      "id": "S18",
+      "title": "Tarea 3 · Ficha de validación y registro de escenarios",
+      "type": "documented-scenario-review",
+      "reviewed": "2026-11-24",
+      "url": "https://drive.google.com/file/d/1Y0RcZaNwLnw9XdwEa-FK1Av-IfO9-TOW/view",
+      "documents": [
+        "tarea 3.pdf",
+        "registro_tarea_3.pdf"
+      ],
+      "note": "El equipo revisó el código con ocho escenarios ficticios, sin ejecutar el prototipo en navegador. La ficha y el registro documentan la primera resolución y la primera explicación, antes de sugerir relecturas."
     }
   ],
   "chapters": [
@@ -248,9 +260,10 @@
         "S07",
         "S11",
         "S13",
-        "S14"
+        "S14",
+        "S18"
       ],
-      "kind": "team-reported-qualitative-behavioral-evaluation"
+      "kind": "reported-evaluation-and-documented-scenario-review"
     },
     {
       "id": "aprendizajes",
@@ -263,7 +276,8 @@
         "S09",
         "S10",
         "S11",
-        "S13"
+        "S13",
+        "S18"
       ],
       "kind": "design-learning-and-plan"
     }
@@ -343,5 +357,48 @@
     "clinicalEffectiveness": null,
     "realCareAccess": null,
     "institutionalEvaluation": "pending"
+  },
+  "scenarioReview": {
+    "source": "S18",
+    "unit": "escenario",
+    "scenarioCount": 8,
+    "results": [
+      {
+        "label": "Resolver el recorrido sin ayuda",
+        "count": 6,
+        "percent": 75,
+        "target": "Al menos 6/8"
+      },
+      {
+        "label": "Comprender los tres puntos del cierre",
+        "count": 5,
+        "percent": 62.5,
+        "target": "Al menos 6/8"
+      },
+      {
+        "label": "Lograr ambas cosas",
+        "count": 4,
+        "percent": 50,
+        "target": "Al menos 6/8"
+      },
+      {
+        "label": "Elegir según las restricciones del caso",
+        "count": 7,
+        "percent": 87.5,
+        "target": "Al menos 7/8"
+      },
+      {
+        "label": "Necesitar ayuda en alguna etapa",
+        "count": 4,
+        "percent": 50,
+        "target": "Como máximo 2/8"
+      },
+      {
+        "label": "Interpretar que había una reserva real",
+        "count": 0,
+        "percent": 0,
+        "target": "0/8"
+      }
+    ]
   }
 }
