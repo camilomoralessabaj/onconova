@@ -897,3 +897,17 @@ Pasaron `node scripts/check.mjs`, `node scripts/build.mjs`,
 Los reportes y capturas locales están en `.local/revision-landing/antes/`,
 `.local/revision-landing/` y `.local/revision-landing/booking/`.
 El smoke se ejecutó en Chromium, con movimiento reducido y anchuras emuladas.
+
+## 24/11/2026 · Resultados de la Tarea 3 (S18)
+
+Se integró el ejercicio de ocho escenarios entre el video S14 y los indicadores del RIA. Seis escenarios se resolvieron sin ayuda, cinco explicaron los tres puntos del cierre y cuatro cumplieron ambas condiciones, frente a una meta conjunta de al menos seis. El desglose visible incluye también la elección compatible, la ayuda en alguna etapa y la interpretación de una reserva real.
+
+«Cómo se evaluó» documenta la revisión del código con datos ficticios, sin ejecución en navegador. El registro distingue la indicación para navegar de las tres indicaciones para releer. Aprendizajes y Próximos pasos recogen las mejoras propuestas para la salida pendiente, el PDF opcional y la continuación con el teclado abierto. La prueba en un teléfono real queda como trabajo futuro del equipo.
+
+### Verificación de la entrega
+
+- Se cotejaron la ficha y el registro del ZIP con las seis filas visibles en la página construida y con `scenarioReview` en el manifiesto, incluyendo denominador, porcentajes y metas. Los tres indicadores del RIA conservan la meta del 80 % y el resultado pendiente.
+- Pasaron `node scripts/check.mjs`, `node scripts/build.mjs` y `git diff --check`. Los PDF y el ZIP se conservaron fuera del sitio público.
+- El smoke de `revision-landing` pasó en las dos rutas a 1440, 390 y 320 px. En Chromium se revisaron el reflujo de la tabla, los enlaces a la referencia y a los dos capítulos, el video con teclado, los subtítulos disponibles y la descripción desplegable.
+- Se comprobó el foco visible, la apertura y el cierre de la metodología con Intro y Espacio, el giro de 180 ms y su desactivación con movimiento reducido. Las seis cifras y el control nativo siguieron disponibles sin JavaScript. El zoom de navegador al 200 % en una ventana de 1440 px dejó 720 px de ancho de lectura sin desbordamiento. El contraste mínimo medido en el texto de la nueva sección fue 5,22 a 1.
+- La segunda revisión del diff y de la tabla en móvil corrigió el ancho de los encabezados de fila y el indicador heredado del desplegable abierto. Se repitieron las comprobaciones específicas sobre la versión corregida.

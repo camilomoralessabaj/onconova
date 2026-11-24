@@ -1,6 +1,6 @@
 # Evidencia y decisiones editoriales
 
-Revisión vigente: 22 de noviembre de 2026. S15 registra la disponibilidad por días y franjas. S16 incorpora la simulación de cuenta, pago y documentos con S17 como referencia de orientación. El video S14 se incorporó el 20 de octubre con autorización de publicación. La revisión del 19 de octubre consultó el repositorio, el encargo de actualización y la confirmación posterior de destinos (S13), junto con el texto legible de S05 y S04 en Google Drive. El inventario histórico corresponde a la carpeta «proyectos» de Drive, revisada en tareas anteriores; los demás originales no se volvieron a consultar. La revisión del 17/10 incluyó el adjunto `prompt.md`.
+Revisión vigente del 24 de noviembre de 2026. S18 incorpora la ficha y el registro de ocho escenarios de la Tarea 3. S15 registra la disponibilidad por días y franjas. S16 incorpora la simulación de cuenta, pago y documentos con S17 como referencia de orientación. El video S14 se incorporó el 20 de octubre con autorización de publicación. La revisión del 19 de octubre consultó el repositorio, el encargo de actualización y la confirmación posterior de destinos (S13), junto con el texto legible de S05 y S04 en Google Drive. El inventario histórico corresponde a la carpeta «proyectos» de Drive, revisada en tareas anteriores; los demás originales no se volvieron a consultar. La revisión del 17/10 incluyó el adjunto `prompt.md`.
 
 En el inventario histórico se registraron los archivos de las tres subcarpetas y de la raíz y se extrajo texto de 36 documentos legibles. Los ZIP de material docente y la imagen de calificaciones no son evidencia de validación del proyecto. La ubicación local registrada entonces fue `.local/fuentes-drive.json`, ignorada por Git.
 
@@ -25,6 +25,7 @@ En el inventario histórico se registraron los archivos de las tres subcarpetas 
 | S15 | Encargo de disponibilidad por días y franjas, 22/11/2026 | Decisión de diseño de la simulación: días de lunes a viernes, franjas de Santiago y modalidad, filtrados para sesiones completas de 45 minutos. |
 | S16 | Encargo de cuenta, pago y documentos, 22/11/2026 | Decisión de diseño de la maqueta, con una boleta sin validez tributaria y un borrador Isapre sin envío. |
 | S17 | Superintendencia de Salud, ¿FONASA o Isapre? | Referencia oficial de orientación sobre modalidades y bonos Fonasa y planes de Isapre. No acredita elegibilidad ni cobertura para esta prestación. |
+| S18 | Tarea 3 · Ficha de validación y registro de escenarios | Ocho escenarios ficticios revisados a partir del código. Documenta resultados del ejercicio y mejoras propuestas. |
 
 El sitio y `site/content/project.json` vinculan cada etapa con estas fuentes. Los enlaces a documentos académicos pueden requerir acceso a Drive. No se cambió la configuración de acceso de los originales.
 
@@ -47,11 +48,11 @@ La revisión histórica de S01/S07 abarcó cinco entrevistas reales: cuatro muje
 
 ## Qué falta
 
-Institución y responsable del piloto; protocolo de derivación; capacidad de atención; evaluación operativa con instituciones u operadores; resultados numéricos del RIA; costos y carga operativa. También faltan registros documentales actualizados que corroboren las pruebas reportadas, fechas de aplicación y soporte o versión evaluados. S14 aporta ahora un video de uso y conversación posterior; no identifica por sí solo las cinco pruebas ni sustituye fichas, fechas o resultados. Sigue pendiente la fotografía del prototipo en papel. Los campos numéricos vacíos siguen pendientes.
+Institución y responsable del piloto; protocolo de derivación; capacidad de atención; evaluación operativa con instituciones u operadores; resultados numéricos del RIA; costos y carga operativa. También faltan registros documentales actualizados que corroboren las pruebas reportadas, fechas de aplicación y soporte o versión evaluados. S14 aporta ahora un video de uso y conversación posterior; no identifica por sí solo las cinco pruebas ni sustituye fichas, fechas o resultados. Sigue pendiente la fotografía del prototipo en papel. Los campos de resultados del RIA siguen pendientes.
 
 En la revisión del 17/10 se buscaron por nombres, extensiones y referencias los recursos en los archivos del repositorio y los adjuntos disponibles. No se encontraron equivalentes del cuadro estratégico ni del prototipo en papel, enlaces o archivos de video de validación, ni datos de logros y totales del RIA. El póster histórico sí existe, pero no sustituye estos recursos. El documento complementario aludido por `prompt.md` tampoco estaba adjunto. No se inventaron textos literales o énfasis de ese documento: requisitos y comparación se redactaron como síntesis atribuida a S03/S04/S09/S11; los indicadores conservan las definiciones de `project.json` y sus metas de al menos 80 %.
 
-Ubicaciones previstas al recibir evidencia: cuadro estratégico en `#historia` con pie descriptivo y procedencia; fotografía y texto alternativo en `#iteracion`; video con subtítulos o transcripción en `#experiencia-usuarias`, bajo “Así vivieron las usuarias la experiencia con Onconova”, solo si corresponde a una experiencia documentada; resultados en `#resultados`, verificando el mismo indicador y criterio y registrando logros/total. Mientras no haya medición no se asignan colores ni porcentajes observados.
+Ubicaciones previstas al recibir evidencia: cuadro estratégico en `#historia` con pie descriptivo y procedencia; fotografía y texto alternativo en `#iteracion`; video con subtítulos o transcripción en `#experiencia-usuarias`, bajo “Así vivieron las usuarias la experiencia con Onconova”, solo si corresponde a una experiencia documentada; resultados en `#resultados`, verificando el mismo indicador y criterio y registrando logros/total. Mientras el RIA carezca de mediciones, sus indicadores siguen sin porcentajes observados.
 
 No publicar nombres, edades exactas, hospitales, tratamientos individuales, transcripciones ni citas identificables de las entrevistadas. No publicar tasas clínicas ni afirmaciones regulatorias copiadas de informes sin verificación primaria.
 
@@ -79,7 +80,7 @@ Las descripciones anteriores de «sin campos personales» y cierre pendiente reg
 
 El equipo confirma cinco pruebas de interacción conductual y entrevistas cualitativas con cuatro usuarias en perfil postratamiento y una profesional de oncología. Reporta haber evaluado autonomía en el uso, comprensión del proceso y coincidencia entre preferencia declarada y elección realizada en el prototipo de exploración breve y simulación de derivación. El perfil meta es mujeres de 50 a 59 años, FONASA/GES. No se aportaron fichas individuales, fechas de aplicación ni soporte o versión concreta; no se infieren.
 
-Esta confirmación sustituye las frases vigentes «la evaluación del prototipo con usuarias sigue pendiente», «sin validación con usuarias» y «la comprensión del recorrido todavía debe evaluarse» dentro del alcance reportado. Se actualizan la sección, las referencias S08/S09, README, brief y guion. Se preservan con fecha las decisiones anteriores S08/S10/S11/S12 y el plan histórico de S05. La ausencia de resultados numéricos permanece vigente; la realización de pruebas no demuestra que la validación haya sido positiva.
+Esta confirmación sustituye las frases vigentes «la evaluación del prototipo con usuarias sigue pendiente», «sin validación con usuarias» y «la comprensión del recorrido todavía debe evaluarse» dentro del alcance reportado. Se actualizan la sección, las referencias S08/S09, README, brief y guion. Se preservan con fecha las decisiones anteriores S08/S10/S11/S12 y el plan histórico de S05. Las cinco pruebas reportadas en S13 siguen sin resultados numéricos; la realización de pruebas no demuestra que la validación haya sido positiva.
 
 S01/S07 siguen siendo exploración histórica de necesidades. La coincidencia de composición (cuatro mujeres y una profesional) no permite asumir que las participantes o registros son idénticos a S13 ni sumar ambas muestras. Los escenarios simulados V1–V5 tampoco se agregan a estas pruebas.
 
@@ -154,3 +155,22 @@ plan. La maqueta usa una orientación general y un plan ficticio, sin
 indicar cobertura de una prestación ni estructurar un trámite oficial.
 El público original y la atribución de las cinco pruebas reportadas en
 S13 se conservan. [Orientación de la Superintendencia de Salud](https://www.superdesalud.gob.cl/orientacion-en-salud/fonasa-o-isapre/)
+
+## Tarea 3 · Revisión documental de ocho escenarios (S18)
+
+El 24 de noviembre se consultaron «tarea 3.pdf» y «registro_tarea_3.pdf». La ficha fija las metas y el registro permite reconstruir las seis medidas a partir de la primera resolución y la primera explicación de cada caso. El equipo revisó el código sin ejecutar el prototipo en un navegador. Todos los datos eran ficticios. Cada porcentaje tiene como denominador ocho escenarios. [Archivo de la Tarea 3 en Drive](https://drive.google.com/file/d/1Y0RcZaNwLnw9XdwEa-FK1Av-IfO9-TOW/view)
+
+| Medida | Resultado | Meta del ejercicio |
+| --- | --- | --- |
+| Resolver el recorrido sin ayuda | 6/8 · 75 % | Al menos 6/8 |
+| Comprender los tres puntos del cierre | 5/8 · 62,5 % | Al menos 6/8 |
+| Lograr ambas cosas | 4/8 · 50 % | Al menos 6/8 |
+| Elegir según las restricciones del caso | 7/8 · 87,5 % | Al menos 7/8 |
+| Necesitar ayuda en alguna etapa | 4/8 · 50 % | Como máximo 2/8 |
+| Interpretar que había una reserva real | 0/8 · 0 % | 0/8 |
+
+Postergar, rechazar o salir pendiente podía respetar las restricciones del caso. Hubo una indicación para navegar y tres para releer después de la primera explicación. Una relectura podía seguir a un recorrido resuelto sin ayuda. Las correcciones posteriores conservaron la puntuación inicial.
+
+La meta conjunta exigía resolver el recorrido y explicar qué quedó hecho, cómo seguir y qué pasó con los datos de contacto. Cuatro de los ocho escenarios cumplieron ambas condiciones, frente a una meta de al menos seis. El equipo propone aclarar que salir pendiente no guarda ni envía una solicitud, destacar que el PDF es opcional y comprobar en un teléfono real si se encuentra cómo continuar con el teclado abierto.
+
+S01/S07 documentan entrevistas de necesidades, S13 reporta cinco pruebas con personas y S14 registra un recorrido en video. Cada fuente conserva su unidad de análisis. Los tres indicadores de S04 mantienen la meta del 80 % y el resultado pendiente. Solo se publica la síntesis agregada de S18.
